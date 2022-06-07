@@ -34,7 +34,7 @@ public class Cube : MonoBehaviour
             renderer.material = MaterialFor(type);            
 
 
-        #region deprecated renderer check
+        #region deprecated renderer check 
         // if (renderer != null && settings != null)
         // {
         //     
