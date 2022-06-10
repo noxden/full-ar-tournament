@@ -191,6 +191,25 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"Raycast returned no results.", this);
         }
+    }
 
+    public void OnRepopulate()
+    {
+        //> Delete all player GameObjects
+        foreach (GameObject player in players)
+        {
+            Destroy(player);
+        }
+        players.Clear();
+
+        //> Delete all enemy GameObjects
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+        enemies.Clear();
+
+        //> Populate the scene again
+        populateScene();
     }
 }
