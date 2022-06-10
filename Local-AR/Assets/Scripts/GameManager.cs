@@ -85,11 +85,11 @@ public class GameManager : MonoBehaviour
         settings = FindObjectOfType<Settings>();
 
         //> Spawn Players and Enemies
-        populateScene();
+        PopulateScene();
     }
 
     //# Private Methods 
-    private void populateScene()
+    private void PopulateScene()
     {
         GameObject newCube;
         for (int i = 0; i < settings.spawnAmountPlayer; i++)
@@ -210,6 +210,6 @@ public class GameManager : MonoBehaviour
         enemies.Clear();
 
         //> Populate the scene again
-        populateScene();
+        PopulateScene();
     }
 }
