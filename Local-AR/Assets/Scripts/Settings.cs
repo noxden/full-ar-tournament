@@ -15,7 +15,9 @@ public class Settings : MonoBehaviour
     public GameObject enemyPrefab;
 
     public Material playerMaterial;
+    public Material playerMaterialVariant;
     public Material enemyMaterial;
+    public Material enemyMaterialVariant;
     public Material errorMaterial;
 
     public int playerLifePoints;

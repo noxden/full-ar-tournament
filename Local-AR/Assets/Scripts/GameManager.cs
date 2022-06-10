@@ -8,6 +8,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Lean.Touch;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,7 +23,6 @@ public class GameManager : MonoBehaviour
     //# Monobehaviour Events 
     private void Awake()
     {
-
         if (Instance == null)   //< With this if-structure it is IMPOSSIBLE to create more than one instance.
         {
             Instance = this;
@@ -85,13 +85,19 @@ public class GameManager : MonoBehaviour
         settings = FindObjectOfType<Settings>();
 
         //> Spawn Players and Enemies
+        populateScene();
+    }
+
+    //# Private Methods 
+    private void populateScene()
+    {
         GameObject newCube;
         for (int i = 0; i < settings.spawnAmountPlayer; i++)
         {
             //> Spawn 1 player
             //setCubeName(GameObjectType.Player, i, spawnPrefabOfType(GameObjectType.Player));  //< Too unreadable
             newCube = spawnPrefabOfType(GameObjectType.Player);
-            setCubeName(GameObjectType.Player, i, newCube);            
+            setCubeName(GameObjectType.Player, i, newCube);
         }
         for (int i = 0; i < settings.spawnAmountEnemy; i++)
         {
@@ -101,26 +107,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //# Public Methods 
-
-    //# Private Methods 
     private GameObject spawnPrefabOfType(GameObjectType _type)   //< Instantiates prefab, adds it to the players or enemies list accordingly and also returns that GameObject.
     {
+        //> Generate random location
         int spawnRadius = settings.spawnRadius;
-        Vector3 spawnPosition = new Vector3(calcRandomFloat(-spawnRadius, spawnRadius), calcRandomFloat(-spawnRadius, spawnRadius), calcRandomFloat(-spawnRadius, spawnRadius));
+        Vector3 spawnPosition = new Vector3(randomFloat(-spawnRadius, spawnRadius), randomFloat(-spawnRadius, spawnRadius), randomFloat(-spawnRadius, spawnRadius));
 
+        // Decide, which type of prefab to spawn
         GameObject cubePrefab;
         GameObject newCube;
         switch (_type)
         {
             case GameObjectType.Player:
                 cubePrefab = settings.playerPrefab;
-                newCube = Instantiate(cubePrefab, spawnPosition, Quaternion.identity);  // Due to this line being a double, it might be a potential point of increased risk
+                newCube = Instantiate(cubePrefab, spawnPosition, Quaternion.identity);
                 players.Add(newCube);
                 break;
             case GameObjectType.Enemy:
                 cubePrefab = settings.enemyPrefab;
-                newCube = Instantiate(cubePrefab, spawnPosition, Quaternion.identity);
+                newCube = Instantiate(cubePrefab, spawnPosition, Quaternion.identity);  // Due to this line being a double, it might become a potential breaking point
                 enemies.Add(newCube);
                 break;
             default:
@@ -151,12 +156,41 @@ public class GameManager : MonoBehaviour
         _target.name = cubeName;
     }
 
-    private int calcRandomInt(float _min, float _max)
+    private int randomInt(float _min, float _max)
     {
         return (int)Random.Range(_min, _max);
     }
-    private float calcRandomFloat(float _min, float _max)
+
+    private float randomFloat(float _min, float _max)
     {
         return Random.Range(_min, _max);
+    }
+
+    //# Input Event Handlers 
+    public void OnTap(LeanFinger finger)
+    {
+        //> Create raycast
+        Ray ray = Camera.main.ScreenPointToRay(finger.ScreenPosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            Debug.Log($"Raycast returned {hit.collider.gameObject.name}");
+            GameObject hitGameObject = hit.collider.gameObject;
+            Cube hitCubeObject = hitGameObject.GetComponent<Cube>();
+
+            if (hitCubeObject != null)
+            {
+                hitCubeObject.SwitchMaterial();
+            }
+            else
+            {
+                Debug.Log($"Hit GameObject did not have a Cube component.", this);
+            }
+        }
+        else
+        {
+            Debug.Log($"Raycast returned no results.", this);
+        }
+
     }
 }

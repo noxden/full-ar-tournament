@@ -20,6 +20,7 @@ public class Cube : MonoBehaviour
     private Settings settings;
     private new Renderer renderer;
     private int lifepoints;
+    private bool isDefaultMaterial = true;
 
     //# Monobehaviour Events 
     private void Start()
@@ -31,7 +32,7 @@ public class Cube : MonoBehaviour
         if (settings == null)
             Debug.LogWarning($"{title}: Missing settings reference.", this);
         else
-            renderer.material = MaterialFor(type);            
+            renderer.material = MaterialFor(type);
 
 
         #region deprecated renderer check 
@@ -61,6 +62,20 @@ public class Cube : MonoBehaviour
         return lifepoints;  //< Returns new lifepoints value, so that it could be used in checks from the attacker's side
     }
 
+    public void SwitchMaterial()
+    {
+        if (isDefaultMaterial)
+        {
+            isDefaultMaterial = false;
+            renderer.material = MaterialVariantFor(type);
+        }
+        else
+        {
+            isDefaultMaterial = true;
+            renderer.material = MaterialFor(type);
+        }
+    }
+
     //# Private Methods 
     private int LifePointsFor(GameObjectType _type)
     {
@@ -84,6 +99,20 @@ public class Cube : MonoBehaviour
                 return settings.playerMaterial;
             case GameObjectType.Enemy:
                 return settings.enemyMaterial;
+            default:
+                Debug.LogWarning($"Cube.LifePointsFor: \"{_type}\" does not match any entry in enum (GameObjectType), returning 0.");
+                return settings.errorMaterial;
+        }
+    }
+    
+    private Material MaterialVariantFor(GameObjectType _type)
+    {
+        switch (_type)
+        {
+            case GameObjectType.Player:
+                return settings.playerMaterialVariant;
+            case GameObjectType.Enemy:
+                return settings.enemyMaterialVariant;
             default:
                 Debug.LogWarning($"Cube.LifePointsFor: \"{_type}\" does not match any entry in enum (GameObjectType), returning 0.");
                 return settings.errorMaterial;
