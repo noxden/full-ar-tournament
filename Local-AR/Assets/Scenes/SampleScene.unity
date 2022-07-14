@@ -478,6 +478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66eda9d92f129549af450d925795d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterPrefab: {fileID: 0}
   species: Bulbasaur
   customName: Babsi
   gender: 1
@@ -543,6 +544,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59787d1a31e0af4cbac740331633c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayersInCombat: []
+  MonstersInCombat: []
 --- !u!114 &993739729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,6 +602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66eda9d92f129549af450d925795d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterPrefab: {fileID: 0}
   species: Charmander
   customName: Charles
   gender: 0
@@ -682,8 +686,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: Herbert
-  Friends:
-  - {fileID: 2086755223}
   bag: {fileID: 1212183797}
   monsterOnField: {fileID: 0}
 --- !u!4 &1212183799
@@ -730,6 +732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66eda9d92f129549af450d925795d34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterPrefab: {fileID: 0}
   species: Squirtle
   customName: Reiner
   gender: 0
@@ -845,7 +848,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   username: Gustav
-  Friends: []
   bag: {fileID: 2086755222}
   monsterOnField: {fileID: 0}
 --- !u!4 &2086755224

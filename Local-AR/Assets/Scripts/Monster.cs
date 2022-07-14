@@ -17,6 +17,7 @@ public enum Gender { Male, Female, Unknown }
 public class Monster : MonoBehaviour
 {
     //# Public Variables 
+    public GameObject monsterPrefab;
     public string species;
     public string customName;
     public Gender gender;
