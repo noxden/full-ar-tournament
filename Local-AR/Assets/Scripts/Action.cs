@@ -33,7 +33,7 @@ public class Action : ScriptableObject
     public string description;
 
     //# Public Methods 
-    public void use(Monster user, Monster enemy)
+    public void Use(Monster user, Monster enemy)
     {
         // Todo: -How do we get the enemy in here?- Is this a good way to get the enemy here?
         //#> Select targets based on targetType of this action 

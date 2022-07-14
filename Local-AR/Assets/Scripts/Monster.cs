@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum ElementalType { Normal, Fire, Water, Grass }
+public enum Gender { Male, Female, Unknown }
 
 // Todo: Could this also be converted into a scriptable object?
 
@@ -18,6 +19,7 @@ public class Monster : MonoBehaviour
     //# Public Variables 
     public string species;
     public string customName;
+    public Gender gender;
     public List<ElementalType> Types;
 
     public int level;
@@ -30,27 +32,26 @@ public class Monster : MonoBehaviour
     public int speed;
     public int evasion;
     public int accuracy;
-    public List<Action> AvailableActions;
+    public List<Action> AvailableActions;                 //< Maybe an array is better for this case?
+                                                          //public Action[] AvailableActions = new Action[4];   //< Arrays are a pain to deal with
+
     //public List<StatModification> ActiveEffects;  //< Maybe for later implementation of temporary effects.
 
-    public Player owner;  //< Probably not needed
+    public Player owner;  //< Probably not needed ; THIS IS DANGEROUS RECURSION -> Monster has owner and Owner has Monster
     public bool isInBag;
     public bool isOnField;
 
     //# Monobehaviour Events 
     private void Start()
     {
-        if (customName == null)
-        {
-            customName = species;
-        }
+        //GetCustomName();
     }
 
     //# Public Methods 
     public void useAction(Action action)
     {
         Monster enemy = CombatHandler.Instance.GetEnemyData(owner).GetMonsterIsOnField();
-        action.use(this, enemy);
+        action.Use(this, enemy);
     }
 
 
@@ -86,5 +87,19 @@ public class Monster : MonoBehaviour
                 accuracy += value;
                 break;
         }
+    }
+
+    public string GetName()
+    {
+        string displayName;
+        if (string.IsNullOrEmpty(customName) || string.IsNullOrWhiteSpace(customName))
+        {
+            displayName = species;
+        }
+        else
+        {
+            displayName = $"{customName} ({species})";
+        }
+        return displayName;
     }
 }

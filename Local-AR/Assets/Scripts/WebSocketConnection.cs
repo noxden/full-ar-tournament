@@ -9,6 +9,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NativeWebSocket;
+using System.Text;
+using System.IO;
 
 public class WebSocketConnection : MonoBehaviour
 {
@@ -64,7 +66,7 @@ public class WebSocketConnection : MonoBehaviour
         await _webSocket.Close();
     }
 
-    //# Public Methods 
+    //# Private Methods 
     private async void SendEmptyMessageToServer()
     {
         if (_webSocket.State == WebSocketState.Open)
@@ -73,4 +75,20 @@ public class WebSocketConnection : MonoBehaviour
             await _webSocket.Send(bytes);
         }
     }
+
+    //# Public Methods 
+    // public async void BuildPackage()
+    // {
+    //     await XXX;
+    // }
+
+    // public async void SendMessage(AttackPackage yourObject)    //< Can be called with: Invoke("SendMessage", 0f)
+    // {
+    //     if (_webSocket.State == WebSocketState.Open)
+    //     {
+    //         string json = JsonUtility.ToJson(yourObject);
+    //         byte[] bytes = Encoding.UTF8.GetBytes(json);
+    //         await _webSocket.Send(bytes);
+    //     }
+    // }
 }
