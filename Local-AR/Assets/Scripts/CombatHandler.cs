@@ -37,16 +37,58 @@ public class CombatHandler : MonoBehaviour
         }
     }
 
-    //# Public Methods 
-    public Player GetEnemyData(Player requestingPlayer)
+    private void Start()
     {
-        // Todo: Return different player, depending on who asked.
-        return PlayerA;
+        SwapMonsterOnField('A', PlayerA.bag.MonstersInBag[0]);
+        SwapMonsterOnField('B', PlayerB.bag.MonstersInBag[0]);
     }
 
-    public void newTurn()
+    //# Public Methods 
+    public Player GetEnemyData(Player requestingPlayer)  //> Returns the opponents Player data, depending on input Player data
     {
-        MonsterA = PlayerA.GetMonsterIsOnField();
-        MonsterB = PlayerB.GetMonsterIsOnField();
+        if (PlayerA == null || PlayerB == null)  // Guard-clause
+        {
+            Debug.LogError($"CombatHandler.GetEnemyData: Participating players are not set correctly. ERROR_CH01");
+            return null;
+        }
+
+        if (requestingPlayer == PlayerA)
+            return PlayerB;
+        else if (requestingPlayer == PlayerB)
+            return PlayerA;
+        else
+            Debug.LogError($"CombatHandler.GetEnemyData: Requesting player \"{requestingPlayer.userName}\" is invalid. ERROR_CH02");
+        return null;
+    }
+
+    public void SwapMonsterOnField(char participant, Monster newMonster)  //< This method is very messy
+    {
+        Player player;
+        switch (participant)
+        {
+            case 'A':
+                player = PlayerA;
+                if (MonsterA != null)
+                    MonsterA.isOnField = false;
+                MonsterA = newMonster;
+                break;
+            case 'B':
+                player = PlayerB;
+                if (MonsterA != null)
+                    MonsterA.isOnField = true;
+                MonsterB = newMonster;
+                break;
+            default:
+                player = null;
+                Debug.LogError($"CombatHandler.PutMonsterOnField: Player{participant} does not exist, please choose 'A' or 'B'. ERROR_CH03");
+                break;
+        }
+        newMonster.isOnField = true;
+        Debug.Log($"{player.userName} sent out {newMonster.GetName()}!");
+    }
+
+    public void NewTurn()
+    {
+
     }
 }
