@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   category: 2
+  targetType: 1
   powerPoints: 40
   basePower: 0
   baseAccuracy: 100
   StatModifications:
   - {fileID: 11400000, guid: 6f255c295ac776a4b8e1f4dfb09840cc, type: 2}
-  flavourText: The user growls in an endearing way, making opposing monster less
+  description: The user growls in an endearing way, making opposing monster less 
     wary. This lowers their Attack stats.

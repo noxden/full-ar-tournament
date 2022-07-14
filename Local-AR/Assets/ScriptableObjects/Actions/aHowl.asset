@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   category: 2
+  targetType: 0
   powerPoints: 40
   basePower: 0
   baseAccuracy: 999
   StatModifications:
   - {fileID: 11400000, guid: 302122224ecb25147861066dad050603, type: 2}
-  flavourText: The user howls loudly to raise its spirit, which raises its Attack
+  description: The user howls loudly to raise its spirit, which raises its Attack
     stat.

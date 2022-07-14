@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d1db04a4ae63b74ebf0ec374db8842e, type: 3}
-  m_Name: aLeer
+  m_Name: aTailWhip
   m_EditorClassIdentifier: 
   type: 0
   category: 2
+  targetType: 1
   powerPoints: 30
   basePower: 0
   baseAccuracy: 100
   StatModifications:
   - {fileID: 11400000, guid: 86b501d8b55549148b535831e8215b90, type: 2}
-  flavourText: The user wags its tail cutely, making opposing monsters less wary
+  description: The user wags its tail cutely, making opposing monsters less wary
     and lowering their Defense stats.

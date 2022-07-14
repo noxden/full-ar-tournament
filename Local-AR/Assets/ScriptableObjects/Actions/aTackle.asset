@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   category: 0
+  targetType: 1
   powerPoints: 35
   basePower: 40
   baseAccuracy: 100
   StatModifications: []
-  flavourText: A physical attack in which the user charges and slams into the target
+  description: A physical attack in which the user charges and slams into the target
     with its whole body.

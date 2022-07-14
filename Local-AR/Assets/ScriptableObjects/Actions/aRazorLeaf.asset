@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 3
   category: 0
+  targetType: 1
   powerPoints: 25
   basePower: 55
   baseAccuracy: 95
   StatModifications: []
-  flavourText: "Sharp-edged leaves are launched to slash at opposing Pok\xE9mon."
+  description: "Sharp-edged leaves are launched to slash at opposing Pok\xE9mon."

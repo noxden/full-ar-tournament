@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   category: 2
+  targetType: 0
   powerPoints: 30
   basePower: 0
   baseAccuracy: 999
   StatModifications:
   - {fileID: 11400000, guid: 66209f3905f700c4f8f4dafaed1b004d, type: 2}
-  flavourText: The user stiffens all the muscles in its body to raise its Defense
+  description: The user stiffens all the muscles in its body to raise its Defense
     stat.
