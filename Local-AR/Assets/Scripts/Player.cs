@@ -2,33 +2,38 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 24-06-22
+// Last changed: 14-07-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[RequireComponent(typeof(Bag))]
 public class Player : MonoBehaviour
 {
     //# Public Variables 
-    public string userName;
-    public List<Player> Friends;
+    public string username;
     public Bag bag;
-    //public int NumberOfMonstersInBag;   //< Unsure if I want this information here, but this way, other players don't have to read the entire enemy bag
+    public Monster monsterOnField = null;   //< Only set this via SwapMonsterOnField()
+
+    //public List<Player> Friends;
+
+    //# Private Variables 
 
     //# Public Methods 
-    public Monster GetMonsterIsOnField()
+    public void SwapMonsterOnField(Monster newMonster)
     {
-        List<Monster> monsterBag = bag.MonstersInBag;
-        foreach (Monster monster in monsterBag)
-        {
-            if (monster.isOnField)
-                return monster;
-        }
-        Debug.LogError($"Player.GetMonsterIsOnField: There is no monster on the field.");
-        return null;
+        if (monsterOnField == null)  //< Should only be the case when the battle just started or the former monsterOnField died
+            Debug.Log($"{username} sent out {newMonster.GetName()}!"); 
+        else
+            Debug.Log($"{username} swapped out {monsterOnField.GetName()} with {newMonster.GetName()}!");
+
+        monsterOnField = newMonster;
     }
 
+    public int GetNumberOfMonstersInBag()
+    {
+        return bag.MonstersInBag.Count;
+    }
 }

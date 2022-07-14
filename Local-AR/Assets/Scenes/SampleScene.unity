@@ -483,8 +483,8 @@ MonoBehaviour:
   gender: 1
   Types: 03000000
   level: 0
-  hp_max: 0
-  hp_current: 0
+  hp_max: 10
+  hp_current: 10
   attack: 0
   defense: 0
   specialAttack: 0
@@ -498,8 +498,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5da3bf5dc9e9f914a8f0a8f7558cea75, type: 2}
   - {fileID: 11400000, guid: d0a58f5273ba5434083e0a32c2a75bb7, type: 2}
   owner: {fileID: 2086755223}
-  isInBag: 1
-  isOnField: 0
 --- !u!4 &895626440
 Transform:
   m_ObjectHideFlags: 0
@@ -545,9 +543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59787d1a31e0af4cbac740331633c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerA: {fileID: 2086755223}
-  PlayerB: {fileID: 1212183798}
-  turn: 0
 --- !u!114 &993739729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,8 +604,8 @@ MonoBehaviour:
   gender: 0
   Types: 01000000
   level: 0
-  hp_max: 0
-  hp_current: 0
+  hp_max: 10
+  hp_current: 10
   attack: 0
   defense: 0
   specialAttack: 0
@@ -624,8 +619,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d0a58f5273ba5434083e0a32c2a75bb7, type: 2}
   - {fileID: 0}
   owner: {fileID: 2086755223}
-  isInBag: 1
-  isOnField: 0
 --- !u!4 &1186169529
 Transform:
   m_ObjectHideFlags: 0
@@ -688,10 +681,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a26c369263a198e4782103ce89014d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userName: Herbert
+  username: Herbert
   Friends:
   - {fileID: 2086755223}
   bag: {fileID: 1212183797}
+  monsterOnField: {fileID: 0}
 --- !u!4 &1212183799
 Transform:
   m_ObjectHideFlags: 0
@@ -742,8 +736,8 @@ MonoBehaviour:
   Types: 02000000
   level: 0
   hp_max: 0
-  hp_current: 0
-  attack: 0
+  hp_current: 10
+  attack: 10
   defense: 0
   specialAttack: 0
   specialDefense: 0
@@ -756,8 +750,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5da3bf5dc9e9f914a8f0a8f7558cea75, type: 2}
   - {fileID: 11400000, guid: ba48b5194bdccb34585e220a05f4ddf6, type: 2}
   owner: {fileID: 2086755223}
-  isInBag: 1
-  isOnField: 0
 --- !u!4 &1884287947
 Transform:
   m_ObjectHideFlags: 0
@@ -852,9 +844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a26c369263a198e4782103ce89014d46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  userName: Gustav
+  username: Gustav
   Friends: []
   bag: {fileID: 2086755222}
+  monsterOnField: {fileID: 0}
 --- !u!4 &2086755224
 Transform:
   m_ObjectHideFlags: 0

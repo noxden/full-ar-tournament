@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 24-06-22
+// Last changed: 14-07-22
 //================================================================
 
 using System.Collections;
@@ -38,23 +38,19 @@ public class Monster : MonoBehaviour
     //public List<StatModification> ActiveEffects;  //< Maybe for later implementation of temporary effects.
 
     public Player owner;  //< Probably not needed ; THIS IS DANGEROUS RECURSION -> Monster has owner and Owner has Monster
-    public bool isInBag;
-    public bool isOnField;
 
     //# Monobehaviour Events 
     private void Start()
     {
-        //GetCustomName();
+
     }
 
     //# Public Methods 
     public void useAction(Action action)
     {
-        Monster enemy = CombatHandler.Instance.GetEnemyData(owner).GetMonsterIsOnField();
+        Monster enemy = CombatHandler.Instance.GetEnemyData(owner).monsterOnField;
         action.Use(this, enemy);
     }
-
-
 
     public void ApplyStatModification(StatModification modification)
     {
@@ -101,5 +97,27 @@ public class Monster : MonoBehaviour
             displayName = $"{customName} ({species})";
         }
         return displayName;
+    }
+
+    public bool GetIsInBag()
+    {
+        List<Monster> monsterBag = owner.bag.MonstersInBag;
+        return monsterBag.Contains(this);
+    }
+
+    public bool GetIsInBox()
+    {
+        List<Monster> monsterBox = owner.bag.MonstersInBox;
+        return monsterBox.Contains(this);
+    }
+
+    public void Spawn()
+    {
+
+    }
+
+    public void Despawn()
+    {
+
     }
 }

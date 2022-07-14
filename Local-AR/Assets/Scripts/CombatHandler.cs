@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 24-06-22
+// Last changed: 14-07-22
 //================================================================
 
 using System.Collections;
@@ -15,13 +15,11 @@ public class CombatHandler : MonoBehaviour
     public static CombatHandler Instance { set; get; }
 
     //# Public Variables 
-    public Player PlayerA;
-    public Player PlayerB;
-    public int turn;
 
     //# Private Variables 
-    private Monster MonsterA;
-    private Monster MonsterB;
+    [SerializeField] private List<Player> PlayersInCombat;
+    [SerializeField] private List<Monster> MonstersInCombat;
+    private int turn;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -39,56 +37,62 @@ public class CombatHandler : MonoBehaviour
 
     private void Start()
     {
-        SwapMonsterOnField('A', PlayerA.bag.MonstersInBag[0]);
-        SwapMonsterOnField('B', PlayerB.bag.MonstersInBag[0]);
+        Player[] PlayersInScene = FindObjectsOfType<Player>();
+
+        if (PlayersInScene.Length > 2)
+        {
+            Debug.LogError($"There are more than 2 Players in the scene. It is recommended to remove all but 2 players from the scene.", this);
+            return;
+        }
+        else if (PlayersInScene.Length < 2)
+        {
+            Debug.LogError($"There are less than 2 Players in the scene. Please add more players to the scene and restart. ERROR_CH03", this);
+            return;
+        }
+        else
+            Debug.Log($"There are 2 Players in the scene. Initiating combat between {PlayersInScene[0].username} and {PlayersInScene[1].username}.", this);
+
+        //> By this point, it is guaranteed that we have exactly two players
+        foreach (Player player in FindObjectsOfType<Player>())
+        {
+            PlayersInCombat.Add(player);
+            MonstersInCombat.Add(player.bag.GetFirstValidMonster());
+
+            if (PlayersInCombat.IndexOf(player) != MonstersInCombat.IndexOf(player.bag.GetFirstValidMonster()))
+                Debug.LogError($"Player and monster indeces do not match (which is bad)! ERROR_CH04", this);
+            else
+                player.SwapMonsterOnField(player.bag.GetFirstValidMonster());
+        }
     }
 
     //# Public Methods 
     public Player GetEnemyData(Player requestingPlayer)  //> Returns the opponents Player data, depending on input Player data
     {
-        if (PlayerA == null || PlayerB == null)  // Guard-clause
+        if (PlayersInCombat[0] == null || PlayersInCombat[1] == null)  // Guard-clause
         {
-            Debug.LogError($"CombatHandler.GetEnemyData: Participating players are not set correctly. ERROR_CH01");
+            Debug.LogError($"CombatHandler.GetEnemyData: Participating players are not set correctly. ERROR_CH01", this);
             return null;
         }
 
-        if (requestingPlayer == PlayerA)
-            return PlayerB;
-        else if (requestingPlayer == PlayerB)
-            return PlayerA;
+        if (requestingPlayer == PlayersInCombat[0])
+            return PlayersInCombat[1];
+        else if (requestingPlayer == PlayersInCombat[1])
+            return PlayersInCombat[0];
         else
-            Debug.LogError($"CombatHandler.GetEnemyData: Requesting player \"{requestingPlayer.userName}\" is invalid. ERROR_CH02");
+            Debug.LogError($"Requesting player \"{requestingPlayer.username}\" is invalid. ERROR_CH02", this);
         return null;
-    }
-
-    public void SwapMonsterOnField(char participant, Monster newMonster)  //< This method is very messy
-    {
-        Player player;
-        switch (participant)
-        {
-            case 'A':
-                player = PlayerA;
-                if (MonsterA != null)
-                    MonsterA.isOnField = false;
-                MonsterA = newMonster;
-                break;
-            case 'B':
-                player = PlayerB;
-                if (MonsterA != null)
-                    MonsterA.isOnField = true;
-                MonsterB = newMonster;
-                break;
-            default:
-                player = null;
-                Debug.LogError($"CombatHandler.PutMonsterOnField: Player{participant} does not exist, please choose 'A' or 'B'. ERROR_CH03");
-                break;
-        }
-        newMonster.isOnField = true;
-        Debug.Log($"{player.userName} sent out {newMonster.GetName()}!");
     }
 
     public void NewTurn()
     {
-
+        foreach (Monster monster in MonstersInCombat)
+        {
+            if (monster.hp_current <= 0)
+            {
+                Debug.Log($"{monster.owner.username} has to swap out their {monster.GetName()} as their HP dropped to 0.", this);
+                // Prompt Player A to select new monster.
+            }
+        }
+        turn += 1;
     }
 }
