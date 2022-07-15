@@ -526,7 +526,7 @@ GameObject:
   - component: {fileID: 993739729}
   - component: {fileID: 993739728}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Managers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 1212183798}
   - component: {fileID: 1212183797}
   m_Layer: 0
-  m_Name: Player B
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -813,7 +813,7 @@ GameObject:
   - component: {fileID: 2086755223}
   - component: {fileID: 2086755222}
   m_Layer: 0
-  m_Name: Player A
+  m_Name: You
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

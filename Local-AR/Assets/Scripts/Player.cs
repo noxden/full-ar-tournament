@@ -17,8 +17,6 @@ public class Player : MonoBehaviour
     public Bag bag;
     public Monster monsterOnField = null;   //< Only set this via SwapMonsterOnField()
 
-    //public List<Player> Friends;
-
     //# Private Variables 
 
     //# Public Methods 

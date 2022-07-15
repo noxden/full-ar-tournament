@@ -35,9 +35,9 @@ public class Action : ScriptableObject
     //# Public Methods 
     public void Use(Monster user, Monster enemy)
     {
-        // Todo: -How do we get the enemy in here?- Is this a good way to get the enemy here?
+        // Todo: Is this a good way to get the enemy here?
         //#> Select targets based on targetType of this action 
-        List<Monster> Targets = null;
+        List<Monster> Targets = new List<Monster>();
         switch (targetType)
         {
             case TargetType.Self:
@@ -64,13 +64,8 @@ public class Action : ScriptableObject
                 foreach (StatModification modification in StatModifications)
                 {
                     target.ApplyStatModification(modification);
-                    // InvokeStatModification(modification, target);
                 }
             }
         }
     }
-    // public void InvokeStatModification(StatModification modification, Monster target)
-    // {
-        
-    // }
 }
