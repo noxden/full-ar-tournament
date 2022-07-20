@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144) & Jan Alexander
-// Last changed: 08-07-22
+// Last changed: 20-07-22
 //================================================================
 
 using System.Collections;
@@ -48,6 +48,11 @@ public class WebSocketConnection : MonoBehaviour
 
     private void OnMessage(byte[] incomingBytes)
     {
+        // Follow steps in Jan's tutorial
+        // Convert bytes to string
+        // Convert string to json
+        // Check for json.packageType variable
+        // Depending on packageType, convert json to appropriate package class
         print("Message received");
     }
 
@@ -73,6 +78,14 @@ public class WebSocketConnection : MonoBehaviour
         {
             byte[] bytes = new byte[1] { 1 };
             await _webSocket.Send(bytes);
+        }
+    }
+
+    private async void DisconnectFromServer()
+    {
+        if (_webSocket.State == WebSocketState.Open)
+        {
+            await _webSocket.Close();
         }
     }
 

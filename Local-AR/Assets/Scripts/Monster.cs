@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 14-07-22
+// Last changed: 20-07-22
 //================================================================
 
 using System.Collections;
@@ -17,7 +17,7 @@ public enum Gender { Male, Female, Unknown }
 public class Monster : MonoBehaviour
 {
     //# Public Variables 
-    public GameObject monsterPrefab;
+    public GameObject modelPrefab;
     public string species;
     public string customName;
     public Gender gender;
@@ -43,7 +43,7 @@ public class Monster : MonoBehaviour
     //# Monobehaviour Events 
     private void Start()
     {
-
+        hp_current = hp_max;
     }
 
     //# Public Methods 
