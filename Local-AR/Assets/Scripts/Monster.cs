@@ -43,7 +43,7 @@ public class Monster : MonoBehaviour
     //# Monobehaviour Events 
     private void Start()
     {
-        hp_current = hp_max;
+        hp_current = hp_max;    //< Maybe remove this as well
     }
 
     //# Public Methods 

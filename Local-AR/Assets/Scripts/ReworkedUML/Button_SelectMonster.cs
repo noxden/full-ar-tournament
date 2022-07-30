@@ -11,15 +11,27 @@ using UnityEngine;
 
 public class Button_SelectMonster : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //# Public Variables 
+    public Monster monster;
+    public bool newBagState;
 
-    // Update is called once per frame
-    void Update()
+    //# Private Variables
+
+    //# Monobehaviour Events 
+
+    //# Public Methods 
+
+    //# Private Methods 
+
+    //# Input Event Handlers 
+    public void OnButtonPressed()
     {
-        
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError($"Could not find GameManager in scene. ERROR_BTN1", this);
+            return;
+        }
+
+        GameManager.Instance.user.ChangeIsInBag(monster, newBagState);
     }
 }
