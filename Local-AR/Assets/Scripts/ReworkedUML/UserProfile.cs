@@ -37,8 +37,8 @@ public class UserProfile
     public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
 
     //# Private Variables 
-    private List<Monster> MonstersInBag;
-    private List<Monster> MonstersInBox;
+    public List<Monster> MonstersInBag; 	//! Accessibility has been modified for Debug visualisation in editor, do not Set()!
+    public List<Monster> MonstersInBox;
 
     //# Public Methods 
     public void ChangeIsInBag(Monster target, bool bagState)
@@ -68,7 +68,6 @@ public class UserProfile
             //> Add to Box and remove from Bag
             case false:
                 Monster targetInBag = MonstersInBag.Find(m => m.Equals(target));    //< See Predicate documentation: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.find?view=net-6.0
-                Monster targetInBag = MonstersInBag.Find(m => m.Equals(target));    //! This has not been tested yet.
                 if (targetInBag == null)    //< Guard clause
                 {
                     Debug.LogError($"The monster selected is not present in your bag anymore. ERROR_UP2");

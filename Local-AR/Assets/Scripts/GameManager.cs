@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { set; get; }
     public List<Monster> AllMonsters;
     public UserProfile user;
+    public List<Monster> VISUALISERMonstersInBag;
+    public List<Monster> VISUALISERMonstersInBox;
 
     //# Private Variables 
 
@@ -39,6 +41,10 @@ public class GameManager : MonoBehaviour
         //user = new UserProfile("Test User");
         user = new UserProfile("DEBUG (All Monsters))", new List<Monster>(), new List<Monster>(AllMonsters));
         Debug.Log($"Your name is \"{user.name}\" and you are currently carrying {user.NumberOfMonstersInBag} monsters.");
+
+        //> Debug Visualisation
+        VISUALISERMonstersInBag = user.MonstersInBag;
+        VISUALISERMonstersInBox = user.MonstersInBox;
     }
 
     //# Input Event Handlers 
