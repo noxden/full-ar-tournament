@@ -47,9 +47,9 @@ public class UserProfile
         {
             //> Add to Bag and remove from Box
             case true:
-                if (MonstersInBag.Count >= 6)   //< Guard clause
+                if (MonstersInBag.Count >= GlobalSettings.maxMonstersInBag)   //< Guard clause
                 {
-                    Debug.LogWarning($"You are already carrying 6 Monsters, your bag is full!");
+                    Debug.LogWarning($"You are already carrying {GlobalSettings.maxMonstersInBag} Monsters, your bag is full!");
                     break;
                 }
 
@@ -67,7 +67,7 @@ public class UserProfile
 
             //> Add to Box and remove from Bag
             case false:
-                //Monster targetInBag = MonstersInBag[MonstersInBag.IndexOf(target)];
+                Monster targetInBag = MonstersInBag.Find(m => m.Equals(target));    //< See Predicate documentation: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.find?view=net-6.0
                 Monster targetInBag = MonstersInBag.Find(m => m.Equals(target));    //! This has not been tested yet.
                 if (targetInBag == null)    //< Guard clause
                 {
