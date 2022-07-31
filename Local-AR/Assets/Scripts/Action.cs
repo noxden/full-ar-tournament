@@ -16,13 +16,6 @@ public enum ActionCategory { Physical, Special, Status }
 public class Action : ScriptableObject
 {
     //# Public Variables 
-    //> I feel like all of these are unnecessary
-    // public Monster user;
-    // public Monster target    //< I don't think this is needed, as the action does not do anything with the information about the target.
-    // {
-    //     get { return target; }
-    //     set { target = value; }
-    // }
     public ElementalType type;
     public ActionCategory category;
     public TargetType targetType;
