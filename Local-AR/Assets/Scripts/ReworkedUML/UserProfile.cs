@@ -13,7 +13,6 @@ public class UserProfile
     //# Constructors 
     public UserProfile()
     {
-        name = "Default Name";
         MonstersInBag = new List<Monster>();
         MonstersInBox = new List<Monster>();
     }
@@ -25,6 +24,12 @@ public class UserProfile
         MonstersInBox = new List<Monster>();
     }
 
+    public UserProfile(List<Monster> _MonstersInBag, List<Monster> _MonstersInBox)
+    {
+        MonstersInBag = _MonstersInBag;
+        MonstersInBox = _MonstersInBox;
+    }
+
     public UserProfile(string _name, List<Monster> _MonstersInBag, List<Monster> _MonstersInBox)
     {
         name = _name;
@@ -33,7 +38,7 @@ public class UserProfile
     }
 
     //# Public Variables 
-    public string name;
+    public string name = SaveDataManager.localUsername;
     public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
 
     //# Private Variables 
@@ -49,7 +54,7 @@ public class UserProfile
             case true:
                 if (MonstersInBag.Count >= GlobalSettings.maxMonstersInBag)   //< Guard clause
                 {
-                    Debug.LogWarning($"You are already carrying {GlobalSettings.maxMonstersInBag} Monsters, your bag is full!");
+                    Debug.LogWarning($"UserProfile: You are already carrying {GlobalSettings.maxMonstersInBag} Monsters, your bag is full!");
                     break;
                 }
 
@@ -57,11 +62,11 @@ public class UserProfile
                 {
                     MonstersInBag.Add(target);
                     MonstersInBox.Remove(target);
-                    Debug.Log($"Successfully moved \"{target.GetName()}\" from box to bag.");
+                    Debug.Log($"UserProfile: Successfully moved \"{target.GetName()}\" from box to bag.");
                 }
                 else
                 {
-                    Debug.LogError($"The monster selected is not present in your box anymore. ERROR_UP1");
+                    Debug.LogError($"UserProfile: The monster selected is not present in your box anymore. ERROR_UP1");
                 }
                 break;
 
@@ -70,14 +75,21 @@ public class UserProfile
                 Monster targetInBag = MonstersInBag.Find(m => m.Equals(target));    //< See Predicate documentation: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.find?view=net-6.0
                 if (targetInBag == null)    //< Guard clause
                 {
-                    Debug.LogError($"The monster selected is not present in your bag anymore. ERROR_UP2");
+                    Debug.LogError($"UserProfile: The monster selected is not present in your bag anymore. ERROR_UP2");
                     break;
                 }
                 MonstersInBox.Add(targetInBag);
                 MonstersInBag.Remove(targetInBag);
-                Debug.Log($"Successfully moved \"{target.GetName()}\" from bag to box.");
+                Debug.Log($"UserProfile: Successfully moved \"{target.GetName()}\" from bag to box.");
                 break;
         }
+    }
+
+    public void ChangeUsername(string newName)
+    {
+        name = newName;
+        SaveDataManager.localUsername = newName;
+        Debug.Log($"UserProfile: Changed username to \"{newName}\"!");
     }
 
     //# Private Methods 

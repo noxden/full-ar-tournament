@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GlobalSettings
+public class GlobalSettings
 {
     //# Public Variables 
     public static int maxMonstersInBag = 1;     //< Static instead of const for when "variable team size"-lobbies are being implemented later on
