@@ -36,8 +36,6 @@ public class Monster : MonoBehaviour
     public List<Action> AvailableActions;                 //< Maybe an array is better for this case?
                                                           //public Action[] AvailableActions = new Action[4];   //< Arrays are a pain to deal with
 
-    //public List<StatModification> ActiveEffects;  //< Maybe for later implementation of temporary effects.
-
     public Player owner;  //< Probably not needed ; THIS IS DANGEROUS RECURSION -> Monster has owner and Owner has Monster
 
     //# Monobehaviour Events 
@@ -47,9 +45,9 @@ public class Monster : MonoBehaviour
     }
 
     //# Public Methods 
-    public void useAction(Action action)
+    public void UseAction(Action action)
     {
-        Monster enemy = CombatHandler.Instance.GetEnemyData(owner).monsterOnField;
+        Monster enemy = CombatHandler.Instance.GetEnemy().monsterOnField;
         action.Use(this, enemy);
     }
 
@@ -102,13 +100,13 @@ public class Monster : MonoBehaviour
 
     public bool GetIsInBag()
     {
-        List<Monster> monsterBag = owner.bag.MonstersInBag;
+        List<Monster> monsterBag = owner.Monsters;
         return monsterBag.Contains(this);
     }
 
     public bool GetIsInBox()
     {
-        List<Monster> monsterBox = owner.bag.MonstersInBox;
+        List<Monster> monsterBox = owner.Monsters;
         return monsterBox.Contains(this);
     }
 
