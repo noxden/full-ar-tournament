@@ -2,14 +2,14 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 30-07-22
+// Last changed: 31-07-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat, PostCombat }
+public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, PostCombat }
 
 public class MenuHandler : MonoBehaviour
 {
@@ -56,7 +56,7 @@ public class MenuHandler : MonoBehaviour
         newMenu = Menus.Find(m => m.GetComponent<CanvasMenu>().name == _name);
         if (newMenu == null)
         {
-            Debug.LogError($"MenuHandler: Could not find menu \"{_name}\" in this scene. Please make sure to set it properly before starting the game! ERROR_MH1", this);
+            Debug.LogError($"MenuHandler: The menu \"{_name}\" does not exist in the current scene. Maybe the menu you wanted to switch to isn't configured properly. ERROR_MH1", this);
             return null;
         }
 
