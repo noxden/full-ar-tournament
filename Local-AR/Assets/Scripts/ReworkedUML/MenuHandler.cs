@@ -9,30 +9,65 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat, PostCombat }
+
 public class MenuHandler : MonoBehaviour
 {
     //# Public Variables 
-    public List<Canvas> MenuScreens;
+    public Scene isInScene;
+    public static MenuName currentMenu;
+
+    //# Private Variables 
+    [SerializeField] private List<Canvas> Menus;
 
     //# Monobehaviour Events 
     private void Start()
     {
-        SwitchToMenu(0);
+        //> Populate list "Menus" with all Canvases from GameObjects tagged with "Menu".
+        GameObject[] MenuGameObjects = GameObject.FindGameObjectsWithTag("Menu");
+        foreach (GameObject entry in MenuGameObjects)
+        {
+            Menus.Add(entry.GetComponent<Canvas>());
+        }
+        if (Menus.Count == 0) Debug.LogWarning($"MenuHandler: The Menus list is empty. Populate it before starting the game!", this);
+
+        //> On scene start set a menu depending on in which scene this menuhandler is and depending on if the tutorial was shown already.
+        if (isInScene == Scene.Menu)
+        {
+            if (SaveDataManager.didShowTutorial == false)
+                SwitchToMenu(MenuName.Tutorial);
+            else
+                SwitchToMenu(MenuName.Home);
+        }
+        else if (isInScene == Scene.Combat)
+            SwitchToMenu(MenuName.Lobby);   //< Is executed when in CombatScene.
+
     }
 
     //# Public Methods 
-    public Canvas SwitchToMenu(int index)
+    public Canvas SwitchToMenu(MenuName _name)
     {
-        Canvas newScreen;
-        newScreen = MenuScreens[index];
+        //> Set flag if the current menu was the tutorial
+        if (currentMenu == MenuName.Tutorial && SaveDataManager.didShowTutorial == false)
+            SaveDataManager.didShowTutorial = true;
 
-        foreach (var entry in MenuScreens)
+        //> Switch to new menu from the list and save it in currentMenu
+        Canvas newMenu;
+        newMenu = Menus.Find(m => m.GetComponent<CanvasMenu>().name == _name);
+        if (newMenu == null)
+        {
+            Debug.LogError($"MenuHandler: Could not find menu \"{_name}\" in this scene. Please make sure to set it properly before starting the game! ERROR_MH1", this);
+            return null;
+        }
+
+        foreach (var entry in Menus)
         {
             ToggleVisibility(entry, false);
         }
-        ToggleVisibility(newScreen, true);
+        ToggleVisibility(newMenu, true);
 
-        return newScreen;
+        currentMenu = newMenu.GetComponent<CanvasMenu>().name;
+        return newMenu;
     }
 
     //# Private Methods 

@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 938717436308084495}
   - component: {fileID: 7255082605976971132}
   - component: {fileID: 5987314021631373475}
+  - component: {fileID: 131412630788159954}
   m_Layer: 5
   m_Name: MenuCanvas
-  m_TagString: Untagged
+  m_TagString: Menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,3 +114,16 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &131412630788159954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3264981300113257092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa4b0480abe3044cad7fc1a65ba39c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: 0

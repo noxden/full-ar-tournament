@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4091c44e2f8af46b0db70956d53f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newMenuIndex: 0
+  newMenu: 0
 --- !u!114 &5188673970557704447
 MonoBehaviour:
   m_ObjectHideFlags: 0

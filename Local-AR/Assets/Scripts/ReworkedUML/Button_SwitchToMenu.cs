@@ -14,7 +14,7 @@ using UnityEngine;
 public class Button_SwitchToMenu : MonoBehaviour
 {
     //# Public Variables 
-    public int newMenuIndex;
+    public MenuName newMenu;
 
     //# Private Variables
     private MenuHandler menuHandler;
@@ -32,6 +32,6 @@ public class Button_SwitchToMenu : MonoBehaviour
     //# Input Event Handlers 
     public void OnButtonPressed()
     {
-        menuHandler.SwitchToMenu(newMenuIndex);
+        menuHandler.SwitchToMenu(newMenu);
     }
 }
