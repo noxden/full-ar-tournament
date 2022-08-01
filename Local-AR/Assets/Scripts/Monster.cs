@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 20-07-22
+// Last changed: 01-08-22
 //================================================================
 
 using System.Collections;
@@ -45,10 +45,9 @@ public class Monster : MonoBehaviour
     }
 
     //# Public Methods 
-    public void UseAction(Action action)
+    public void UseAction(Action action, Monster user, Monster opponent)
     {
-        Monster enemy = CombatHandler.Instance.GetEnemy().monsterOnField;
-        action.Use(this, enemy);
+        action.Use(user, opponent);
     }
 
     public void ApplyStatModification(StatModification modification)
