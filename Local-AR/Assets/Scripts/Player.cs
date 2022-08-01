@@ -11,6 +11,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //# Constructors
+    public void Set(Player player)
+    {
+        this.username = player.username;
+        this.Monsters = new List<Monster>(player.Monsters);
+        this.monsterOnField = player.monsterOnField;
+    }
+
     //# Public Variables 
     public string username;
     public List<Monster> Monsters;
