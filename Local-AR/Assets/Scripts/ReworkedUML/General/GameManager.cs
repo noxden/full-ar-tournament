@@ -46,6 +46,13 @@ public class GameManager : MonoBehaviour
     }
 
     //# Public Methods 
+    public void BeforeSceneChange()
+    {
+        foreach (Monster monster in user.MonstersInBag)
+        {
+            DontDestroyOnLoad(monster.gameObject);
+        }
+    }
 
     //# Private Methods 
 
