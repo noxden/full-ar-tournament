@@ -3,6 +3,7 @@
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
 // Last changed: 31-07-22
+// TODO: Implement automatically overwriting the button text with the abiliy's name
 //================================================================
 
 using System.Collections;
@@ -27,6 +28,6 @@ public class Button_SelectAction : MonoBehaviour
             return;
         }
 
-        CombatHandler.Instance.SelectActionAtIndex(actionNumber-1);
+            CombatHandler.Instance.SelectActionAtIndex(actionNumber-1);
     }
 }

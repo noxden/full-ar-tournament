@@ -17,15 +17,15 @@ public enum Gender { Male, Female, Unknown }
 public class Monster : MonoBehaviour
 {
     //# Public Variables 
-    public GameObject modelPrefab;
+    //public GameObject modelPrefab;
     public string species;
     public string customName;
     public Gender gender;
     public List<ElementalType> Types;
 
     public int level;
-    public int hp_max;
-    public int hp_current;
+    public int hpMax;
+    public int hpCurrent;
     public int attack;
     public int defense;
     public int specialAttack;
@@ -36,12 +36,12 @@ public class Monster : MonoBehaviour
     public List<Action> AvailableActions;                 //< Maybe an array is better for this case?
                                                           //public Action[] AvailableActions = new Action[4];   //< Arrays are a pain to deal with
 
-    public Player owner;  //< Probably not needed ; THIS IS DANGEROUS RECURSION -> Monster has owner and Owner has Monster
+    //public Player owner;  //< Probably not needed ; THIS IS DANGEROUS RECURSION -> Monster has owner and Owner has Monster
 
     //# Monobehaviour Events 
     private void Start()
     {
-        hp_current = hp_max;    //< Maybe remove this as well
+        hpCurrent = hpMax;    //< Maybe remove this as well
     }
 
     //# Public Methods 
@@ -57,8 +57,8 @@ public class Monster : MonoBehaviour
         switch (modification.stat)
         {
             case Stat.HP:
-                hp_current += value;
-                Mathf.Clamp(hp_current, 0, hp_max);
+                hpCurrent += value;
+                Mathf.Clamp(hpCurrent, 0, hpMax);
                 break;
             case Stat.Attack:
                 attack += value;
@@ -98,17 +98,17 @@ public class Monster : MonoBehaviour
         return displayName;
     }
 
-    public bool GetIsInBag()
-    {
-        List<Monster> monsterBag = owner.Monsters;
-        return monsterBag.Contains(this);
-    }
+    // public bool GetIsInBag()
+    // {
+    //     List<Monster> monsterBag = owner.Monsters;
+    //     return monsterBag.Contains(this);
+    // }
 
-    public bool GetIsInBox()
-    {
-        List<Monster> monsterBox = owner.Monsters;
-        return monsterBox.Contains(this);
-    }
+    // public bool GetIsInBox()
+    // {
+    //     List<Monster> monsterBox = owner.Monsters;
+    //     return monsterBox.Contains(this);
+    // }
 
     public void Spawn()
     {

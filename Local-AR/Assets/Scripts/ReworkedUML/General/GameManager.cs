@@ -34,8 +34,6 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);   //< If you somehow still get to create a new singleton gameobject regardless, destroy the new one.
         }
     }
-
-    //# Private Methods 
     private void Start()
     {
         //user = new UserProfile("Test User");
@@ -46,6 +44,10 @@ public class GameManager : MonoBehaviour
         VISUALISERMonstersInBag = user.MonstersInBag;
         VISUALISERMonstersInBox = user.MonstersInBox;
     }
+
+    //# Public Methods 
+
+    //# Private Methods 
 
     //# Input Event Handlers 
 }

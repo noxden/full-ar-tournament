@@ -34,10 +34,10 @@ public class Player : MonoBehaviour
     {
         foreach (Monster monster in Monsters)
         {
-            if (monster.hp_current > 0)
+            if (monster.hpCurrent > 0)
                 return monster;
         }
-        Debug.Log($"Cannot get any valid monster.", this);
+        Debug.Log($"Player.GetFirstValidMonster: Cannot get any valid monster.", this);    //< Usually, if this happens, the player has lost / should lose the match.
         return null;
     }
 }
