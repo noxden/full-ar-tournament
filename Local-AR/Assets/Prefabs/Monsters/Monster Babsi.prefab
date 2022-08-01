@@ -9,7 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 391610452279060621, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: m_Name
-      value: Monster Babsi Variant
+      value: Monster Babsi
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: hpMax
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: gender
@@ -35,6 +39,22 @@ PrefabInstance:
       propertyPath: Types.Array.data[0]
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: AvailableActions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d0a58f5273ba5434083e0a32c2a75bb7, type: 2}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: AvailableActions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 491af8c8c3dcdf442bd28d8852ce3d13, type: 2}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: AvailableActions.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: abec3fbb064bfd24fa9df616081eb918, type: 2}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: AvailableActions.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba48b5194bdccb34585e220a05f4ddf6, type: 2}
     - target: {fileID: 4853315283374689960, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: m_RootOrder
       value: 0
