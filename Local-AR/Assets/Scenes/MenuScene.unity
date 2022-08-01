@@ -2491,6 +2491,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monster Babsi
       objectReference: {fileID: 0}
+    - target: {fileID: 7815471965568493037, guid: ea616570b952ebd41a513f8459ec1850, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea616570b952ebd41a513f8459ec1850, type: 3}
 --- !u!114 &2097114312 stripped
