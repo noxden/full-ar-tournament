@@ -9,31 +9,59 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 391610452279060621, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: m_Name
-      value: Monster Gary Variant
+      value: Monster Gary
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: hpMax
-      value: 10
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: level
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: speed
-      value: 2
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: attack
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: gender
-      value: 2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: defense
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: species
-      value: Garchomp
+      value: Pikachu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: hpCurrent
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: customName
       value: Gary
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: specialAttack
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: specialDefense
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: Types.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: Types.Array.data[0]
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: AvailableActions.Array.data[0]
