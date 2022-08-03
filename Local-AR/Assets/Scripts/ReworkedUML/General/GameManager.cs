@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 30-06-22
+// Last changed: 31-08-22
 //================================================================
 
 using System.Collections;
@@ -33,12 +33,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);   //< If you somehow still get to create a new singleton gameobject regardless, destroy the new one.
         }
+
     }
     private void Start()
     {
+        AllMonsters = new List<Monster>(FindObjectsOfType<Monster>());
         //user = new UserProfile("Test User");
         user = new UserProfile(new List<Monster>(), new List<Monster>(AllMonsters));    //< For this version of the game, the player can have access to all implemented monsters.
-        Debug.Log($"Your name is \"{user.name}\" and you are currently carrying {user.NumberOfMonstersInBag} monsters.");
+        Debug.Log($"Your name is \"{user.name}\" and you are currently carrying {user.NumberOfMonstersInBag} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")}.");
 
         //> Debug Visualisation
         VISUALISERMonstersInBag = user.MonstersInBag;
