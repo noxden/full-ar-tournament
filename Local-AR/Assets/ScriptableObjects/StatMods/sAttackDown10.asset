@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: sAttackDown10
   m_EditorClassIdentifier: 
   stat: 1
-  value: -10
+  value: -2
