@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6583972445574791635
+--- !u!1001 &7403295089385789796
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,32 +9,48 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 391610452279060621, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: m_Name
-      value: Monster Babsi Variant
+      value: Monster Gary Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
-      propertyPath: gender
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
-      propertyPath: hp_max
+      propertyPath: hpMax
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: gender
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: species
-      value: Bulbasaur
+      value: Garchomp
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: customName
-      value: Babsi
+      value: Gary
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: Types.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
-      propertyPath: Types.Array.data[0]
-      value: 3
-      objectReference: {fileID: 0}
+      propertyPath: AvailableActions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d0a58f5273ba5434083e0a32c2a75bb7, type: 2}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: AvailableActions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ba48b5194bdccb34585e220a05f4ddf6, type: 2}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: AvailableActions.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5da3bf5dc9e9f914a8f0a8f7558cea75, type: 2}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: AvailableActions.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 491af8c8c3dcdf442bd28d8852ce3d13, type: 2}
     - target: {fileID: 4853315283374689960, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: m_RootOrder
       value: 0
