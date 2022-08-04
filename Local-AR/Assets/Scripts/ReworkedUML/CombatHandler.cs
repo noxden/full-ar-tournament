@@ -9,11 +9,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void Delegate();    //< A simple delegate without returns. See https://www.tutorialsteacher.com/csharp/csharp-delegates
 
 public class CombatHandler : MonoBehaviour
 {
     //# Public Variables 
     public static CombatHandler Instance { set; get; }
+    public Delegate OnMonsterOnFieldSwapped;     //< Was previously named "UpdateAllActionButtons"
     public GameObject playerPrefab;
 
     //# Private Variables 
@@ -161,6 +163,7 @@ public class CombatHandler : MonoBehaviour
             }
 
             you.SwapMonsterOnField(you.GetFirstValidMonster());
+            OnMonsterOnFieldSwapped();
         }
         if (!enemyMonster.isValid())
         {
@@ -172,6 +175,7 @@ public class CombatHandler : MonoBehaviour
             }
 
             enemy.SwapMonsterOnField(enemy.GetFirstValidMonster());
+            OnMonsterOnFieldSwapped();
         }
     }
 
@@ -213,7 +217,6 @@ public class CombatHandler : MonoBehaviour
 
         //> Set enemy's player and monsterOnField as soon as that data is received.
         enemy.Set(playerData);
-        enemy.monsterOnField = enemy.GetFirstValidMonster();
 
         MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
         menuHandler.SwitchToMenu(MenuName.Combat_Menu);
