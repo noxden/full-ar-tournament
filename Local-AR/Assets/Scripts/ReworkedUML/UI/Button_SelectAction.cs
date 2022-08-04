@@ -23,15 +23,22 @@ public class Button_SelectAction : MonoBehaviour
     private void Awake()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
+        CombatHandler.Instance.OnMonsterOnFieldSwapped += UpdateButtonText;
     }
 
     private void Start()
     {
+        UpdateButtonText();
+    }
+
+    //# Public Variables 
+    public void UpdateButtonText()
+    {
         string actionName;
-        if (CombatHandler.Instance.GetActionAtIndex(actionNumber - 1) == null)      //< If monster does not have an action at this index.
+        if (CombatHandler.Instance.GetActionOfMonsterOnFieldAtIndex(actionNumber - 1) == null)      //< If monster does not have an action at this index.
             actionName = "-";
         else
-            actionName = CombatHandler.Instance.GetActionAtIndex(actionNumber - 1).name;
+            actionName = CombatHandler.Instance.GetActionOfMonsterOnFieldAtIndex(actionNumber - 1).name;
 
         buttonText.text = actionName;
     }
@@ -44,6 +51,6 @@ public class Button_SelectAction : MonoBehaviour
             Debug.LogError($"Could not find CombatHandler in scene. ERROR_BTN2", this);
             return;
         }
-            CombatHandler.Instance.SelectActionAtIndex(actionNumber-1);
+        CombatHandler.Instance.SelectActionAtIndex(actionNumber - 1);
     }
 }

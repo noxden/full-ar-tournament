@@ -7,6 +7,8 @@ public enum Scene { Menu, Combat }
 
 public class SceneTransitionManager
 {
+    //# Public Variables 
+
     //# Public Methods 
     public static void LoadScene(Scene scene)
     {

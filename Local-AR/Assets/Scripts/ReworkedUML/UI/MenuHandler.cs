@@ -9,11 +9,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, PostCombat }
+public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, EndScreenWon, EndScreenLost }
 
 public class MenuHandler : MonoBehaviour
 {
     //# Public Variables 
+    public static MenuHandler Instance { set; get; }
     public Scene isInScene;
     public static MenuName currentMenu;
 
@@ -21,6 +22,13 @@ public class MenuHandler : MonoBehaviour
     [SerializeField] private List<Canvas> Menus;
 
     //# Monobehaviour Events 
+    private void Awake()
+    {
+        if (Instance == null)   //< With this if-structure it is IMPOSSIBLE to create more than one instance.
+            Instance = this;
+        else
+            Destroy(this.gameObject);   //< If you somehow still get to create a new singleton gameobject regardless, destroy the new one.
+    }
     private void Start()
     {
         //> Populate list "Menus" with all Canvases from GameObjects tagged with "Menu".
@@ -60,6 +68,7 @@ public class MenuHandler : MonoBehaviour
             return null;
         }
 
+        //> Toggle visibility of all menu canvases to only show the new menu.
         foreach (var entry in Menus)
         {
             ToggleVisibility(entry, false);

@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 31-07-22
+// Last changed: 03-08-22
 //================================================================
 
 using System.Collections;
@@ -16,16 +16,25 @@ public class Player : MonoBehaviour
     {
         this.username = player.username;
         this.Monsters = new List<Monster>(player.Monsters);
-        this.monsterOnField = player.monsterOnField;
+        SwapMonsterOnField(GetFirstValidMonster());
+        FullyHealAllMonsters();
+    }
+
+    public void Set(string _username, List<Monster> _Monsters)
+    {
+        this.username = _username;
+        this.Monsters = new List<Monster>(_Monsters);
+        SwapMonsterOnField(GetFirstValidMonster());
+        FullyHealAllMonsters();
     }
 
     //# Public Variables 
     public string username;
     public List<Monster> Monsters;
     public int NumberOfMonsters { get { return Monsters.Count; } }
-    public Monster monsterOnField; /*{ private set; get; }*/   //< Set with SwapMonsterOnField()
 
     //# Private Variables 
+    [SerializeField] private Monster monsterOnField; /*{ private set; get; }*/   //! Always set with SwapMonsterOnField()
 
     //# Public Methods 
     public void SwapMonsterOnField(Monster newMonster)  //< Is used instead of standard set() to provide an interface for Monster's OnSwapped events, maybe?
@@ -38,14 +47,27 @@ public class Player : MonoBehaviour
         monsterOnField = newMonster;
     }
 
+    public Monster GetMonsterOnField()
+    {
+        return monsterOnField;
+    }
+
     public Monster GetFirstValidMonster()
     {
         foreach (Monster monster in Monsters)
         {
-            if (monster.hpCurrent > 0)
+            if (monster.isValid())
                 return monster;
         }
         Debug.Log($"Player.GetFirstValidMonster: Cannot get any valid monster.", this);    //< Usually, if this happens, the player has lost / should lose the match.
         return null;
+    }
+
+    // TODO: Implement a monster stat reset function
+    //# Private Methods 
+    private void FullyHealAllMonsters()     //! This still does not reset their modified stats!!
+    {
+        foreach (Monster monster in Monsters)
+            monster.hpCurrent = monster.hpMax;
     }
 }

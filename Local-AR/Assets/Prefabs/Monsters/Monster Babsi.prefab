@@ -13,7 +13,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: hpMax
-      value: 10
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: level
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: speed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: attack
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: gender
@@ -24,12 +36,24 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: defense
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: species
       value: Bulbasaur
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: customName
       value: Babsi
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: specialAttack
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
+      propertyPath: specialDefense
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 3974666736183665726, guid: e219567375e5fab47b226783fe0c1ca3, type: 3}
       propertyPath: Types.Array.size
