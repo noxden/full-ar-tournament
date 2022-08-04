@@ -14,6 +14,7 @@ public enum Stat { HP, Attack, Defense, SpecialAttack, SpecialDefense, Speed, Ev
 [CreateAssetMenu(fileName = "New StatModification", menuName = "Scriptable/StatModification")]
 public class StatModification : ScriptableObject
 {
+    //# Public variables 
     public Stat stat;
     public int value;
 }

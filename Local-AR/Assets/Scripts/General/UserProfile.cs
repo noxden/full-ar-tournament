@@ -10,6 +10,14 @@ using System.Collections.Generic;
 using UnityEngine;
 public class UserProfile
 {
+    //# Public Variables 
+    public string name = SaveDataManager.localUsername;
+    public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
+
+    //# Private Variables 
+    public List<Monster> MonstersInBag { get; private set; }
+    public List<Monster> MonstersInBox { get; private set; } 
+
     //# Constructors 
     public UserProfile()
     {
@@ -36,14 +44,6 @@ public class UserProfile
         MonstersInBag = _MonstersInBag;
         MonstersInBox = _MonstersInBox;
     }
-
-    //# Public Variables 
-    public string name = SaveDataManager.localUsername;
-    public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
-
-    //# Private Variables 
-    public List<Monster> MonstersInBag; 	//! Accessibility has been modified for Debug visualisation in editor, do not Set()!
-    public List<Monster> MonstersInBox;
 
     //# Public Methods 
     public void ChangeIsInBag(Monster target, bool bagState)
