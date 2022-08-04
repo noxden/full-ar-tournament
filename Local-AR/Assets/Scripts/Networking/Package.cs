@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144) & Jan Alexander
-// Last changed: 30-07-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;

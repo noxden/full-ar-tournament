@@ -11,6 +11,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //# Public Variables 
+    public string username;
+    public List<Monster> Monsters;
+    public int NumberOfMonsters { get { return Monsters.Count; } }
+
+    //# Private Variables 
+    [SerializeField] private Monster monsterOnField; /*{ private set; get; }*/   //! Always set with SwapMonsterOnField()
+
     //# Constructors
     public void Set(Player player)
     {
@@ -27,14 +35,6 @@ public class Player : MonoBehaviour
         SwapMonsterOnField(GetFirstValidMonster());
         FullyHealAllMonsters();
     }
-
-    //# Public Variables 
-    public string username;
-    public List<Monster> Monsters;
-    public int NumberOfMonsters { get { return Monsters.Count; } }
-
-    //# Private Variables 
-    [SerializeField] private Monster monsterOnField; /*{ private set; get; }*/   //! Always set with SwapMonsterOnField()
 
     //# Public Methods 
     public void SwapMonsterOnField(Monster newMonster)  //< Is used instead of standard set() to provide an interface for Monster's OnSwapped events, maybe?
