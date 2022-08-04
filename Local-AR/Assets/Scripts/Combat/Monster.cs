@@ -13,8 +13,6 @@ using UnityEngine;
 public enum ElementalType { Normal, Fire, Water, Grass, Electic }
 public enum Gender { Male, Female, Unknown }
 
-
-
 public class Monster : MonoBehaviour
 {
     //# Public Variables 
