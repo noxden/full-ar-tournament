@@ -3,6 +3,7 @@
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
 // Last changed: 03-08-22
+// Todo: Could this also be converted into a scriptable object?
 //================================================================
 
 using System.Collections;
@@ -12,7 +13,7 @@ using UnityEngine;
 public enum ElementalType { Normal, Fire, Water, Grass, Electic }
 public enum Gender { Male, Female, Unknown }
 
-// Todo: Could this also be converted into a scriptable object?
+
 
 public class Monster : MonoBehaviour
 {

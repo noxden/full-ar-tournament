@@ -52,7 +52,6 @@ public class Action : ScriptableObject
 
             if (category != ActionCategory.Status)
             {
-                //TODO: Deal damage or whatever this action does
                 //#> Apply damage or healing 
                 int userPower = 0;
                 int targetDefense = 0;
@@ -69,7 +68,7 @@ public class Action : ScriptableObject
 
                 int damage = (int)Mathf.Floor((((((2 * user.level) / 5) + 2) * basePower * (userPower / targetDefense)) / 50) + 2);  //< Mirrors the actual pokemon calculations
 
-                //StatModification healthModification = new StatModification(Stat.HP, -damage);   // TODO: "New" is not allowed for ScriptableObjects. Start search for another implementation...
+                //StatModification healthModification = new StatModification(Stat.HP, -damage);
                 StatModification healthModification = (StatModification)ScriptableObject.CreateInstance(typeof(StatModification));  //< See https://stackoverflow.com/questions/988658/unable-to-cast-from-parent-class-to-child-class
                 healthModification.stat = Stat.HP;
                 healthModification.value = -damage;
