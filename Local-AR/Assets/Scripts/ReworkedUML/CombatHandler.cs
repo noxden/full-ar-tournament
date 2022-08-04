@@ -148,12 +148,15 @@ public class CombatHandler : MonoBehaviour
         enemyAction = null;
         enemyActionTieBreaker = 0f;
         turn += 1;
+        MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);
+
         //> Prepare next turn if any monsters fainted.
         if (!yourMonster.isValid())
         {
             if (you.GetFirstValidMonster() == null)
             {
                 // You lost.
+                FinishGame(false);
                 return;
             }
 
@@ -164,6 +167,7 @@ public class CombatHandler : MonoBehaviour
             if (enemy.GetFirstValidMonster() == null)
             {
                 // You won.
+                FinishGame(true);
                 return;
             }
 
@@ -175,9 +179,29 @@ public class CombatHandler : MonoBehaviour
     {
         Debug.Log($"CombatHandler.isDefeated: {monster.GetName()} {(monster.isValid() ? "is still standing" : "faints")}.");
         return (!monster.isValid());
-        }
     }
 
+    private void FinishGame(bool youWon)
+    {
+        MenuName endMenu;
+        switch (youWon)
+        {
+            case true:
+                Debug.Log($"CombatHandler.ResolveTurn: You won! :)");
+                endMenu = MenuName.EndScreenWon;
+                break;
+            case false:
+                Debug.Log($"CombatHandler.ResolveTurn: You lost. :(");
+                endMenu = MenuName.EndScreenLost;
+                break;
+        }
+        StartCoroutine(ShowEndScreenInSeconds(5, endMenu));
+    }
+
+    private IEnumerator ShowEndScreenInSeconds(int waitTime, MenuName menuName)
+    {
+        yield return new WaitForSeconds(waitTime);
+        MenuHandler.Instance.SwitchToMenu(menuName);
     }
 
     //# Input Event Handlers 

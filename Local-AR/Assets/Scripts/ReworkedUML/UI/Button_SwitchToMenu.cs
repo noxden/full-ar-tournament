@@ -17,13 +17,8 @@ public class Button_SwitchToMenu : MonoBehaviour
     public MenuName newMenu;
 
     //# Private Variables
-    private MenuHandler menuHandler;
 
     //# Monobehaviour Events 
-    private void Awake()
-    {
-        menuHandler = FindObjectOfType<MenuHandler>();
-    }
 
     //# Public Methods 
 
@@ -32,6 +27,6 @@ public class Button_SwitchToMenu : MonoBehaviour
     //# Input Event Handlers 
     public void OnButtonPressed()
     {
-        menuHandler.SwitchToMenu(newMenu);
+        MenuHandler.Instance.SwitchToMenu(newMenu);
     }
 }
