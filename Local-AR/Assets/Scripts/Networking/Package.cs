@@ -12,7 +12,7 @@ using UnityEngine;
 public abstract class Package
 {
     //# Public variables 
-    public enum PackageType { JoinPackage, CombatPackage, /*MonsterSwap*/ }
+    // public enum PackageType { JoinPackage, CombatPackage, /*MonsterSwap*/ }
 
-    public PackageType packageType;
+    // public PackageType packageType;
 }

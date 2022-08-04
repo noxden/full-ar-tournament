@@ -9,17 +9,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatPackage : Package
+public struct CombatPackage
 {
+    //# Public Variables 
+    public static string packageType = "CombatPackage";
+    public Action action;
+    public float tieBreaker;
+
     //# Constructors 
     public CombatPackage(Action actionData, float tieBreakerData)     //< Does not require user and opponent as for the actual UseAction, the CombatHandler can decide those.
     {
-        packageType = PackageType.CombatPackage;
         action = actionData;
         tieBreaker = tieBreakerData;
     }
-
-    //# Public Variables 
-    public Action action;
-    public float tieBreaker;
 }
