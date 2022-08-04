@@ -2,13 +2,13 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 01-08-22
+// Last changed: 03-08-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+
 
 public class CombatHandler : MonoBehaviour
 {
@@ -40,9 +40,7 @@ public class CombatHandler : MonoBehaviour
         you = InstantiatePlayer("Your Player");
 
         //> Initialize your player based on values from your user (instance), which may have been modified in the menu.
-        you.username = user.name;
-        you.Monsters = user.MonstersInBag;
-        you.monsterOnField = you.GetFirstValidMonster();
+        you.Set(user.name, user.MonstersInBag);
 
         //TODO: Create JoinPackage containing own Player (you)
     }
@@ -50,9 +48,9 @@ public class CombatHandler : MonoBehaviour
     //# Public Methods 
     public void SelectActionAtIndex(int actionIndex)    //> Selects an action for "yourAction" -> is only to be used for your player, never for the enemy.
     {
-        if (you.monsterOnField == null)
-        {
-            Debug.LogError($"CombatHandler: You do not have a monster on field. ERROR_CH1");
+        yourAction = GetActionAtIndex(you.GetMonsterOnField(), actionIndex);     //< Using this specific overload here is just for clarification purposes.
+        if (yourAction != null)
+            Debug.Log($"CombatHandler.SelectActionAtIndex: Your selected action is now {yourAction.name}.");
             return;
         }
 
@@ -64,14 +62,18 @@ public class CombatHandler : MonoBehaviour
         ResolveTurn();
     }
 
-    //> Used primarily for button labels.
-    public Action GetActionAtIndex(int actionIndex)
+    public Action GetActionOfMonsterOnFieldAtIndex(int actionIndex)  //< Used primarily for button labels.
     {
-        return GetActionAtIndex(you.monsterOnField, actionIndex);
+        return GetActionAtIndex(you.GetMonsterOnField(), actionIndex);
     }
 
     public Action GetActionAtIndex(Monster monster, int actionIndex)    //- Overload that can be used to get the action of a monster other than your current active one
     {
+        if (monster == null)
+        {
+            Debug.LogError($"CombatHandler.GetActionAtIndex: The monster you want to get an action from is null. ERROR_CH1");
+            return null;
+        }
         if (monster.AvailableActions[actionIndex] == null)
         {
             Debug.Log($"CombatHandler.GetActionAtIndex: {monster} does not have an action in slot {actionIndex + 1}.");
@@ -95,8 +97,8 @@ public class CombatHandler : MonoBehaviour
             return;
 
         //> Initial setup of turnOrder
-        Monster yourMonster = you.monsterOnField;
-        Monster enemyMonster = enemy.monsterOnField;
+        Monster yourMonster = you.GetMonsterOnField();
+        Monster enemyMonster = enemy.GetMonsterOnField();
         List<Monster> turnOrder = new List<Monster>();
         turnOrder.Add(yourMonster);
         turnOrder.Add(enemyMonster);
@@ -129,7 +131,8 @@ public class CombatHandler : MonoBehaviour
     //# Input Event Handlers 
     public void OnPlayerDataReceived(Player playerData)
     {
-        // if (otherPlayer.username == You.username)  //< Guard clause to make sure that you didn't receive your own player data <- Actually, nevermind. This should be preventable on the server side.
+        // TODO: Actually, nevermind. This should be preventable on the server side.
+        // if (otherPlayer.username == You.username)  //< Guard clause to make sure that you didn't receive your own player data.
         //     return;
 
         //> Set enemy's player and monsterOnField as soon as that data is received.
