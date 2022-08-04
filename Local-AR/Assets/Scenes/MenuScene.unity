@@ -693,10 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779d4302d1509ee4f9f8c27672d47350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllMonsters:
-  - {fileID: 2097114312}
-  - {fileID: 429368199}
-  - {fileID: 524421835}
+  AllMonsters: []
   VISUALISERMonstersInBag: []
   VISUALISERMonstersInBox: []
 --- !u!4 &591472376
