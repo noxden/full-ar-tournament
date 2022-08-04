@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 01-08-22
+// Last changed: 03-08-22
 //================================================================
 
 using System.Collections;
@@ -43,7 +43,7 @@ public class DEBUG_Button_SelectEnemyAction : MonoBehaviour
     //# Input Event Handlers 
     public void OnButtonPressed()
     {
-        //Debug.Log($"DEBUG_Button_SelectEnemyAction.OnButtonPressed: Enemy selected Action \"{enemyMonster.AvailableActions[actionNumber-1]}\".");
-        CombatHandler.Instance.OnActionDataReceived(enemyMonster.AvailableActions[actionNumber - 1]);
+        float randomSpeedTieBreaker = Random.Range(0.001f, 0.499f);
+        CombatHandler.Instance.OnActionDataReceived(enemyMonster.AvailableActions[actionNumber - 1], randomSpeedTieBreaker);
     }
 }
