@@ -46,7 +46,8 @@ public class CombatHandler : MonoBehaviour
         //> Initialize your player based on values from your user (instance), which may have been modified in the menu.
         you.Set(user.name, user.MonstersInBag);
 
-        //TODO: Create JoinPackage containing own Player (you)
+        // Create JoinPackage containing own Player (you)
+        WebSocketConnection.Instance.CreateJoinPackage(you);
     }
 
     //# Public Methods 
@@ -56,9 +57,11 @@ public class CombatHandler : MonoBehaviour
         if (yourAction != null)
             Debug.Log($"CombatHandler.SelectActionAtIndex: Your selected action is now {yourAction.name}.");
 
+        //> Create CombatPackage containing Action (yourAction) and a "random value tie breaker".
         yourActionTieBreaker = Random.Range(0.00001f, 0.99999f);     //< Is a randomly determined value to serve as a tie breaker if speeds would be otherwise equal.
         //Debug.Log($"CombatHandler.SelectActionAtIndex: Your SpeedTieBreaker is {yourActionTieBreaker}.");
 
+        WebSocketConnection.Instance.CreateCombatPackage(yourAction, yourActionTieBreaker);
         ResolveTurn();
     }
 
@@ -69,7 +72,7 @@ public class CombatHandler : MonoBehaviour
                                       //  If both players use an item in the same turn, there will be a brief order desync, but it should not cause any issues.
                                       //Debug.Log($"CombatHandler.SelectItemAction: Your SpeedTieBreaker is {yourActionTieBreaker}, because you used an item.");
 
-        //TODO: Create CombatPackage containing Action(actionAtIndex) (and possible it's user & enemy?) here.
+        WebSocketConnection.Instance.CreateCombatPackage(yourAction, yourActionTieBreaker);
         ResolveTurn();
     }
 
