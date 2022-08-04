@@ -93,6 +93,14 @@ public class CombatHandler : MonoBehaviour
         return monster.AvailableActions[actionIndex];
     }
 
+    // public void DestroyAllMonstersInBag()   //< Destroy all of your monsters in the scene manually as they are all set to DontDestroyOnLoad()
+    // {
+    //     foreach (Monster monster in you.Monsters)
+    //     {
+    //         // monster.Destroy();
+    //     }
+    // }
+
     //# Private Methods 
     private Player InstantiatePlayer(string gameObjectName)
     {
@@ -182,6 +190,10 @@ public class CombatHandler : MonoBehaviour
     private bool isDefeated(Monster monster)
     {
         Debug.Log($"CombatHandler.isDefeated: {monster.GetName()} {(monster.isValid() ? "is still standing" : "faints")}.");
+        // if (!monster.isValid())
+        // {
+        //     monster.Animation_Despawn();  // Queue faint animation here
+        // }
         return (!monster.isValid());
     }
 

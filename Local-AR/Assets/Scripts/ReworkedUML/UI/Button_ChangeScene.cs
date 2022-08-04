@@ -17,7 +17,7 @@ public class Button_ChangeScene : MonoBehaviour
     //# Input Event Handlers 
     public void OnButtonPressed()
     {
-        GameManager.Instance.BeforeSceneChange();   //! Should not be in the button but in the SceneTransitionManager instead. Otherwise, scene changes called by script will not run BeforeSceneChange()!
+        // GameManager.Instance.BeforeSceneChange();   //! Should not be in the button but in the SceneTransitionManager instead. Otherwise, scene changes called by script will not run BeforeSceneChange()!
         SceneTransitionManager.LoadScene(sceneToLoad);
     }
 }

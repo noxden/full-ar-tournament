@@ -38,6 +38,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         AllMonsters = new List<Monster>(FindObjectsOfType<Monster>());
+
+        foreach (Monster monster in AllMonsters)
+        {
+            DontDestroyOnLoad(monster.gameObject);
+        }
+
         //user = new UserProfile("Test User");
         user = new UserProfile(new List<Monster>(), new List<Monster>(AllMonsters));    //< For this version of the game, the player can have access to all implemented monsters.
         Debug.Log($"Your name is \"{user.name}\" and you are currently carrying {user.NumberOfMonstersInBag} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")}.");
@@ -45,15 +51,6 @@ public class GameManager : MonoBehaviour
         //> Debug Visualisation
         VISUALISERMonstersInBag = user.MonstersInBag;
         VISUALISERMonstersInBox = user.MonstersInBox;
-    }
-
-    //# Public Methods 
-    public void BeforeSceneChange()
-    {
-        foreach (Monster monster in user.MonstersInBag)
-        {
-            DontDestroyOnLoad(monster.gameObject);
-        }
     }
 
     //# Private Methods 
