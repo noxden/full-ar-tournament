@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 01-08-22
+// Last changed: 03-08-22
 //================================================================
 
 using System.Collections;
@@ -48,9 +48,35 @@ public class Action : ScriptableObject
 
         foreach (Monster target in Targets)
         {
-            //#> Apply damage or healing 
-            Debug.Log($"Action \"{name}\" has been used by {user}, targeting {target}.");
-            //TODO: Deal damage or whatever this action does
+            Debug.Log($"<color=#FFFF00>Action.Use: Action \"{name}\" has been used by {user.GetName()}, targeting {target.GetName()}.</color>", this);
+
+            if (category != ActionCategory.Status)
+            {
+                //TODO: Deal damage or whatever this action does
+                //#> Apply damage or healing 
+                int userPower = 0;
+                int targetDefense = 0;
+                if (category == ActionCategory.Physical)
+                {
+                    userPower = user.attack;
+                    targetDefense = target.defense;
+                }
+                else if (category == ActionCategory.Special)
+                {
+                    userPower = user.specialAttack;
+                    targetDefense = target.specialDefense;
+                }
+
+                int damage = (int)Mathf.Floor((((((2 * user.level) / 5) + 2) * basePower * (userPower / targetDefense)) / 50) + 2);  //< Mirrors the actual pokemon calculations
+
+                //StatModification healthModification = new StatModification(Stat.HP, -damage);   // TODO: "New" is not allowed for ScriptableObjects. Start search for another implementation...
+                StatModification healthModification = (StatModification)ScriptableObject.CreateInstance(typeof(StatModification));  //< See https://stackoverflow.com/questions/988658/unable-to-cast-from-parent-class-to-child-class
+                healthModification.stat = Stat.HP;
+                healthModification.value = -damage;
+                
+                target.ApplyStatModification(healthModification);
+                //Debug.Log($"Action.Use: {target.GetName()}'s {healthModification.stat} has been reduced by {damage}.");
+            }
 
             //#> Apply StatModifications, if there are any, on the target(s) 
             if (StatModifications.Count > 0)
@@ -58,7 +84,6 @@ public class Action : ScriptableObject
                 foreach (StatModification modification in StatModifications)
                 {
                     target.ApplyStatModification(modification);
-                    Debug.Log($"{target.GetName()}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.");
                 }
             }
         }
