@@ -87,4 +87,10 @@ public class Action : ScriptableObject
             }
         }
     }
+
+    public int GetLibraryIndex()
+    {
+        int indexInLibrary = GameManager.Instance.ActionLibrary.FindIndex(m => m == this);
+        return indexInLibrary;
+    }
 }

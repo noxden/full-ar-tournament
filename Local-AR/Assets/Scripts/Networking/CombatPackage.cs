@@ -9,17 +9,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct CombatPackage
+[System.Serializable]
+public class CombatPackage
 {
     //# Public Variables 
     public static string packageType = "CombatPackage";
-    public Action action;
+    public int packageAuthorUUID;
+    public int libraryIndexOfAction;
     public float tieBreaker;
 
     //# Constructors 
-    public CombatPackage(Action actionData, float tieBreakerData)     //< Does not require user and opponent as for the actual UseAction, the CombatHandler can decide those.
+    public CombatPackage(int UUID, Action actionData, float tieBreakerData)     //< Does not require user and opponent as for the actual UseAction, the CombatHandler can decide those.
     {
-        action = actionData;
+        packageAuthorUUID = UUID;
+
+        libraryIndexOfAction = actionData.GetLibraryIndex();
+
         tieBreaker = tieBreakerData;
     }
 }

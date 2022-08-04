@@ -11,6 +11,7 @@ using UnityEngine;
 public class UserProfile
 {
     //# Public Variables 
+    public int UUID {get; private set;}
     public string name = SaveDataManager.localUsername;
     public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
 
@@ -21,12 +22,14 @@ public class UserProfile
     //# Constructors 
     public UserProfile()
     {
+        GenerateUUID();
         MonstersInBag = new List<Monster>();
         MonstersInBox = new List<Monster>();
     }
 
     public UserProfile(string _name)
     {
+        GenerateUUID();
         name = _name;
         MonstersInBag = new List<Monster>();
         MonstersInBox = new List<Monster>();
@@ -34,12 +37,14 @@ public class UserProfile
 
     public UserProfile(List<Monster> _MonstersInBag, List<Monster> _MonstersInBox)
     {
+        GenerateUUID();
         MonstersInBag = _MonstersInBag;
         MonstersInBox = _MonstersInBox;
     }
 
     public UserProfile(string _name, List<Monster> _MonstersInBag, List<Monster> _MonstersInBox)
     {
+        GenerateUUID();
         name = _name;
         MonstersInBag = _MonstersInBag;
         MonstersInBox = _MonstersInBox;
@@ -93,6 +98,11 @@ public class UserProfile
     }
 
     //# Private Methods 
+    private void GenerateUUID()
+    {
+        UUID = Random.Range(0, 1000000);
+        Debug.Log($"UserProfile: Your UUID for this session is {UUID}.");
+    }
 
     //# Input Event Handlers 
 }

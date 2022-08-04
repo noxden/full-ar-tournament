@@ -9,16 +9,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct JoinPackage
+[System.Serializable]
+public class JoinPackage
 {
     //# Public Variables 
     public static string packageType = "JoinPackage";
+    public int packageAuthorUUID;
     public string username;
     public List<Monster> Monsters;
 
     //# Constructors 
-    public JoinPackage(Player playerData)
+    public JoinPackage(int UUID, Player playerData)
     {
+        packageAuthorUUID = UUID;
+        
         username = playerData.username;
         Monsters = new List<Monster>(playerData.Monsters);
         //< Just to make sure that no references get messed up, monsterOnField is left blank in this transmission to be filled by CombatHandler upon receiving the package.

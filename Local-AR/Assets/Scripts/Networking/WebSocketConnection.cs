@@ -23,6 +23,10 @@ public class WebSocketConnection : MonoBehaviour
     private string serverUrl = "ws://noxden.uber.space:42960/nodejs-server"; // REPLACE [username] & [port] with yours
     private int serverErrorCode;
 
+    private int myUUID;
+    private JoinPackage outgoingJoinPackage;
+    private CombatPackage outgoingCombatPackage;
+
     //# Monobehaviour Events 
     private void Awake()
     {
@@ -34,6 +38,8 @@ public class WebSocketConnection : MonoBehaviour
 
     async void Start()
     {
+        myUUID = GameManager.Instance.user.UUID;
+
         webSocket = new WebSocket(serverUrl);
 
         webSocket.OnOpen += OnOpen;
@@ -67,18 +73,20 @@ public class WebSocketConnection : MonoBehaviour
 
     public void CreateJoinPackage(Player playerData)
     {
-        JoinPackage joinPackage = new JoinPackage(playerData);
-        SendJoinPackage(joinPackage);
+        outgoingJoinPackage = new JoinPackage(myUUID, playerData);
+        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateJoinPackage: JoinPackage sent.</color>");
+        Invoke("SendJoinPackage", 0f);
     }
 
     public void CreateCombatPackage(Action actionData, float tieBreaker)
     {
-        CombatPackage combatPackage = new CombatPackage(actionData, tieBreaker);
-        SendCombatPackage(combatPackage);
+        outgoingCombatPackage = new CombatPackage(myUUID, actionData, tieBreaker);
+        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateCombatPackage: CombatPackage sent.</color>");
+        Invoke("SendCombatPackage", 0f);
     }
 
     //# Private Methods 
-    private async void SendEmptyMessageToServer()
+    private async void SendEmptyMessageToServer()   //< DEBUG
     {
         if (webSocket.State == WebSocketState.Open)
         {
@@ -87,29 +95,29 @@ public class WebSocketConnection : MonoBehaviour
         }
     }
 
-    //> This implementation derives from package an is thereby less redundant.
-    // private async void SendMessage(Package package)    //< Can be called with: Invoke("SendMessage", 0f)
-    // {
-    //     Debug.Log($"WebSocketConnection.SendMessage: Attempting to send message {package.packageType}."};
-    //     if (_webSocket.State == WebSocketState.Open)
-    //     {
-    //         string json = JsonUtility.ToJson(package);
-    //         byte[] bytes = Encoding.UTF8.GetBytes(json);
-    //         await _webSocket.Send(bytes);
-    //     }
-    // }
+    private async void SendTestPackage()    //< DEBUG
+    {
+        if (webSocket.State == WebSocketState.Open)
+        {
+            TestPackage testPackage = new TestPackage(420);
+            string json = JsonUtility.ToJson(testPackage);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            await webSocket.Send(bytes);
+        }
+    }
 
-    private async void SendJoinPackage(JoinPackage outgoingJoinPackage)
+    private async void SendJoinPackage()
     {
         if (webSocket.State == WebSocketState.Open)
         {
             string json = JsonUtility.ToJson(outgoingJoinPackage);
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             await webSocket.Send(bytes);
+            outgoingJoinPackage = null;
         }
     }
 
-    private async void SendCombatPackage(CombatPackage outgoingCombatPackage)
+    private async void SendCombatPackage()
     {
         if (webSocket.State == WebSocketState.Open)
         {
@@ -122,44 +130,24 @@ public class WebSocketConnection : MonoBehaviour
     //# Event Handlers 
     private void OnOpen()
     {
-        Debug.Log("Connection opened");
-        Invoke("SendEmptyMessageToServer", 0f);
+        Debug.Log("<color=#5EE8A5>Connection opened.</color>");
+        if (outgoingJoinPackage != null)    //< This allows for the outgoingJoinPackage to be queued until server connection is established.
+            Invoke("SendJoinPackage", 0f);
+        //Invoke("SendEmptyMessageToServer", 0f);     // DEBUG
+        //Invoke("SendTestPackage", 0f);
     }
-
-    // private void OnMessage(byte[] incomingBytes)     //< My initial pseudo-code
-    // {
-    //     // Follow steps in Jan's tutorial
-    //     // Convert bytes to string
-    //     // Convert string to json
-    //     // Check for json.packageType variable
-    //     // Depending on packageType, convert json to appropriate package class
-    //     // if (packageType == JoinPackage)
-    //         // Convert json to C# class "JoinPackage"
-    //         // Read class
-    //         // Player unpackagedPlayer.username = joinPackage.username
-    //         // ...
-    //         // ...
-    //         // CombatHandler.Instance.OnPlayerDataReceived(unpackagedPlayer)
-    //     // else if (packageType == CombatPackage)
-    //         // Convert json to C# class "CombatPackage"
-    //         // Read class
-    //         // Action unpackagedAction = combatPackage.action
-    //         // float unpackagedTieBreaker = combatPackage.tieBreaker
-    //         // CombatHandler.Instance.OnActionDataReceived(unpackagedAction, unpackagedTieBreaker)
-    //     Debug.Log("Message received");
-    // }
 
     private void OnMessage(byte[] inboundBytes)
     {
-        Debug.Log("Message received");
-        Debug.Log($"bytes: {inboundBytes}");
+        Debug.Log("<color=#5EE8A5>Message received.</color>");
+        Debug.Log($"<color=#5EE8A5>bytes: {inboundBytes}</color>");
         string inboundString = System.Text.Encoding.UTF8.GetString(inboundBytes);
-        Debug.Log($"message: {inboundString}");
+        Debug.Log($"<color=#5EE8A5>Incoming message: {inboundString}</color>");
 
 
         if (int.TryParse(inboundString, out serverErrorCode))
         {
-            Debug.Log($"Server Error: {serverErrorCode}");    //< If server returns an integer, it is an error
+            Debug.Log($"<color=#5EE8A5>Server Error: {serverErrorCode}</color>");    //< If server returns an integer, it is an error
         }
         else
         {
@@ -168,30 +156,51 @@ public class WebSocketConnection : MonoBehaviour
             if (json["packageType"].Value == JoinPackage.packageType)
             {
                 JoinPackage unpackedJoinPackage = JsonUtility.FromJson<JoinPackage>(inboundString);
-                string MonstersOnList = "";
-                foreach (var entry in unpackedJoinPackage.Monsters)
+                if (unpackedJoinPackage.packageAuthorUUID == myUUID)
                 {
-                    MonstersOnList += $"{entry.GetName()}{(unpackedJoinPackage.Monsters.FindIndex(m => m == entry) >= unpackedJoinPackage.Monsters.Count - 1 ? "" : ", ")}";  //! This log message has not been tested yet.
+                    Debug.Log($"<color=#5EE8A5>Received own JoinPackage, discarding information.</color>");
+                    return;
                 }
-                Debug.Log($"Received JoinPackage (containing Player) || Username: {unpackedJoinPackage.username}, Monsters: {MonstersOnList}.");
-                // TODO: Do something with that data.
+                else
+                {
+                    //> For debug message
+                    string MonstersOnList = "";
+                    foreach (var entry in unpackedJoinPackage.Monsters)
+                    {
+                        MonstersOnList += $"{entry.GetName()}{(unpackedJoinPackage.Monsters.FindIndex(m => m == entry) >= unpackedJoinPackage.Monsters.Count - 1 ? "" : ", ")}";  //! This log message has not been tested yet.
+                    }
+                    Debug.Log($"<color=#5EE8A5>Received JoinPackage || Username: {unpackedJoinPackage.username}, Monsters: {MonstersOnList}.</color>");
+                    // TODO: Do something with that data.
+                }
+
             }
             else if (json["packageType"].Value == CombatPackage.packageType)
             {
                 CombatPackage unpackedCombatPackage = JsonUtility.FromJson<CombatPackage>(inboundString);
-                Debug.Log($"Received CombatPackage (containing Action)|| Action name: {unpackedCombatPackage.action.name}, Tiebreaker: {unpackedCombatPackage.tieBreaker}.");
-                // TODO: Do something with that data.
+                if (unpackedCombatPackage.packageAuthorUUID == myUUID)
+                {
+                    Debug.Log($"<color=#5EE8A5>Received own CombatPackage, discarding information.</color>");
+                }
+                else
+                {
+                    Debug.Log($"<color=#5EE8A5>Received CombatPackage || Action: {GameManager.Instance.ActionLibrary[unpackedCombatPackage.libraryIndexOfAction].name}, Tiebreaker: {unpackedCombatPackage.tieBreaker}.</color>");
+                    // TODO: Do something with that data.
+                    CombatHandler.Instance.OnActionDataReceived(GameManager.Instance.GetActionAtLibraryIndex(unpackedCombatPackage.libraryIndexOfAction), unpackedCombatPackage.tieBreaker);
+                }
+
+                unpackedCombatPackage = null;
+                return;
             }
         }
     }
 
     private void OnClose(WebSocketCloseCode closeCode)
     {
-        Debug.Log($"Connection closed: {closeCode}");
+        Debug.Log($"<color=#5EE8A5>Connection closed: {closeCode}</color>");
     }
 
     private void OnError(string errorMessage)
     {
-        Debug.Log($"Connection error: {errorMessage}");
+        Debug.Log($"<color=#5EE8A5>Connection error: {errorMessage}</color>");
     }
 }

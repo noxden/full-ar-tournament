@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
 {
     //# Public Variables 
     public static GameManager Instance { set; get; }
-    public List<Monster> AllMonsters;
+    public List<Monster> MonsterLibrary;
+    public List<Action> ActionLibrary;
     public UserProfile user;
     public List<Monster> VISUALISERMonstersInBag;
     public List<Monster> VISUALISERMonstersInBox;
@@ -37,23 +38,32 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        AllMonsters = new List<Monster>(FindObjectsOfType<Monster>());
+        MonsterLibrary = new List<Monster>(FindObjectsOfType<Monster>());
 
-        foreach (Monster monster in AllMonsters)
+        foreach (Monster monster in MonsterLibrary)
         {
             DontDestroyOnLoad(monster.gameObject);
         }
 
         //user = new UserProfile("Test User");
-        user = new UserProfile(new List<Monster>(), new List<Monster>(AllMonsters));    //< For this version of the game, the player can have access to all implemented monsters.
-        Debug.Log($"Your name is \"{user.name}\" and you are currently carrying {user.NumberOfMonstersInBag} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")}.");
+        user = new UserProfile(new List<Monster>(), new List<Monster>(MonsterLibrary));    //< For this version of the game, the player can have access to all implemented monsters.
+        Debug.Log($"GameManager.Start: Your name is \"{user.name}\" and you currently have {user.MonstersInBox.Count} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")} in your box.");
 
         //> Debug Visualisation
         VISUALISERMonstersInBag = user.MonstersInBag;
         VISUALISERMonstersInBox = user.MonstersInBox;
     }
 
-    //# Private Methods 
+    //# Public Methods 
+    public Action GetActionAtLibraryIndex(int index)
+    {
+        if (index <= ActionLibrary.Count - 1)
+            return ActionLibrary[index];
+        else
+            Debug.LogWarning($"GameManager.GetActionAtLibraryIndex: There is no action with a library index of {index}.");
+
+        return null;
+    }
 
     //# Input Event Handlers 
 }
