@@ -23,12 +23,12 @@ public class Button_SelectAction : MonoBehaviour
     private void Awake()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        CombatHandler.Instance.OnMonsterOnFieldSwapped += UpdateButtonText;
+        Player.OnMonsterOnFieldSwapped += UpdateButtonText;
     }
 
     private void Start()
     {
-        UpdateButtonText();
+
     }
 
     //# Public Variables 

@@ -12,6 +12,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //# Public Variables 
+    public static Delegate OnMonsterOnFieldSwapped;     //< Was previously named "UpdateAllActionButtons"
     public string username;
     public List<Monster> Monsters;
     public int NumberOfMonsters { get { return Monsters.Count; } }
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
             Debug.Log($"{username} swapped out {monsterOnField.GetName()} with {newMonster.GetName()}!");
 
         monsterOnField = newMonster;
+        OnMonsterOnFieldSwapped();
     }
 
     public Monster GetMonsterOnField()

@@ -15,7 +15,6 @@ public class CombatHandler : MonoBehaviour
 {
     //# Public Variables 
     public static CombatHandler Instance { set; get; }
-    public Delegate OnMonsterOnFieldSwapped;     //< Was previously named "UpdateAllActionButtons"
     public GameObject playerPrefab;
 
     //# Private Variables 
@@ -166,7 +165,6 @@ public class CombatHandler : MonoBehaviour
             }
 
             you.SwapMonsterOnField(you.GetFirstValidMonster());
-            OnMonsterOnFieldSwapped();
         }
         if (!enemyMonster.isValid())
         {
@@ -178,7 +176,6 @@ public class CombatHandler : MonoBehaviour
             }
 
             enemy.SwapMonsterOnField(enemy.GetFirstValidMonster());
-            OnMonsterOnFieldSwapped();
         }
     }
 
