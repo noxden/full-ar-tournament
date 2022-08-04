@@ -20,7 +20,9 @@ public class CombatHandler : MonoBehaviour
     [SerializeField] private Player you;
     [SerializeField] private Player enemy;
     [SerializeField] private Action yourAction;
+    [SerializeField] private float yourActionTieBreaker;
     [SerializeField] private Action enemyAction;
+    [SerializeField] private float enemyActionTieBreaker;
     [SerializeField] private int turn = 1;
 
     //# Monobehaviour Events 
@@ -51,12 +53,19 @@ public class CombatHandler : MonoBehaviour
         yourAction = GetActionAtIndex(you.GetMonsterOnField(), actionIndex);     //< Using this specific overload here is just for clarification purposes.
         if (yourAction != null)
             Debug.Log($"CombatHandler.SelectActionAtIndex: Your selected action is now {yourAction.name}.");
-            return;
-        }
 
-        yourAction = GetActionAtIndex(you.monsterOnField, actionIndex);     //< Using this specific overload here is just for clarification purposes.
-        if (yourAction != null)
-            Debug.Log($"CombatHandler: Your selected action is now {yourAction.name}.");
+        yourActionTieBreaker = Random.Range(0.00001f, 0.99999f);     //< Is a randomly determined value to serve as a tie breaker if speeds would be otherwise equal.
+        //Debug.Log($"CombatHandler.SelectActionAtIndex: Your SpeedTieBreaker is {yourActionTieBreaker}.");
+
+        ResolveTurn();
+    }
+
+    public void SelectItemAction(Action action)     //! WIP, very similar to SelectActionAtIndex() and definitely improvable.
+    {
+        yourAction = action;
+        yourActionTieBreaker = 999f;  //< Items should always be applied before any action.  
+                                      //  If both players use an item in the same turn, there will be a brief order desync, but it should not cause any issues.
+                                      //Debug.Log($"CombatHandler.SelectItemAction: Your SpeedTieBreaker is {yourActionTieBreaker}, because you used an item.");
 
         //TODO: Create CombatPackage containing Action(actionAtIndex) (and possible it's user & enemy?) here.
         ResolveTurn();
@@ -103,29 +112,72 @@ public class CombatHandler : MonoBehaviour
         turnOrder.Add(yourMonster);
         turnOrder.Add(enemyMonster);
 
-        //> Check monster speeds
-        yourMonster.speed += yourAction.speedBonus;
-        enemyMonster.speed += enemyAction.speedBonus;
-        turnOrder.Sort((x, y) => x.speed.CompareTo(y.speed));   //< See https://stackoverflow.com/questions/3309188/how-to-sort-a-listt-by-a-property-in-the-object
-        //! Doesn't sort them properly.
-        //TODO: FIX if both speeds are equal, then both clients show different orders, because they both add themselves first
-        yourMonster.speed -= yourAction.speedBonus;     //< Remove temporary speed increases again
-        enemyMonster.speed -= enemyAction.speedBonus;
+        //> Define monster speeds for this turn (based on base monster speed, action speedBonus and the tiebreaker)
+        float yourInitiative = yourMonster.speed + yourAction.speedBonus + yourActionTieBreaker;
+        float enemyInitiative = enemyMonster.speed + enemyAction.speedBonus + enemyActionTieBreaker;
+        Debug.Log($"CombatHandler.ResolveTurn: {yourMonster.GetName()}'s initiative is {yourInitiative}. {enemyMonster.GetName()}'s initiative is {enemyInitiative}.");
+
+        if (yourInitiative == enemyInitiative)      //< Very, very improbable, but still possible.
+            Debug.LogError($"CombatHandler.ResolveTurn: Both monster speeds are exactly equal, risk of desynchronization very high! ERROR_CH2");
+
+        //> Sort turnOrder by those speeds
+        if (enemyInitiative > yourInitiative)
+            turnOrder.Reverse();    //< This implementation is not good, as it is not scalable at all, but it works for the scope of this concept.
 
         //> Execute actions in order of turnOrder
-        foreach (Monster monster in turnOrder)  //TODO: Here I need to implement the check if they are still alive before they attack, otherwise a just downed monster can still attack!
+        foreach (Monster monster in turnOrder)
         {
-            if (monster == yourMonster)         //? looks scuffed, maybe put all of this in another foreach loop?
+            if (monster == yourMonster)
+            {
                 monster.UseAction(yourAction, yourMonster, enemyMonster);
+                if (isDefeated(enemyMonster))    //< If due to the last action, the opponent is now invalid (e.g. has fainted), do not process their attack anymore.
+                    break;                              //< Get out of the foreach loop.
+            }
             else if (monster == enemyMonster)
+            {
                 monster.UseAction(enemyAction, enemyMonster, yourMonster);
+                if (isDefeated(yourMonster))
+                    break;
+            }
         }
 
-        //> Cleanup and continue to next turn
-        Debug.Log($"CombatHandler: End of turn {turn}!");
+        //> Cleanup / reset global variables and continue to next turn
+        Debug.Log($"<color=#00FFFF>CombatHandler.ResolveTurn: End of turn {turn}.</color>");
         yourAction = null;
+        yourActionTieBreaker = 0f;
         enemyAction = null;
+        enemyActionTieBreaker = 0f;
         turn += 1;
+        //> Prepare next turn if any monsters fainted.
+        if (!yourMonster.isValid())
+        {
+            if (you.GetFirstValidMonster() == null)
+            {
+                // You lost.
+                return;
+            }
+
+            you.SwapMonsterOnField(you.GetFirstValidMonster());
+        }
+        if (!enemyMonster.isValid())
+        {
+            if (enemy.GetFirstValidMonster() == null)
+            {
+                // You won.
+                return;
+            }
+
+            enemy.SwapMonsterOnField(enemy.GetFirstValidMonster());
+        }
+    }
+
+    private bool isDefeated(Monster monster)
+    {
+        Debug.Log($"CombatHandler.isDefeated: {monster.GetName()} {(monster.isValid() ? "is still standing" : "faints")}.");
+        return (!monster.isValid());
+        }
+    }
+
     }
 
     //# Input Event Handlers 
@@ -143,10 +195,11 @@ public class CombatHandler : MonoBehaviour
         menuHandler.SwitchToMenu(MenuName.Combat_Menu);
     }
 
-    public void OnActionDataReceived(Action actionData)
+    public void OnActionDataReceived(Action actionData, float tieBreakerData)
     {
-        Debug.Log($"CombatHandler: Received Action \"{actionData.name}\".");
+        Debug.Log($"CombatHandler.OnActionDataReceived: Received Action \"{actionData.name}\" and tieBreaker {tieBreakerData}.");
         enemyAction = actionData;
+        enemyActionTieBreaker = tieBreakerData;
         ResolveTurn();
     }
 }
