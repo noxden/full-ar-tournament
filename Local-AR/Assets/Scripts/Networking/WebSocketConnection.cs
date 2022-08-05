@@ -95,17 +95,6 @@ public class WebSocketConnection : MonoBehaviour
         }
     }
 
-    private async void SendTestPackage()    //< DEBUG
-    {
-        if (webSocket.State == WebSocketState.Open)
-        {
-            TestPackage testPackage = new TestPackage(420);
-            string json = JsonUtility.ToJson(testPackage);
-            byte[] bytes = Encoding.UTF8.GetBytes(json);
-            await webSocket.Send(bytes);
-        }
-    }
-
     private async void SendJoinPackage()
     {
         if (webSocket.State == WebSocketState.Open)
@@ -135,7 +124,6 @@ public class WebSocketConnection : MonoBehaviour
         if (outgoingJoinPackage != null)    //< This allows for the outgoingJoinPackage to be queued until server connection is established.
             Invoke("SendJoinPackage", 0f);
         //Invoke("SendEmptyMessageToServer", 0f);     //< DEBUG
-        //Invoke("SendTestPackage", 0f);              //< DEBUG
     }
 
     private void OnMessageReceived(byte[] inboundBytes)

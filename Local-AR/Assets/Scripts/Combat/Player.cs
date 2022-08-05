@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
+// Last changed: 05-08-22
 //================================================================
 
 using System.Collections;
@@ -68,14 +68,6 @@ public class Player : MonoBehaviour
         Debug.Log($"Player.GetFirstValidMonster: Cannot get any valid monster.", this);    //< Usually, if this happens, the player has lost / should lose the match.
         return null;
     }
-
-    // TODO: Implement a monster stat reset function
-    //# Private Methods 
-    // private void FullyHealAllMonsters()     //! This still does not reset their modified stats!!
-    // {
-    //     // foreach (Monster monster in Monsters)
-    //     //     monster.hpCurrent = monster.hpMax;
-    // }
 
     private List<Monster> InstantiateMonstersFromData(List<MonsterData> _MonsterDataList)
     {

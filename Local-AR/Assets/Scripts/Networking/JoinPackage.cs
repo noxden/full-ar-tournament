@@ -30,6 +30,5 @@ public class JoinPackage
             int monsterDataIndex = GameManager.Instance.GetLibraryIndexOfMonster(entry);
             MonsterDataIndexList.Add(monsterDataIndex);
         }
-        //< Just to make sure that no references get messed up, monsterOnField is left blank in this transmission to be filled by CombatHandler upon receiving the package.
     }
 }
