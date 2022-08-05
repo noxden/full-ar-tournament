@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
@@ -13,11 +13,11 @@ public class GameManager : MonoBehaviour
 {
     //# Public Variables 
     public static GameManager Instance { set; get; }
-    public List<Monster> MonsterLibrary;
+    public List<MonsterData> MonsterLibrary;
     public List<Action> ActionLibrary;
     public UserProfile user;
-    public List<Monster> VISUALISERMonstersInBag;
-    public List<Monster> VISUALISERMonstersInBox;
+    public List<MonsterData> VISUALISERMonstersInBag;
+    public List<MonsterData> VISUALISERMonstersInBox;
 
     //# Private Variables 
 
@@ -38,15 +38,8 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        MonsterLibrary = new List<Monster>(FindObjectsOfType<Monster>());
-
-        foreach (Monster monster in MonsterLibrary)
-        {
-            DontDestroyOnLoad(monster.gameObject);
-        }
-
         //user = new UserProfile("Test User");
-        user = new UserProfile(new List<Monster>(), new List<Monster>(MonsterLibrary));    //< For this version of the game, the player can have access to all implemented monsters.
+        user = new UserProfile(new List<MonsterData>(), new List<MonsterData>(MonsterLibrary));    //< For this version of the game, the player can have access to all implemented monsters.
         Debug.Log($"GameManager.Start: Your name is \"{user.name}\" and you currently have {user.MonstersInBox.Count} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")} in your box.");
 
         //> Debug Visualisation

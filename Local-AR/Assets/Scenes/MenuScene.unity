@@ -139,6 +139,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: a9f46eb5fb26ed442966e7a3c0c4eab5, type: 2}
+    - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
       propertyPath: newBagState
       value: 1
       objectReference: {fileID: 0}
@@ -693,14 +697,121 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 779d4302d1509ee4f9f8c27672d47350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MonsterLibrary: []
+  MonsterLibrary:
+  - {fileID: 11400000, guid: cede2522476feea4b8b4061740551fc0, type: 2}
+  - {fileID: 11400000, guid: 15bb39f36b1a49240ae9e9638166b9df, type: 2}
+  - {fileID: 11400000, guid: a9f46eb5fb26ed442966e7a3c0c4eab5, type: 2}
+  - {fileID: 11400000, guid: 9c15abeded357c943b295328db4d36a4, type: 2}
+  - {fileID: 11400000, guid: 3a4e9f65c59e5a6438bdbaf7c1d15143, type: 2}
   ActionLibrary:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 491af8c8c3dcdf442bd28d8852ce3d13, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 5da3bf5dc9e9f914a8f0a8f7558cea75, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: d0a58f5273ba5434083e0a32c2a75bb7, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: abec3fbb064bfd24fa9df616081eb918, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 11400000, guid: 9d2c88db6e337b84b887c0aa56fffdd8, type: 2}
   - {fileID: 11400000, guid: ba48b5194bdccb34585e220a05f4ddf6, type: 2}
-  - {fileID: 11400000, guid: abec3fbb064bfd24fa9df616081eb918, type: 2}
-  - {fileID: 11400000, guid: 491af8c8c3dcdf442bd28d8852ce3d13, type: 2}
-  - {fileID: 11400000, guid: 5da3bf5dc9e9f914a8f0a8f7558cea75, type: 2}
   VISUALISERMonstersInBag: []
   VISUALISERMonstersInBox: []
 --- !u!4 &591472376
@@ -729,6 +840,10 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 2097114312}
+    - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: cede2522476feea4b8b4061740551fc0, type: 2}
     - target: {fileID: 5339471055960708858, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
       propertyPath: m_text
       value: Monster A to Box
@@ -1108,6 +1223,10 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 429368199}
+    - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: 15bb39f36b1a49240ae9e9638166b9df, type: 2}
     - target: {fileID: 5339471055960708858, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
       propertyPath: m_text
       value: Monster B to Box
@@ -1260,6 +1379,10 @@ PrefabInstance:
     - target: {fileID: 6461887627414048346, guid: 230b80a9c84d5994f978074d6fe1fd18, type: 3}
       propertyPath: m_Name
       value: Monster Charles
+      objectReference: {fileID: 0}
+    - target: {fileID: 6461887627414048346, guid: 230b80a9c84d5994f978074d6fe1fd18, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 230b80a9c84d5994f978074d6fe1fd18, type: 3}
@@ -1526,6 +1649,10 @@ PrefabInstance:
       propertyPath: putInBag
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: 15bb39f36b1a49240ae9e9638166b9df, type: 2}
     - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
       propertyPath: newBagState
       value: 1
@@ -2342,6 +2469,10 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 524421835}
+    - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: a9f46eb5fb26ed442966e7a3c0c4eab5, type: 2}
     - target: {fileID: 5339471055960708858, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
       propertyPath: m_text
       value: Monster C to Box
@@ -2495,6 +2626,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monster Babsi
       objectReference: {fileID: 0}
+    - target: {fileID: 6787416875641760094, guid: ea616570b952ebd41a513f8459ec1850, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7815471965568493037, guid: ea616570b952ebd41a513f8459ec1850, type: 3}
       propertyPath: speed
       value: 2
@@ -2629,6 +2764,10 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 2097114312}
+    - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
+      propertyPath: monsterData
+      value: 
+      objectReference: {fileID: 11400000, guid: cede2522476feea4b8b4061740551fc0, type: 2}
     - target: {fileID: -4369356972890115320, guid: f8d85a11ec67e404883fc4d545ec9646, type: 3}
       propertyPath: newBagState
       value: 1
@@ -3097,6 +3236,10 @@ PrefabInstance:
     - target: {fileID: 8833585954474041279, guid: 014ca1c6cbc8ee2408b5436cd36af935, type: 3}
       propertyPath: m_Name
       value: Monster Dorothy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8833585954474041279, guid: 014ca1c6cbc8ee2408b5436cd36af935, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 014ca1c6cbc8ee2408b5436cd36af935, type: 3}
