@@ -11,7 +11,7 @@ using UnityEngine;
 public class UserProfile
 {
     //# Public Variables 
-    public int UUID {get; private set;}
+    public int UUID { get; private set; }
     public string name = SaveDataManager.localUsername;
     public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
 
