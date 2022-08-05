@@ -2,45 +2,41 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
-// Todo: Could this also be converted into a scriptable object?
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ElementalType { Normal, Fire, Water, Grass, Electic }
-public enum Gender { Male, Female, Unknown }
-
 public class Monster : MonoBehaviour
 {
     //# Public Variables 
-    //public GameObject modelPrefab;
-    public string species;
-    public string customName;
-    public Gender gender;
-    public List<ElementalType> Types;
+    public MonsterData monsterData;
+    public string species { get; private set; }
+    public string customName { get; private set; }
+    public Gender gender { get; private set; }
+    public List<ElementalType> Types { get; private set; }
 
-    public int level;
-    public int hpMax;
-    public int hpCurrent;
-    public int attack;
-    public int defense;
-    public int specialAttack;
-    public int specialDefense;
-    public int speed;
-    public int evasion;
-    public int accuracy;
-    public List<Action> AvailableActions;                 //< Maybe an array is better for this case?
-                                                          //public Action[] AvailableActions = new Action[4];   //< Arrays are a pain to deal with
-
-    //public Player owner;  //< Probably not needed ; THIS IS DANGEROUS RECURSION -> Monster has owner and Owner has Monster
+    public int level { get; private set; }
+    public int hpMax { get; private set; }
+    public int hpCurrent { get; private set; }
+    public int attack { get; private set; }
+    public int defense { get; private set; }
+    public int specialAttack { get; private set; }
+    public int specialDefense { get; private set; }
+    public int speed { get; private set; }
+    public int evasion { get; private set; }
+    public int accuracy { get; private set; }
+    public List<Action> AvailableActions { get; private set; }
 
     //# Monobehaviour Events 
     private void Start()
     {
-        hpCurrent = hpMax;    //< Maybe remove this as well
+        if (monsterData == null)
+            Debug.LogWarning($"Monster.Start: Monster {this.name} does not hold any monsterData to load.");     //< Should probably be loaded from outside after Instantiating anyways
+        else
+            ReloadMonsterData();
     }
 
     //# Public Methods 
@@ -108,11 +104,34 @@ public class Monster : MonoBehaviour
         return (hpCurrent > 0);
     }
 
-    public float RelaySpeedValue(float newSpeedValue)
+    public void ReloadMonsterData()
     {
-        return newSpeedValue;
+        LoadMonsterData(monsterData);
     }
 
+    public void LoadMonsterData(MonsterData _monsterData)
+    {
+        monsterData = _monsterData;
+        species = _monsterData.species;
+        customName = _monsterData.customName;
+        Gender gender = _monsterData.gender;
+        List<ElementalType> Types = _monsterData.Types;
+
+        level = _monsterData.level;
+        hpMax = _monsterData.hpMax;
+        hpCurrent = _monsterData.hpMax;
+        attack = _monsterData.attack;
+        defense = _monsterData.defense;
+        specialAttack = _monsterData.specialAttack;
+        specialDefense = _monsterData.specialDefense;
+        speed = _monsterData.speed;
+
+        AvailableActions = new List<Action>();
+        foreach (var entry in _monsterData.AvailableActionsByLibraryIndexes)
+        {
+            AvailableActions.Add(GameManager.Instance.GetActionByLibraryIndex(entry));
+        }
+    }
     // public void Animation_Spawn()
     // {
 

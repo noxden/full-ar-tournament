@@ -215,11 +215,13 @@ public class CombatHandler : MonoBehaviour
         // if (otherPlayer.username == You.username)  //< Guard clause to make sure that you didn't receive your own player data.
         //     return;
 
-        //> Set enemy's player and monsterOnField as soon as that data is received.
-        enemy.Set(playerData);
+            //> Set enemy player as soon as that data is received.
+            enemy = InstantiatePlayer("Enemy Player");
+            enemy.Set(username, MonsterDataList);
 
-        MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
-        menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+            //> Resume to combat menu screen
+            MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
+            menuHandler.SwitchToMenu(MenuName.Combat_Menu);
     }
 
     public void OnActionDataReceived(Action actionData, float tieBreakerData)

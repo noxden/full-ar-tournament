@@ -12,29 +12,33 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //# Public Variables 
-    public static Delegate OnMonsterOnFieldSwapped;     //< Was previously named "UpdateAllActionButtons"
+    public static Delegate OnMonsterOnFieldSwapped;
+    public GameObject genericMonsterPrefab;
     public string username;
-    public List<Monster> Monsters;
+    public List<MonsterData> MonsterDataList;
     public int NumberOfMonsters { get { return Monsters.Count; } }
 
     //# Private Variables 
+    [SerializeField] private List<Monster> Monsters;
     [SerializeField] private Monster monsterOnField; /*{ private set; get; }*/   //! Always set with SwapMonsterOnField()
 
     //# Constructors
     public void Set(Player player)
     {
         this.username = player.username;
-        this.Monsters = new List<Monster>(player.Monsters);
+        this.MonsterDataList = player.MonsterDataList;
+
+        this.Monsters = InstantiateMonstersFromData(this.MonsterDataList);
         SwapMonsterOnField(GetFirstValidMonster());
-        FullyHealAllMonsters();
     }
 
-    public void Set(string _username, List<Monster> _Monsters)
+    public void Set(string _username, List<MonsterData> _MonsterDataList)
     {
         this.username = _username;
-        this.Monsters = new List<Monster>(_Monsters);
+        this.MonsterDataList = _MonsterDataList;
+
+        this.Monsters = InstantiateMonstersFromData(this.MonsterDataList);
         SwapMonsterOnField(GetFirstValidMonster());
-        FullyHealAllMonsters();
     }
 
     //# Public Methods 
@@ -67,9 +71,23 @@ public class Player : MonoBehaviour
 
     // TODO: Implement a monster stat reset function
     //# Private Methods 
-    private void FullyHealAllMonsters()     //! This still does not reset their modified stats!!
+    // private void FullyHealAllMonsters()     //! This still does not reset their modified stats!!
+    // {
+    //     // foreach (Monster monster in Monsters)
+    //     //     monster.hpCurrent = monster.hpMax;
+    // }
+
+    private List<Monster> InstantiateMonstersFromData(List<MonsterData> _MonsterDataList)
     {
-        foreach (Monster monster in Monsters)
-            monster.hpCurrent = monster.hpMax;
+        List<Monster> InstantiatedMonsters = new List<Monster>();
+        foreach (MonsterData monsterData in _MonsterDataList)
+        {
+            GameObject monsterGameObject = Instantiate(genericMonsterPrefab, -Vector3.zero, Quaternion.identity);
+            monsterGameObject.name = $"{monsterData.GetName()}";
+            Monster monster = monsterGameObject.GetComponent<Monster>();
+            monster.LoadMonsterData(monsterData);
+            InstantiatedMonsters.Add(monster);
+        }
+        return InstantiatedMonsters;
     }
 }

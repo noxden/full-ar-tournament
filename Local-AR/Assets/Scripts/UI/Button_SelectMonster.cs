@@ -12,7 +12,7 @@ using UnityEngine;
 public class Button_SelectMonster : MonoBehaviour
 {
     //# Public Variables 
-    public Monster monster;
+    public MonsterData monsterData;
     public bool newBagState;
 
     //# Private Variables
@@ -32,6 +32,6 @@ public class Button_SelectMonster : MonoBehaviour
             return;
         }
 
-        GameManager.Instance.user.ChangeIsInBag(monster, newBagState);
+        GameManager.Instance.user.ChangeIsInBag(monsterData, newBagState);
     }
 }

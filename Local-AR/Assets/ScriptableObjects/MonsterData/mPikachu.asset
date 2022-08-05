@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87aadd9c6c954e34680cbc175f8dad23, type: 3}
+  m_Name: mPikachu
+  m_EditorClassIdentifier: 
+  modelPrefab: {fileID: 0}
+  icon: {fileID: 0}
+  species: Pikachu
+  customName: Atsuko
+  gender: 1
+  Types: 04000000
+  level: 5
+  hpMax: 18
+  attack: 10
+  defense: 9
+  specialAttack: 10
+  specialDefense: 10
+  speed: 14
+  AvailableActionsByLibraryIndexes: 27000000210000002d0000006b000000

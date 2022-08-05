@@ -10,6 +10,6 @@ public class DEBUG_Button_EnemyJoins : MonoBehaviour
     //# Input Event Handlers 
     public void OnButtonPressed()
     {
-        CombatHandler.Instance.OnPlayerDataReceived(player);
+        CombatHandler.Instance.OnPlayerDataReceived(player.username, player.MonsterDataList);
     }
 }
