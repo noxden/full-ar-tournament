@@ -75,14 +75,14 @@ public class WebSocketConnection : MonoBehaviour
     {
         outgoingJoinPackage = new JoinPackage(myUUID, playerData);
         Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateJoinPackage: JoinPackage sent.</color>");
-        Invoke("SendJoinPackage", 0f);
+        SendJoinPackage();
     }
 
     public void CreateCombatPackage(Action actionData, float tieBreaker)
     {
         outgoingCombatPackage = new CombatPackage(myUUID, actionData, tieBreaker);
         Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateCombatPackage: CombatPackage sent.</color>");
-        Invoke("SendCombatPackage", 0f);
+        SendCombatPackage();
     }
 
     //# Private Methods 
@@ -156,7 +156,7 @@ public class WebSocketConnection : MonoBehaviour
                     string MonstersOnList = "";
                     foreach (int entry in unpackedJoinPackage.MonsterDataIndexList)
                     {
-                        MonstersOnList += $"{GameManager.Instance.GetMonsterByLibraryIndex(entry).GetName()}{(unpackedJoinPackage.MonsterDataIndexList.IndexOf(entry) >= unpackedJoinPackage.MonsterDataIndexList.Count - 1 ? "" : ", ")}";  //! This log message has not been tested yet.
+                        MonstersOnList += $"{GameManager.Instance.GetMonsterByLibraryIndex(entry).GetName()}{(unpackedJoinPackage.MonsterDataIndexList.IndexOf(entry) >= unpackedJoinPackage.MonsterDataIndexList.Count - 1 ? "" : ", ")}";
                     }
                     Debug.Log($"<color=#5EE8A5>Received JoinPackage || Username: {unpackedJoinPackage.username}, Monsters: {MonstersOnList}.</color>");
                     // TODO: Do something with that data.
