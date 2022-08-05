@@ -2,15 +2,16 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144) & Jan Alexander
-// Last changed: 03-08-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NativeWebSocket;
+using NativeWebSocket;  //< Source: https://github.com/endel/NativeWebSocket
 using System.Text;
 using System.IO;
+using SimpleJSON;   //< Source: https://github.com/Bunny83/SimpleJSON/blob/master/SimpleJSON.cs
 
 public class WebSocketConnection : MonoBehaviour
 {
@@ -18,9 +19,13 @@ public class WebSocketConnection : MonoBehaviour
     public static WebSocketConnection Instance { set; get; }
 
     //# Private Variables 
-    private WebSocket _webSocket;
-    private string _serverUrl = "ws://noxden.uber.space:42960/nodejs-server"; // REPLACE [username] & [port] with yours
-    private int _serverErrorCode;
+    private WebSocket webSocket;
+    private string serverUrl = "ws://noxden.uber.space:42960/nodejs-server"; // REPLACE [username] & [port] with yours
+    private int serverErrorCode;
+
+    private int myUUID;
+    private JoinPackage outgoingJoinPackage;
+    private CombatPackage outgoingCombatPackage;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -33,111 +38,180 @@ public class WebSocketConnection : MonoBehaviour
 
     async void Start()
     {
-        _webSocket = new WebSocket(_serverUrl);
+        myUUID = GameManager.Instance.user.UUID;
 
-        _webSocket.OnOpen += OnOpen;
-        _webSocket.OnMessage += OnMessage;
-        _webSocket.OnClose += OnClose;
-        _webSocket.OnError += OnError;
+        webSocket = new WebSocket(serverUrl);
 
-        await _webSocket.Connect();
+        webSocket.OnOpen += OnOpen;
+        webSocket.OnMessage += OnMessageReceived;
+        webSocket.OnClose += OnClose;
+        webSocket.OnError += OnError;
+
+        await webSocket.Connect();
     }
 
     void Update()
     {
 #if !UNITY_WEBGL || UNITY_EDITOR
-        _webSocket.DispatchMessageQueue();
+        webSocket.DispatchMessageQueue();
 #endif
-    }
-
-    //# Public Methods 
-    public void CreateJoinPackage(Player playerData)
-    {
-        JoinPackage joinPackage = new JoinPackage(playerData);
-        SendMessage(joinPackage);
-    }
-
-    public void CreateCombatPackage(Action actionData, float tieBreaker)
-    {
-        CombatPackage combatPackage = new CombatPackage(actionData, tieBreaker);
-        SendMessage(combatPackage);
-    }
-
-    public async void DisconnectFromServer()
-    {
-        if (_webSocket.State == WebSocketState.Open)
-        {
-            await _webSocket.Close();
-        }
-    }
-
-    //# Private Methods 
-    private async void SendEmptyMessageToServer()
-    {
-        if (_webSocket.State == WebSocketState.Open)
-        {
-            byte[] bytes = new byte[1] { 1 };
-            await _webSocket.Send(bytes);
-        }
-    }
-
-    private void SendMessage(Package package)   //< FOR DEBUG ONLY
-    {
-        Debug.Log($"DEBUG: Sending message {package.packageType}.");
-    }
-
-    // private async void SendMessage(Package package)    //< Can be called with: Invoke("SendMessage", 0f)
-    // {
-    //     if (_webSocket.State == WebSocketState.Open)
-    //     {
-    //         string json = JsonUtility.ToJson(package);
-    //         byte[] bytes = Encoding.UTF8.GetBytes(json);
-    //         await _webSocket.Send(bytes);
-    //     }
-    // }
-
-    //# Event Handlers 
-    private void OnOpen()
-    {
-        print("Connection opened");
-        Invoke("SendEmptyMessageToServer", 0f);
-    }
-
-    private void OnMessage(byte[] incomingBytes)
-    {
-        // Follow steps in Jan's tutorial
-        // Convert bytes to string
-        // Convert string to json
-        // Check for json.packageType variable
-        // Depending on packageType, convert json to appropriate package class
-        // if (packageType == JoinPackage)
-            // Convert json to C# class "JoinPackage"
-            // Read class
-            // Player unpackagedPlayer.username = joinPackage.username
-            // ...
-            // ...
-            // CombatHandler.Instance.OnPlayerDataReceived(unpackagedPlayer)
-        // else if (packageType == CombatPackage)
-            // Convert json to C# class "CombatPackage"
-            // Read class
-            // Action unpackagedAction = combatPackage.action
-            // float unpackagedTieBreaker = combatPackage.tieBreaker
-            // CombatHandler.Instance.OnActionDataReceived(unpackagedAction, unpackagedTieBreaker)
-        print("Message received");
-    }
-
-    private void OnClose(WebSocketCloseCode closeCode)
-    {
-        print($"Connection closed: {closeCode}");
-    }
-
-    private void OnError(string errorMessage)
-    {
-        print($"Connection error: {errorMessage}");
     }
 
     private async void OnApplicationQuit()
     {
-        await _webSocket.Close();
+        await webSocket.Close();
+    }
+
+    //# Public Methods 
+    public async void DisconnectFromServer()
+    {
+        if (webSocket.State == WebSocketState.Open)
+        {
+            await webSocket.Close();
+        }
+    }
+
+    public void CreateJoinPackage(Player playerData)
+    {
+        outgoingJoinPackage = new JoinPackage(myUUID, playerData);
+        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateJoinPackage: JoinPackage sent.</color>");
+        Invoke("SendJoinPackage", 0f);
+    }
+
+    public void CreateCombatPackage(Action actionData, float tieBreaker)
+    {
+        outgoingCombatPackage = new CombatPackage(myUUID, actionData, tieBreaker);
+        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateCombatPackage: CombatPackage sent.</color>");
+        Invoke("SendCombatPackage", 0f);
+    }
+
+    //# Private Methods 
+    private async void SendEmptyMessageToServer()   //< DEBUG
+    {
+        if (webSocket.State == WebSocketState.Open)
+        {
+            byte[] bytes = new byte[1] { 1 };
+            await webSocket.Send(bytes);
+        }
+    }
+
+    private async void SendTestPackage()    //< DEBUG
+    {
+        if (webSocket.State == WebSocketState.Open)
+        {
+            TestPackage testPackage = new TestPackage(420);
+            string json = JsonUtility.ToJson(testPackage);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            await webSocket.Send(bytes);
+        }
+    }
+
+    private async void SendJoinPackage()
+    {
+        if (webSocket.State == WebSocketState.Open)
+        {
+            string json = JsonUtility.ToJson(outgoingJoinPackage);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            await webSocket.Send(bytes);
+            outgoingJoinPackage = null;     //< Clear after use to prevent any issues further down the line.
+        }
+    }
+
+    private async void SendCombatPackage()
+    {
+        if (webSocket.State == WebSocketState.Open)
+        {
+            string json = JsonUtility.ToJson(outgoingCombatPackage);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            await webSocket.Send(bytes);
+            outgoingCombatPackage = null;   //< Clear after use to prevent any issues further down the line.
+        }
+    }
+
+    //# Event Handlers 
+    private void OnOpen()
+    {
+        Debug.Log("<color=#5EE8A5>Connection opened.</color>");
+        if (outgoingJoinPackage != null)    //< This allows for the outgoingJoinPackage to be queued until server connection is established.
+            Invoke("SendJoinPackage", 0f);
+        //Invoke("SendEmptyMessageToServer", 0f);     //< DEBUG
+        //Invoke("SendTestPackage", 0f);              //< DEBUG
+    }
+
+    private void OnMessageReceived(byte[] inboundBytes)
+    {
+        Debug.Log("<color=#5EE8A5>Message received.</color>");
+        //Debug.Log($"<color=#5EE8A5>bytes: {inboundBytes}</color>");
+        string inboundString = System.Text.Encoding.UTF8.GetString(inboundBytes);
+        Debug.Log($"<color=#5EE8A5>Incoming message: {inboundString}</color>");
+
+
+        if (int.TryParse(inboundString, out serverErrorCode))
+        {
+            Debug.Log($"<color=#5EE8A5>Server Error: {serverErrorCode}</color>");    //< If server returns an integer, it is an error
+        }
+        else
+        {
+            JSONNode json = JSON.Parse(inboundString);
+
+            if (json["packageType"].Value == "JoinPackage")
+            {
+                JoinPackage unpackedJoinPackage = JsonUtility.FromJson<JoinPackage>(inboundString);
+                if (unpackedJoinPackage.packageAuthorUUID == myUUID)
+                {
+                    Debug.Log($"<color=#5EE8A5>Received own JoinPackage, discarding information.</color>");
+                    return;
+                }
+                else
+                {
+                    //> For debug message
+                    string MonstersOnList = "";
+                    foreach (int entry in unpackedJoinPackage.MonsterDataIndexList)
+                    {
+                        MonstersOnList += $"{GameManager.Instance.GetMonsterByLibraryIndex(entry).GetName()}{(unpackedJoinPackage.MonsterDataIndexList.IndexOf(entry) >= unpackedJoinPackage.MonsterDataIndexList.Count - 1 ? "" : ", ")}";  //! This log message has not been tested yet.
+                    }
+                    Debug.Log($"<color=#5EE8A5>Received JoinPackage || Username: {unpackedJoinPackage.username}, Monsters: {MonstersOnList}.</color>");
+                    // TODO: Do something with that data.
+                    List<MonsterData> receivedMonsterDataList = new List<MonsterData>();   //< Convert back all MonsterData library indexes to MonsterDatas
+                    foreach (int entry in unpackedJoinPackage.MonsterDataIndexList)
+                    {
+                        MonsterData receivedMonsterData = GameManager.Instance.GetMonsterByLibraryIndex(entry);
+                        receivedMonsterDataList.Add(receivedMonsterData);
+                    }
+                    CombatHandler.Instance.OnPlayerDataReceived(unpackedJoinPackage.username, receivedMonsterDataList);
+                }
+
+            }
+            else if (json["packageType"].Value == "CombatPackage")
+            {
+                CombatPackage unpackedCombatPackage = JsonUtility.FromJson<CombatPackage>(inboundString);
+                if (unpackedCombatPackage.packageAuthorUUID == myUUID)
+                {
+                    Debug.Log($"<color=#5EE8A5>Received own CombatPackage, discarding information.</color>");
+                }
+                else
+                {
+                    Debug.Log($"<color=#5EE8A5>Received CombatPackage || Action: {GameManager.Instance.ActionLibrary[unpackedCombatPackage.libraryIndexOfAction].name}, Tiebreaker: {unpackedCombatPackage.tieBreaker}.</color>");
+                    // TODO: Do something with that data.
+                    Action receivedAction = GameManager.Instance.GetActionByLibraryIndex(unpackedCombatPackage.libraryIndexOfAction);
+                    CombatHandler.Instance.OnActionDataReceived(receivedAction, unpackedCombatPackage.tieBreaker);
+                }
+
+                unpackedCombatPackage = null;
+                return;
+            }
+            else
+                Debug.LogError($"<color=#5EE8A5>Something went wrong during parsing, as neither viable packageType was recognized. Parsed JSON file is: {json}</color>");
+        }
+    }
+
+    private void OnClose(WebSocketCloseCode closeCode)
+    {
+        Debug.Log($"<color=#5EE8A5>Connection closed: {closeCode}</color>");
+    }
+
+    private void OnError(string errorMessage)
+    {
+        Debug.Log($"<color=#5EE8A5>Connection error: {errorMessage}</color>");
     }
 }

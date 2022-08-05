@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 30-06-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
@@ -11,42 +11,47 @@ using UnityEngine;
 public class UserProfile
 {
     //# Public Variables 
+    public int UUID { get; private set; }
     public string name = SaveDataManager.localUsername;
     public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
 
     //# Private Variables 
-    public List<Monster> MonstersInBag { get; private set; }
-    public List<Monster> MonstersInBox { get; private set; } 
+    public List<MonsterData> MonstersInBag { get; private set; }
+    public List<MonsterData> MonstersInBox { get; private set; }
 
     //# Constructors 
     public UserProfile()
     {
-        MonstersInBag = new List<Monster>();
-        MonstersInBox = new List<Monster>();
+        GenerateUUID();
+        MonstersInBag = new List<MonsterData>();
+        MonstersInBox = new List<MonsterData>();
     }
 
     public UserProfile(string _name)
     {
-        name = _name;
-        MonstersInBag = new List<Monster>();
-        MonstersInBox = new List<Monster>();
+        GenerateUUID();
+        name = _name; 
+        MonstersInBag = new List<MonsterData>();
+        MonstersInBox = new List<MonsterData>();
     }
 
-    public UserProfile(List<Monster> _MonstersInBag, List<Monster> _MonstersInBox)
+    public UserProfile(List<MonsterData> _MonstersInBag, List<MonsterData> _MonstersInBox)
     {
+        GenerateUUID();
         MonstersInBag = _MonstersInBag;
         MonstersInBox = _MonstersInBox;
     }
 
-    public UserProfile(string _name, List<Monster> _MonstersInBag, List<Monster> _MonstersInBox)
+    public UserProfile(string _name, List<MonsterData> _MonstersInBag, List<MonsterData> _MonstersInBox)
     {
+        GenerateUUID();
         name = _name;
         MonstersInBag = _MonstersInBag;
         MonstersInBox = _MonstersInBox;
     }
 
     //# Public Methods 
-    public void ChangeIsInBag(Monster target, bool bagState)
+    public void ChangeIsInBag(MonsterData target, bool bagState)
     {
         switch (bagState)
         {
@@ -72,7 +77,7 @@ public class UserProfile
 
             //> Add to Box and remove from Bag
             case false:
-                Monster targetInBag = MonstersInBag.Find(m => m.Equals(target));    //< See Predicate documentation: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.find?view=net-6.0
+                MonsterData targetInBag = MonstersInBag.Find(m => m.Equals(target));    //< See Predicate documentation: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.find?view=net-6.0
                 if (targetInBag == null)    //< Guard clause
                 {
                     Debug.LogError($"UserProfile: The monster selected is not present in your bag anymore. ERROR_UP2");
@@ -93,6 +98,11 @@ public class UserProfile
     }
 
     //# Private Methods 
+    private void GenerateUUID()
+    {
+        UUID = Random.Range(0, 1000000);
+        Debug.Log($"UserProfile: Your UUID for this session is {UUID}.");
+    }
 
     //# Input Event Handlers 
 }

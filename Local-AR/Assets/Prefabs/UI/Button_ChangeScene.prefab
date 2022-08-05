@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3280011661006954546}
   - component: {fileID: 3280011661006954547}
   - component: {fileID: 3280011661006954551}
+  - component: {fileID: 7375079616169372718}
   - component: {fileID: 3280011661006954548}
   m_Layer: 5
   m_Name: Button_ChangeScene
@@ -92,6 +93,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: 0
+--- !u!114 &7375079616169372718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3280011661006954550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d189b77f137c93f4993c9ffb8d3c18a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3280011661006954548
 MonoBehaviour:
   m_ObjectHideFlags: 0

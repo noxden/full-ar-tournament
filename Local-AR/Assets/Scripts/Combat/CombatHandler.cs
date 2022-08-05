@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
@@ -15,7 +15,6 @@ public class CombatHandler : MonoBehaviour
 {
     //# Public Variables 
     public static CombatHandler Instance { set; get; }
-    public Delegate OnMonsterOnFieldSwapped;     //< Was previously named "UpdateAllActionButtons"
     public GameObject playerPrefab;
 
     //# Private Variables 
@@ -40,10 +39,8 @@ public class CombatHandler : MonoBehaviour
     {
         UserProfile user = GameManager.Instance.user;
 
-        enemy = InstantiatePlayer("Enemy Player");
-        you = InstantiatePlayer("Your Player");
-
         //> Initialize your player based on values from your user (instance), which may have been modified in the menu.
+        you = InstantiatePlayer("Your Player");
         you.Set(user.name, user.MonstersInBag);
 
         // Create JoinPackage containing own Player (you)
@@ -54,8 +51,10 @@ public class CombatHandler : MonoBehaviour
     public void SelectActionAtIndex(int actionIndex)    //> Selects an action for "yourAction" -> is only to be used for your player, never for the enemy.
     {
         yourAction = GetActionAtIndex(you.GetMonsterOnField(), actionIndex);     //< Using this specific overload here is just for clarification purposes.
-        if (yourAction != null)
-            Debug.Log($"CombatHandler.SelectActionAtIndex: Your selected action is now {yourAction.name}.");
+        if (yourAction == null)     //< If no valid action could be selected, don't bother creating a CombatPackage for it
+            return;
+
+        Debug.Log($"CombatHandler.SelectActionAtIndex: Your selected action is now {yourAction.name}.");
 
         //> Create CombatPackage containing Action (yourAction) and a "random value tie breaker".
         yourActionTieBreaker = Random.Range(0.00001f, 0.99999f);     //< Is a randomly determined value to serve as a tie breaker if speeds would be otherwise equal.
@@ -65,18 +64,7 @@ public class CombatHandler : MonoBehaviour
         ResolveTurn();
     }
 
-    public void SelectItemAction(Action action)     //! WIP, very similar to SelectActionAtIndex() and definitely improvable.
-    {
-        yourAction = action;
-        yourActionTieBreaker = 999f;  //< Items should always be applied before any action.  
-                                      //  If both players use an item in the same turn, there will be a brief order desync, but it should not cause any issues.
-                                      //Debug.Log($"CombatHandler.SelectItemAction: Your SpeedTieBreaker is {yourActionTieBreaker}, because you used an item.");
-
-        WebSocketConnection.Instance.CreateCombatPackage(yourAction, yourActionTieBreaker);
-        ResolveTurn();
-    }
-
-    public Action GetActionOfMonsterOnFieldAtIndex(int actionIndex)  //< Used primarily for button labels.
+    public Action GetActionOfMonsterOnFieldAtIndex(int actionIndex)  //< Only used for button labels.
     {
         return GetActionAtIndex(you.GetMonsterOnField(), actionIndex);
     }
@@ -95,6 +83,17 @@ public class CombatHandler : MonoBehaviour
         }
         return monster.AvailableActions[actionIndex];
     }
+
+    // public void SelectItemAction(Action action)     //! WIP, very similar to SelectActionAtIndex() and definitely improvable.
+    // {
+    //     yourAction = action;
+    //     yourActionTieBreaker = 999f;  //< Items should always be applied before any action.  
+    //                                   //  If both players use an item in the same turn, there will be a brief order desync, but it should not cause any issues.
+    //                                   //Debug.Log($"CombatHandler.SelectItemAction: Your SpeedTieBreaker is {yourActionTieBreaker}, because you used an item.");
+
+    //     WebSocketConnection.Instance.CreateCombatPackage(yourAction, yourActionTieBreaker);
+    //     ResolveTurn();
+    // }
 
     //# Private Methods 
     private Player InstantiatePlayer(string gameObjectName)
@@ -166,7 +165,6 @@ public class CombatHandler : MonoBehaviour
             }
 
             you.SwapMonsterOnField(you.GetFirstValidMonster());
-            OnMonsterOnFieldSwapped();
         }
         if (!enemyMonster.isValid())
         {
@@ -178,7 +176,6 @@ public class CombatHandler : MonoBehaviour
             }
 
             enemy.SwapMonsterOnField(enemy.GetFirstValidMonster());
-            OnMonsterOnFieldSwapped();
         }
     }
 
@@ -212,17 +209,21 @@ public class CombatHandler : MonoBehaviour
     }
 
     //# Input Event Handlers 
-    public void OnPlayerDataReceived(Player playerData)
+    public void OnPlayerDataReceived(string username, List<MonsterData> MonsterDataList)
     {
-        // TODO: Actually, nevermind. This should be preventable on the server side.
-        // if (otherPlayer.username == You.username)  //< Guard clause to make sure that you didn't receive your own player data.
-        //     return;
+        if (enemy == null)  //< So that it happens only the first time (thereby finalizing the handshake)
+        {
+            //> So that the client that connected second also receives the package from the first, because when ONE sent their first package, they were still alone in the lobby.
+            WebSocketConnection.Instance.CreateJoinPackage(you);
 
-        //> Set enemy's player and monsterOnField as soon as that data is received.
-        enemy.Set(playerData);
+            //> Set enemy player as soon as that data is received.
+            enemy = InstantiatePlayer("Enemy Player");
+            enemy.Set(username, MonsterDataList);
 
-        MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
-        menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+            //> Resume to combat menu screen
+            MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
+            menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+        }
     }
 
     public void OnActionDataReceived(Action actionData, float tieBreakerData)

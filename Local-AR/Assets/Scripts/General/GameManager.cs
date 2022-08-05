@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
@@ -13,10 +13,11 @@ public class GameManager : MonoBehaviour
 {
     //# Public Variables 
     public static GameManager Instance { set; get; }
-    public List<Monster> AllMonsters;
+    public List<MonsterData> MonsterLibrary;
+    public List<Action> ActionLibrary;
     public UserProfile user;
-    public List<Monster> VISUALISERMonstersInBag;
-    public List<Monster> VISUALISERMonstersInBox;
+    public List<MonsterData> VISUALISERMonstersInBag;
+    public List<MonsterData> VISUALISERMonstersInBox;
 
     //# Private Variables 
 
@@ -37,23 +38,45 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        AllMonsters = new List<Monster>(FindObjectsOfType<Monster>());
-
-        foreach (Monster monster in AllMonsters)
-        {
-            DontDestroyOnLoad(monster.gameObject);
-        }
-
         //user = new UserProfile("Test User");
-        user = new UserProfile(new List<Monster>(), new List<Monster>(AllMonsters));    //< For this version of the game, the player can have access to all implemented monsters.
-        Debug.Log($"Your name is \"{user.name}\" and you are currently carrying {user.NumberOfMonstersInBag} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")}.");
+        user = new UserProfile(new List<MonsterData>(), new List<MonsterData>(MonsterLibrary));    //< For this version of the game, the player can have access to all implemented monsters.
+        Debug.Log($"GameManager.Start: Your name is \"{user.name}\" and you currently have {user.MonstersInBox.Count} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")} in your box.");
 
         //> Debug Visualisation
         VISUALISERMonstersInBag = user.MonstersInBag;
         VISUALISERMonstersInBox = user.MonstersInBox;
     }
 
-    //# Private Methods 
+    //# Public Methods 
+    public Action GetActionByLibraryIndex(int index)    //< Is not really the index, rather the "number" of the action, as index 0 is empty.
+    {
+        if (ActionLibrary[index] != null)
+            return ActionLibrary[index];  //< All attacks mirror the indexes of their official counterpart on https://bulbapedia.bulbagarden.net/wiki/List_of_moves
+        else
+            Debug.LogWarning($"GameManager.GetActionAtLibraryIndex: There is no action at library index {index}. This result might be expected, for example when one of a monster's action fields is empty.");
+
+        return null;
+    }
+
+    public int GetLibraryIndexOfAction(Action action)
+    {
+        return ActionLibrary.IndexOf(action);
+    }
+
+    public MonsterData GetMonsterByLibraryIndex(int index)
+    {
+        if (MonsterLibrary[index] == null || index + 1 > MonsterLibrary.Count)
+            Debug.LogWarning($"GameManager.GetMonsterByLibraryIndex: There is no monster at library index {index}.");
+        else
+            return MonsterLibrary[index];
+
+        return null;
+    }
+
+    public int GetLibraryIndexOfMonster (MonsterData monsterData)
+    {
+        return MonsterLibrary.IndexOf(monsterData);
+    }
 
     //# Input Event Handlers 
 }
