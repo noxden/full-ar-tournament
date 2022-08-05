@@ -18,19 +18,20 @@ public class DEBUG_Button_SelectEnemyAction : MonoBehaviour
     public int actionNumber;
 
     //# Private Variables 
-    private Monster enemyMonster;
     private TextMeshProUGUI buttonText;
 
     //# Monobehaviour Events 
     private void Awake()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
+        Player.OnMonsterOnFieldSwapped += UpdateButtonText;
     }
 
-    private void Start()
+    //# Private Variables 
+    private void UpdateButtonText()
     {
-        enemyMonster = enemyPlayer.GetFirstValidMonster();
-
+        Monster enemyMonster = enemyPlayer.GetMonsterOnField();
+        Debug.Log($"Enemy's monsterOnField is {enemyMonster}.");
         string actionName;
         if (CombatHandler.Instance.GetActionAtIndex(enemyMonster, actionNumber - 1) == null)      //< If monster does not have an action at this index.
             actionName = "-";
@@ -43,6 +44,7 @@ public class DEBUG_Button_SelectEnemyAction : MonoBehaviour
     //# Input Event Handlers 
     public void OnButtonPressed()
     {
+        Monster enemyMonster = enemyPlayer.GetMonsterOnField();
         float randomSpeedTieBreaker = Random.Range(0.001f, 0.499f);
         CombatHandler.Instance.OnActionDataReceived(enemyMonster.AvailableActions[actionNumber - 1], randomSpeedTieBreaker);
     }

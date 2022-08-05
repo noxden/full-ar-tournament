@@ -64,18 +64,7 @@ public class CombatHandler : MonoBehaviour
         ResolveTurn();
     }
 
-    public void SelectItemAction(Action action)     //! WIP, very similar to SelectActionAtIndex() and definitely improvable.
-    {
-        yourAction = action;
-        yourActionTieBreaker = 999f;  //< Items should always be applied before any action.  
-                                      //  If both players use an item in the same turn, there will be a brief order desync, but it should not cause any issues.
-                                      //Debug.Log($"CombatHandler.SelectItemAction: Your SpeedTieBreaker is {yourActionTieBreaker}, because you used an item.");
-
-        WebSocketConnection.Instance.CreateCombatPackage(yourAction, yourActionTieBreaker);
-        ResolveTurn();
-    }
-
-    public Action GetActionOfMonsterOnFieldAtIndex(int actionIndex)  //< Used primarily for button labels.
+    public Action GetActionOfMonsterOnFieldAtIndex(int actionIndex)  //< Only used for button labels.
     {
         return GetActionAtIndex(you.GetMonsterOnField(), actionIndex);
     }
@@ -94,6 +83,17 @@ public class CombatHandler : MonoBehaviour
         }
         return monster.AvailableActions[actionIndex];
     }
+
+    // public void SelectItemAction(Action action)     //! WIP, very similar to SelectActionAtIndex() and definitely improvable.
+    // {
+    //     yourAction = action;
+    //     yourActionTieBreaker = 999f;  //< Items should always be applied before any action.  
+    //                                   //  If both players use an item in the same turn, there will be a brief order desync, but it should not cause any issues.
+    //                                   //Debug.Log($"CombatHandler.SelectItemAction: Your SpeedTieBreaker is {yourActionTieBreaker}, because you used an item.");
+
+    //     WebSocketConnection.Instance.CreateCombatPackage(yourAction, yourActionTieBreaker);
+    //     ResolveTurn();
+    // }
 
     //# Private Methods 
     private Player InstantiatePlayer(string gameObjectName)

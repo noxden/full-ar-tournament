@@ -26,13 +26,8 @@ public class Button_SelectAction : MonoBehaviour
         Player.OnMonsterOnFieldSwapped += UpdateButtonText;
     }
 
-    private void Start()
-    {
-
-    }
-
-    //# Public Variables 
-    public void UpdateButtonText()
+    //# Private Variables 
+    private void UpdateButtonText()
     {
         string actionName;
         if (CombatHandler.Instance.GetActionOfMonsterOnFieldAtIndex(actionNumber - 1) == null)      //< If monster does not have an action at this index.
