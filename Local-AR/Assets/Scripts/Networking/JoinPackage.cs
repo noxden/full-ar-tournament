@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144) & Jan Alexander
-// Last changed: 03-08-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
@@ -13,7 +13,7 @@ using UnityEngine;
 public class JoinPackage
 {
     //# Public Variables 
-    public static string packageType = "JoinPackage";
+    public string packageType = "JoinPackage";
     public int packageAuthorUUID;
     public string username;
     public List<int> MonsterDataIndexList;

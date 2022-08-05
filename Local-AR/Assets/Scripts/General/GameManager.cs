@@ -48,14 +48,34 @@ public class GameManager : MonoBehaviour
     }
 
     //# Public Methods 
-    public Action GetActionAtLibraryIndex(int index)
+    public Action GetActionByLibraryIndex(int index)    //< Is not really the index, rather the "number" of the action, as index 0 is empty.
     {
-        if (index <= ActionLibrary.Count - 1)
-            return ActionLibrary[index];
+        if (ActionLibrary[index] != null)
+            return ActionLibrary[index];  //< All attacks mirror the indexes of their official counterpart on https://bulbapedia.bulbagarden.net/wiki/List_of_moves
         else
-            Debug.LogWarning($"GameManager.GetActionAtLibraryIndex: There is no action with a library index of {index}.");
+            Debug.LogWarning($"GameManager.GetActionAtLibraryIndex: There is no action at library index {index}. This result might be expected, for example when one of a monster's action fields is empty.");
 
         return null;
+    }
+
+    public int GetLibraryIndexOfAction(Action action)
+    {
+        return ActionLibrary.IndexOf(action);
+    }
+
+    public MonsterData GetMonsterByLibraryIndex(int index)
+    {
+        if (MonsterLibrary[index] == null || index + 1 > MonsterLibrary.Count)
+            Debug.LogWarning($"GameManager.GetMonsterByLibraryIndex: There is no monster at library index {index}.");
+        else
+            return MonsterLibrary[index];
+
+        return null;
+    }
+
+    public int GetLibraryIndexOfMonster (MonsterData monsterData)
+    {
+        return MonsterLibrary.IndexOf(monsterData);
     }
 
     //# Input Event Handlers 

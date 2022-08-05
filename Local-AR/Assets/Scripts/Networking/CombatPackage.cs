@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144) & Jan Alexander
-// Last changed: 03-08-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
@@ -13,7 +13,7 @@ using UnityEngine;
 public class CombatPackage
 {
     //# Public Variables 
-    public static string packageType = "CombatPackage";
+    public string packageType = "CombatPackage";
     public int packageAuthorUUID;
     public int libraryIndexOfAction;
     public float tieBreaker;
@@ -23,7 +23,7 @@ public class CombatPackage
     {
         packageAuthorUUID = UUID;
 
-        libraryIndexOfAction = actionData.GetLibraryIndex();
+        libraryIndexOfAction = GameManager.Instance.GetLibraryIndexOfAction(actionData);
 
         tieBreaker = tieBreakerData;
     }

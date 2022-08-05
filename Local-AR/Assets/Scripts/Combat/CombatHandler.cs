@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
+// Last changed: 04-08-22
 //================================================================
 
 using System.Collections;
@@ -39,10 +39,8 @@ public class CombatHandler : MonoBehaviour
     {
         UserProfile user = GameManager.Instance.user;
 
-        enemy = InstantiatePlayer("Enemy Player");
-        you = InstantiatePlayer("Your Player");
-
         //> Initialize your player based on values from your user (instance), which may have been modified in the menu.
+        you = InstantiatePlayer("Your Player");
         you.Set(user.name, user.MonstersInBag);
 
         // Create JoinPackage containing own Player (you)
@@ -53,8 +51,10 @@ public class CombatHandler : MonoBehaviour
     public void SelectActionAtIndex(int actionIndex)    //> Selects an action for "yourAction" -> is only to be used for your player, never for the enemy.
     {
         yourAction = GetActionAtIndex(you.GetMonsterOnField(), actionIndex);     //< Using this specific overload here is just for clarification purposes.
-        if (yourAction != null)
-            Debug.Log($"CombatHandler.SelectActionAtIndex: Your selected action is now {yourAction.name}.");
+        if (yourAction == null)     //< If no valid action could be selected, don't bother creating a CombatPackage for it
+            return;
+
+        Debug.Log($"CombatHandler.SelectActionAtIndex: Your selected action is now {yourAction.name}.");
 
         //> Create CombatPackage containing Action (yourAction) and a "random value tie breaker".
         yourActionTieBreaker = Random.Range(0.00001f, 0.99999f);     //< Is a randomly determined value to serve as a tie breaker if speeds would be otherwise equal.
@@ -209,11 +209,12 @@ public class CombatHandler : MonoBehaviour
     }
 
     //# Input Event Handlers 
-    public void OnPlayerDataReceived(Player playerData)
+    public void OnPlayerDataReceived(string username, List<MonsterData> MonsterDataList)
     {
-        // TODO: Actually, nevermind. This should be preventable on the server side.
-        // if (otherPlayer.username == You.username)  //< Guard clause to make sure that you didn't receive your own player data.
-        //     return;
+        if (enemy == null)  //< So that it happens only the first time (thereby finalizing the handshake)
+        {
+            //> So that the client that connected second also receives the package from the first, because when ONE sent their first package, they were still alone in the lobby.
+            WebSocketConnection.Instance.CreateJoinPackage(you);
 
             //> Set enemy player as soon as that data is received.
             enemy = InstantiatePlayer("Enemy Player");
@@ -222,6 +223,7 @@ public class CombatHandler : MonoBehaviour
             //> Resume to combat menu screen
             MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
             menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+        }
     }
 
     public void OnActionDataReceived(Action actionData, float tieBreakerData)
