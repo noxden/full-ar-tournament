@@ -36,8 +36,11 @@ public class MenuHandler : MonoBehaviour
         if (Menus.Count == 0)
             Debug.LogWarning($"MenuHandler.Start: The \"Menus\" list is empty. Your menu canvases might not be set up correctly.");
 
-        SwitchToMenu(startMenu);
+        //> Replace MenuName.Tutorial in startMenu with MenuName.Home if the tutorial has already been displayed once
+        if (startMenu == MenuName.Tutorial && SaveDataManager.didShowTutorial == true)
+            startMenu = MenuName.Home;
 
+        SwitchToMenu(startMenu);
     }
 
     //# Public Methods 
