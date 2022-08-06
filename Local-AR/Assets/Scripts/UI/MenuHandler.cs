@@ -46,11 +46,10 @@ public class MenuHandler : MonoBehaviour
         //> Turn off visibility of all canvases but the one that matches the input "_name" and also save that in currentMenu
         foreach (CanvasMenu canvasMenu in Menus)
         {
-            // canvasMenu.SetVisibility(canvasMenu.name == _name);
-            if (canvasMenu.name == _name)      //< If statement could be shortened even more to -> canvasMenu.isVisible = (canvasMenu.name == _name);
-                canvasMenu.isVisible = true;
+            if (canvasMenu.name == _name)        //< Could be shortened even more to -> canvasMenu.SetVisibility(canvasMenu.name == _name);
+                canvasMenu.SetVisibility(true);
             else
-                canvasMenu.isVisible = false;
+                canvasMenu.SetVisibility(false);
         }
         currentMenu = _name;
 

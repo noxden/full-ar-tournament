@@ -15,11 +15,10 @@ public class CanvasMenu : MonoBehaviour
     //# Public Variables 
     public new MenuName name;
     public bool isPersistent;
-    public bool isVisible { get { return isVisible_; } set { SetVisibility(value); } }
+    public bool isVisible { get; private set; }
 
     //# Private Variables 
     private CanvasGroup canvasGroup;
-    private bool isVisible_;    //< Needed to prevent SetVisibility() to start a recursive loop of calling itself.
 
     //# Monobehaviour Events 
     private void Awake()
@@ -28,8 +27,11 @@ public class CanvasMenu : MonoBehaviour
     }
 
     //# Private Methods 
-    private void SetVisibility(bool visibility)
+    public void SetVisibility(bool visibility)
     {
+        if (visibility = isVisible)
+            return;
+
         switch (visibility)
         {
             case true:
@@ -43,6 +45,6 @@ public class CanvasMenu : MonoBehaviour
                 canvasGroup.blocksRaycasts = false;
                 break;
         }
-        isVisible_ = visibility;
+        isVisible = visibility;
     }
 }
