@@ -15,7 +15,7 @@ public class CanvasMenu : MonoBehaviour
     //# Public Variables 
     public new MenuName name;
     public bool isPersistent;
-    public bool isVisible { get; private set; }
+    public bool isVisible { get; private set; } = true;
 
     //# Private Variables 
     private CanvasGroup canvasGroup;
@@ -29,7 +29,7 @@ public class CanvasMenu : MonoBehaviour
     //# Private Methods 
     public void SetVisibility(bool visibility)
     {
-        if (visibility = isVisible)
+        if (visibility == isVisible)
             return;
 
         switch (visibility)
