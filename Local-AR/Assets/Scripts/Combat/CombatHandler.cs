@@ -48,7 +48,7 @@ public class CombatHandler : MonoBehaviour
     }
 
     //# Public Methods 
-    public void SelectActionAtIndex(int actionIndex)    //> Selects an action for "yourAction" -> is only to be used for your player, never for the enemy.
+    public void SelectAvailableActionAtIndex(int actionIndex)    //> Selects an action for "yourAction" -> is only to be used for your player, never for the enemy.
     {
         yourAction = GetActionAtIndex(you.GetMonsterOnField(), actionIndex);     //< Using this specific overload here is just for clarification purposes.
         if (yourAction == null)     //< If no valid action could be selected, don't bother creating a CombatPackage for it
