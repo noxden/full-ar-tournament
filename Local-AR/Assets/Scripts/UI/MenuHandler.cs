@@ -2,24 +2,24 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
+// Last changed: 06-08-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, EndScreenWon, EndScreenLost }
+public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, EndScreenWon, EndScreenLost, ARButtons }
 
 public class MenuHandler : MonoBehaviour
 {
     //# Public Variables 
     public static MenuHandler Instance { set; get; }
-    public Scene isInScene;
     public static MenuName currentMenu;
+    public MenuName startMenu;
 
     //# Private Variables 
-    [SerializeField] private List<Canvas> Menus;
+    [SerializeField] private List<CanvasMenu> Menus;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -31,70 +31,32 @@ public class MenuHandler : MonoBehaviour
     }
     private void Start()
     {
-        //> Populate list "Menus" with all Canvases from GameObjects tagged with "Menu".
-        GameObject[] MenuGameObjects = GameObject.FindGameObjectsWithTag("Menu");
-        foreach (GameObject entry in MenuGameObjects)
-        {
-            Menus.Add(entry.GetComponent<Canvas>());
-        }
-        if (Menus.Count == 0) Debug.LogWarning($"MenuHandler: The Menus list is empty. Populate it before starting the game!", this);
+        //> Populate list "Menus" with all CanvasMenus in the Scene
+        Menus = new List<CanvasMenu>(FindObjectsOfType<CanvasMenu>());
+        if (Menus.Count == 0)
+            Debug.LogWarning($"MenuHandler.Start: The \"Menus\" list is empty. Your menu canvases might not be set up correctly.");
 
-        //> On scene start set a menu depending on in which scene this menuhandler is and depending on if the tutorial was shown already.
-        if (isInScene == Scene.Menu)
-        {
-            if (SaveDataManager.didShowTutorial == false)
-                SwitchToMenu(MenuName.Tutorial);
-            else
-                SwitchToMenu(MenuName.Home);
-        }
-        else if (isInScene == Scene.Combat)
-            SwitchToMenu(MenuName.Lobby);   //< Is executed when in CombatScene.
+        SwitchToMenu(startMenu);
 
     }
 
     //# Public Methods 
-    public Canvas SwitchToMenu(MenuName _name)
+    public void SwitchToMenu(MenuName _name)
     {
-        //> Set flag if the current menu was the tutorial
+        //> Turn off visibility of all canvases but the one that matches the input "_name" and also save that in currentMenu
+        foreach (CanvasMenu canvasMenu in Menus)
+        {
+            // canvasMenu.SetVisibility(canvasMenu.name == _name);
+            if (canvasMenu.name == _name)      //< If statement could be shortened even more to -> canvasMenu.isVisible = (canvasMenu.name == _name);
+                canvasMenu.isVisible = true;
+            else
+                canvasMenu.isVisible = false;
+        }
+        currentMenu = _name;
+
+        //> Set flag "didShowTutorial" if the new menu is the tutorial
         if (currentMenu == MenuName.Tutorial && SaveDataManager.didShowTutorial == false)
             SaveDataManager.didShowTutorial = true;
 
-        //> Switch to new menu from the list and save it in currentMenu
-        Canvas newMenu;
-        newMenu = Menus.Find(m => m.GetComponent<CanvasMenu>().name == _name);
-        if (newMenu == null)
-        {
-            Debug.LogError($"MenuHandler: The menu \"{_name}\" does not exist in the current scene. Maybe the menu you wanted to switch to isn't configured properly. ERROR_MH1", this);
-            return null;
-        }
-
-        //> Toggle visibility of all menu canvases to only show the new menu.
-        foreach (var entry in Menus)
-        {
-            ToggleVisibility(entry, false);
-        }
-        ToggleVisibility(newMenu, true);
-
-        currentMenu = newMenu.GetComponent<CanvasMenu>().name;
-        return newMenu;
-    }
-
-    //# Private Methods 
-    private void ToggleVisibility(Canvas targetCanvas, bool visibility)
-    {
-        CanvasGroup canvasGroup = targetCanvas.GetComponent<CanvasGroup>();
-        switch (visibility)
-        {
-            case true:
-                canvasGroup.alpha = 1;
-                canvasGroup.interactable = true;
-                canvasGroup.blocksRaycasts = true;
-                break;
-            case false:
-                canvasGroup.alpha = 0;
-                canvasGroup.interactable = false;
-                canvasGroup.blocksRaycasts = false;
-                break;
-        }
     }
 }

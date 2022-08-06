@@ -15,17 +15,15 @@ public class CanvasMenu : MonoBehaviour
     //# Public Variables 
     public new MenuName name;
     public bool isPersistent;
-    public bool isVisible { get { return isVisible; } set { SetVisibility(value); } }
+    public bool isVisible { get { return isVisible_; } set { SetVisibility(value); } }
 
     //# Private Variables 
     private CanvasGroup canvasGroup;
+    private bool isVisible_;    //< Needed to prevent SetVisibility() to start a recursive loop of calling itself.
 
     //# Monobehaviour Events 
     private void Awake()
     {
-         if (this.gameObject.tag != "Menu")
-             this.gameObject.tag = "Menu";
-
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
@@ -45,6 +43,6 @@ public class CanvasMenu : MonoBehaviour
                 canvasGroup.blocksRaycasts = false;
                 break;
         }
-        isVisible = visibility;
+        isVisible_ = visibility;
     }
 }

@@ -925,7 +925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd57b0ee9db3a2c4b9993a175c2f44b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInScene: 1
+  startMenu: 4
   Menus: []
 --- !u!4 &449857115
 Transform:
