@@ -51,7 +51,7 @@ public class MenuHandler : MonoBehaviour
         {
             if (canvasMenu.name == _name)        //< Could be shortened even more to -> canvasMenu.SetVisibility(canvasMenu.name == _name);
                 canvasMenu.SetVisibility(true);
-            else
+            else if (!canvasMenu.isPersistent)
                 canvasMenu.SetVisibility(false);
         }
         currentMenu = _name;
@@ -60,5 +60,13 @@ public class MenuHandler : MonoBehaviour
         if (currentMenu == MenuName.Tutorial && SaveDataManager.didShowTutorial == false)
             SaveDataManager.didShowTutorial = true;
 
+    }
+    public void TogglePersistentMenu(MenuName _name)
+    {
+        foreach (CanvasMenu canvasMenu in Menus)
+        {
+            if (canvasMenu.name == _name)
+                canvasMenu.SetVisibility(!canvasMenu.isVisible);
+        }
     }
 }
