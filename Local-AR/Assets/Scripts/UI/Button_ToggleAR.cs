@@ -21,7 +21,7 @@ public class Button_ToggleAR : MonoBehaviour
     public Camera NonARCamera;
     public Camera ARCamera;
     public GameObject ARSession;
-    public Canvas nonARBackground;
+    public GameObject nonARBackground;
 
     //# Private Variables
     private TextMeshProUGUI buttonText;
@@ -34,8 +34,7 @@ public class Button_ToggleAR : MonoBehaviour
 
     private void Start()
     {
-        UpdateActiveCamera();
-        UpdateButtonText();
+        UpdateComponents();
     }
 
     //# Public Methods 
@@ -44,8 +43,7 @@ public class Button_ToggleAR : MonoBehaviour
     private void ToggleARMode()
     {
         isAREnabled = !isAREnabled;
-        UpdateActiveCamera();
-        UpdateButtonText();
+        UpdateComponents();
 
         if (isAREnabled)
         {
@@ -56,6 +54,13 @@ public class Button_ToggleAR : MonoBehaviour
             ARCamera.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
             Debug.Log($"Button_ToggleAR.ToggleARMode: Turned off AR.");
         }
+    }
+
+    private void UpdateComponents()
+    {
+        UpdateActiveCamera();
+        UpdateButtonText();
+        UpdateBackground();
     }
 
     private void UpdateActiveCamera()
@@ -70,6 +75,12 @@ public class Button_ToggleAR : MonoBehaviour
             buttonText.text = "Disable AR";
         else
             buttonText.text = "Enable AR";
+    }
+
+    private void UpdateBackground()
+    {
+        nonARBackground.SetActive(!isAREnabled);
+
     }
 
     //# Input Event Handlers 
