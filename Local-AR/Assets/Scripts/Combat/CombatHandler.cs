@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 04-08-22
+// Last changed: 06-08-22
 //================================================================
 
 using System.Collections;
@@ -205,13 +205,14 @@ public class CombatHandler : MonoBehaviour
     private IEnumerator ShowEndScreenInSeconds(int waitTime, MenuName menuName)
     {
         yield return new WaitForSeconds(waitTime);
+        MenuHandler.Instance.TogglePersistentMenu(MenuName.ARButtons);
         MenuHandler.Instance.SwitchToMenu(menuName);
     }
 
     //# Input Event Handlers 
     public void OnPlayerDataReceived(string username, List<MonsterData> MonsterDataList)
     {
-        if (enemy == null)  //< So that it happens only the first time (thereby finalizing the handshake)
+        if (enemy == null)  //< So that this code is only run the first time player data is received (thereby finalizing the handshake)
         {
             //> So that the client that connected second also receives the package from the first, because when ONE sent their first package, they were still alone in the lobby.
             WebSocketConnection.Instance.CreateJoinPackage(you);
@@ -223,6 +224,7 @@ public class CombatHandler : MonoBehaviour
             //> Resume to combat menu screen
             MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
             menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+            MenuHandler.Instance.TogglePersistentMenu(MenuName.ARButtons);
         }
     }
 
