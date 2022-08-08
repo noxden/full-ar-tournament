@@ -9,10 +9,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button_DisconnectFromServer : MonoBehaviour
+[System.Serializable]
+public class LeavePackage
 {
-    public void OnButtonPressed()
+    //# Public Variables 
+    public string packageType = "LeavePackage";
+    public int packageAuthorUUID;
+
+    //# Constructors 
+    public LeavePackage(int UUID)
     {
-        WebSocketConnection.Instance.DisconnectFromServer();
+        packageAuthorUUID = UUID;
     }
 }
