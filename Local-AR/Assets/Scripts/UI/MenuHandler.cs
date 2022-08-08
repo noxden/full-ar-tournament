@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, EndScreenWon, EndScreenLost, ARButtons }
+public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, EndScreenWon, EndScreenLost, PermButtonToggleAR, PermButtonPlaceArena }
 
 public class MenuHandler : MonoBehaviour
 {

@@ -205,7 +205,7 @@ public class CombatHandler : MonoBehaviour
     private IEnumerator ShowEndScreenInSeconds(int waitTime, MenuName menuName)
     {
         yield return new WaitForSeconds(waitTime);
-        MenuHandler.Instance.TogglePersistentMenu(MenuName.ARButtons);
+        MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
         MenuHandler.Instance.SwitchToMenu(menuName);
     }
 
@@ -224,7 +224,7 @@ public class CombatHandler : MonoBehaviour
             //> Resume to combat menu screen
             MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
             menuHandler.SwitchToMenu(MenuName.Combat_Menu);
-            MenuHandler.Instance.TogglePersistentMenu(MenuName.ARButtons);
+            MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
         }
     }
 
