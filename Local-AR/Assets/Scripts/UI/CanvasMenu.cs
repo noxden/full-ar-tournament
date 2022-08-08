@@ -25,7 +25,7 @@ public class CanvasMenu : MonoBehaviour
     {
         canvasGroup = GetComponent<CanvasGroup>();
         if (isPersistent)
-            SetVisibility(false);   //< Always hide persistent menus at the start of the game so they can be enabled by e.g. menu buttons
+            SetVisibility(false);   //< Always hide persistent menus at the start of the game so they can be enabled later on by e.g. menu buttons
     }
 
     //# Private Methods 
