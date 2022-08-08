@@ -38,7 +38,8 @@ public class WebSocketConnection : MonoBehaviour
 
     async void Start()
     {
-        myUUID = GameManager.Instance.user.UUID;
+        if (GameManager.Instance != null)
+            myUUID = GameManager.Instance.user.UUID;
 
         webSocket = new WebSocket(serverUrl);
 
