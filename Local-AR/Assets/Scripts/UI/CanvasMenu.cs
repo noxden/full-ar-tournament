@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 30-07-22
+// Last changed: 06-08-22
 //================================================================
 
 using System.Collections;
@@ -12,13 +12,41 @@ using UnityEngine;
 [RequireComponent(typeof(Canvas), typeof(CanvasGroup))]
 public class CanvasMenu : MonoBehaviour
 {
-    //# Public Methods 
+    //# Public Variables 
     public new MenuName name;
+    public bool isPersistent;
+    public bool isVisible { get; private set; } = true;
+
+    //# Private Variables 
+    private CanvasGroup canvasGroup;
 
     //# Monobehaviour Events 
     private void Awake()
     {
-        if (this.gameObject.tag != "Menu")
-            this.gameObject.tag = "Menu";
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (isPersistent)
+            SetVisibility(false);   //< Always hide persistent menus at the start of the game so they can be enabled later on by e.g. menu buttons
+    }
+
+    //# Private Methods 
+    public void SetVisibility(bool visibility)
+    {
+        if (visibility == isVisible)
+            return;
+
+        switch (visibility)
+        {
+            case true:
+                canvasGroup.alpha = 1;
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+                break;
+            case false:
+                canvasGroup.alpha = 0;
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+                break;
+        }
+        isVisible = visibility;
     }
 }

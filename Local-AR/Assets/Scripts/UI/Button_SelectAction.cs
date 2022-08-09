@@ -26,7 +26,7 @@ public class Button_SelectAction : MonoBehaviour
         Player.OnMonsterOnFieldSwapped += UpdateButtonText;
     }
 
-    //# Private Variables 
+    //# Private Methods 
     private void UpdateButtonText()
     {
         string actionName;
@@ -46,6 +46,6 @@ public class Button_SelectAction : MonoBehaviour
             Debug.LogError($"Could not find CombatHandler in scene. ERROR_BTN2", this);
             return;
         }
-        CombatHandler.Instance.SelectActionAtIndex(actionNumber - 1);
+        CombatHandler.Instance.SelectAvailableActionAtIndex(actionNumber - 1);
     }
 }

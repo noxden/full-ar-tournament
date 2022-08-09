@@ -9,8 +9,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//public enum MenuName { Welcome, MainMenu, ChangeMonsters, Lobby, Credits }
-
 public class Button_SwitchToMenu : MonoBehaviour
 {
     //# Public Variables 

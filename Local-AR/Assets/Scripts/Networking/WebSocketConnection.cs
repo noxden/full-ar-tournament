@@ -38,7 +38,8 @@ public class WebSocketConnection : MonoBehaviour
 
     async void Start()
     {
-        myUUID = GameManager.Instance.user.UUID;
+        if (GameManager.Instance != null)
+            myUUID = GameManager.Instance.user.UUID;
 
         webSocket = new WebSocket(serverUrl);
 
@@ -85,6 +86,12 @@ public class WebSocketConnection : MonoBehaviour
         SendCombatPackage();
     }
 
+    public void CreateLeavePackage()
+    {
+        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateLeavePackage: LeavePackage sent.</color>");
+        SendLeavePackage(new LeavePackage(myUUID));
+    }
+
     //# Private Methods 
     private async void SendEmptyMessageToServer()   //< DEBUG
     {
@@ -114,6 +121,16 @@ public class WebSocketConnection : MonoBehaviour
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             await webSocket.Send(bytes);
             outgoingCombatPackage = null;   //< Clear after use to prevent any issues further down the line.
+        }
+    }
+
+    private async void SendLeavePackage(LeavePackage outgoingLeavePackage)
+    {
+        if (webSocket.State == WebSocketState.Open)
+        {
+            string json = JsonUtility.ToJson(outgoingLeavePackage);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            await webSocket.Send(bytes);
         }
     }
 
@@ -187,6 +204,18 @@ public class WebSocketConnection : MonoBehaviour
 
                 unpackedCombatPackage = null;
                 return;
+            }
+            else if (json["packageType"].Value == "LeavePackage")
+            {
+                LeavePackage unpackedLeavePackage = JsonUtility.FromJson<LeavePackage>(inboundString);
+                if (unpackedLeavePackage.packageAuthorUUID == myUUID)
+                {
+                    Debug.Log($"<color=#5EE8A5>Received own CombatPackage, discarding information.</color>");
+                }
+                else
+                {
+                    CombatHandler.Instance.OnEnemyLeft();
+                }
             }
             else
                 Debug.LogError($"<color=#5EE8A5>Something went wrong during parsing, as neither viable packageType was recognized. Parsed JSON file is: {json}</color>");

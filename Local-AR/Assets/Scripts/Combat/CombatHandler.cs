@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 04-08-22
+// Last changed: 06-08-22
 //================================================================
 
 using System.Collections;
@@ -48,7 +48,7 @@ public class CombatHandler : MonoBehaviour
     }
 
     //# Public Methods 
-    public void SelectActionAtIndex(int actionIndex)    //> Selects an action for "yourAction" -> is only to be used for your player, never for the enemy.
+    public void SelectAvailableActionAtIndex(int actionIndex)    //> Selects an action for "yourAction" -> is only to be used for your player, never for the enemy.
     {
         yourAction = GetActionAtIndex(you.GetMonsterOnField(), actionIndex);     //< Using this specific overload here is just for clarification purposes.
         if (yourAction == null)     //< If no valid action could be selected, don't bother creating a CombatPackage for it
@@ -94,6 +94,23 @@ public class CombatHandler : MonoBehaviour
     //     WebSocketConnection.Instance.CreateCombatPackage(yourAction, yourActionTieBreaker);
     //     ResolveTurn();
     // }
+
+    public void FinishGame(bool youWon)
+    {
+        MenuName endMenu;
+        switch (youWon)
+        {
+            case true:
+                Debug.Log($"CombatHandler.ResolveTurn: You won! :)");
+                endMenu = MenuName.EndScreenWon;
+                break;
+            case false:
+                Debug.Log($"CombatHandler.ResolveTurn: You lost. :(");
+                endMenu = MenuName.EndScreenLost;
+                break;
+        }
+        StartCoroutine(ShowEndScreenInSeconds(5, endMenu));
+    }
 
     //# Private Methods 
     private Player InstantiatePlayer(string gameObjectName)
@@ -185,33 +202,17 @@ public class CombatHandler : MonoBehaviour
         return (!monster.isValid());
     }
 
-    private void FinishGame(bool youWon)
-    {
-        MenuName endMenu;
-        switch (youWon)
-        {
-            case true:
-                Debug.Log($"CombatHandler.ResolveTurn: You won! :)");
-                endMenu = MenuName.EndScreenWon;
-                break;
-            case false:
-                Debug.Log($"CombatHandler.ResolveTurn: You lost. :(");
-                endMenu = MenuName.EndScreenLost;
-                break;
-        }
-        StartCoroutine(ShowEndScreenInSeconds(5, endMenu));
-    }
-
     private IEnumerator ShowEndScreenInSeconds(int waitTime, MenuName menuName)
     {
         yield return new WaitForSeconds(waitTime);
+        MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
         MenuHandler.Instance.SwitchToMenu(menuName);
     }
 
     //# Input Event Handlers 
     public void OnPlayerDataReceived(string username, List<MonsterData> MonsterDataList)
     {
-        if (enemy == null)  //< So that it happens only the first time (thereby finalizing the handshake)
+        if (enemy == null)  //< So that this code is only run the first time player data is received (thereby finalizing the handshake)
         {
             //> So that the client that connected second also receives the package from the first, because when ONE sent their first package, they were still alone in the lobby.
             WebSocketConnection.Instance.CreateJoinPackage(you);
@@ -223,6 +224,7 @@ public class CombatHandler : MonoBehaviour
             //> Resume to combat menu screen
             MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
             menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+            MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
         }
     }
 
@@ -232,5 +234,10 @@ public class CombatHandler : MonoBehaviour
         enemyAction = actionData;
         enemyActionTieBreaker = tieBreakerData;
         ResolveTurn();
+    }
+
+    public void OnEnemyLeft()
+    {
+        FinishGame(true);
     }
 }
