@@ -136,7 +136,7 @@ public class CombatHandler : MonoBehaviour
         //> Define monster speeds for this turn (based on base monster speed, action speedBonus and the tiebreaker)
         float yourInitiative = yourMonster.speed + yourAction.speedBonus + yourActionTieBreaker;
         float enemyInitiative = enemyMonster.speed + enemyAction.speedBonus + enemyActionTieBreaker;
-        Debug.Log($"CombatHandler.ResolveTurn: {yourMonster.GetName()}'s initiative is {yourInitiative}. {enemyMonster.GetName()}'s initiative is {enemyInitiative}.");
+        Debug.Log($"CombatHandler.ResolveTurn: {yourMonster.name}'s initiative is {yourInitiative}. {enemyMonster.name}'s initiative is {enemyInitiative}.");
 
         if (yourInitiative == enemyInitiative)      //< Very, very improbable, but still possible.
             Debug.LogError($"CombatHandler.ResolveTurn: Both monster speeds are exactly equal, risk of desynchronization very high! ERROR_CH2");
@@ -198,7 +198,7 @@ public class CombatHandler : MonoBehaviour
 
     private bool isDefeated(Monster monster)
     {
-        Debug.Log($"CombatHandler.isDefeated: {monster.GetName()} {(monster.isValid() ? "is still standing" : "faints")}.");
+        Debug.Log($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
         return (!monster.isValid());
     }
 

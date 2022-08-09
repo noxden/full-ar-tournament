@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 04-08-22
+// Last changed: 09-08-22
 //================================================================
 
 using System.Collections;
@@ -18,6 +18,7 @@ public class MonsterData : ScriptableObject
     //# Public Variables 
     public GameObject modelPrefab;
     public Sprite icon;
+    public new string name { get { return GetName(); } }
     public string species;
     public string customName;
     public Gender gender;
@@ -32,7 +33,7 @@ public class MonsterData : ScriptableObject
     public int speed;
     public List<int> AvailableActionsByLibraryIndexes;
 
-    public string GetName()
+    private string GetName()
     {
         string displayName;
         if (string.IsNullOrEmpty(customName) || string.IsNullOrWhiteSpace(customName))

@@ -48,7 +48,7 @@ public class Action : ScriptableObject
 
         foreach (Monster target in Targets)
         {
-            Debug.Log($"<color=#FFFF00>Action.Use: Action \"{name}\" has been used by {user.GetName()}, targeting {target.GetName()}.</color>", this);
+            Debug.Log($"<color=#FFFF00>Action.Use: Action \"{name}\" has been used by {user.name}, targeting {target.name}.</color>", this);
 
             if (category != ActionCategory.Status)
             {

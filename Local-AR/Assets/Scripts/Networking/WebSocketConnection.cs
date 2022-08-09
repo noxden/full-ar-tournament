@@ -173,7 +173,7 @@ public class WebSocketConnection : MonoBehaviour
                     string MonstersOnList = "";
                     foreach (int entry in unpackedJoinPackage.MonsterDataIndexList)
                     {
-                        MonstersOnList += $"{GameManager.Instance.GetMonsterByLibraryIndex(entry).GetName()}{(unpackedJoinPackage.MonsterDataIndexList.IndexOf(entry) >= unpackedJoinPackage.MonsterDataIndexList.Count - 1 ? "" : ", ")}";
+                        MonstersOnList += $"{GameManager.Instance.GetMonsterByLibraryIndex(entry).name}{(unpackedJoinPackage.MonsterDataIndexList.IndexOf(entry) >= unpackedJoinPackage.MonsterDataIndexList.Count - 1 ? "" : ", ")}";
                     }
                     Debug.Log($"<color=#5EE8A5>Received JoinPackage || Username: {unpackedJoinPackage.username}, Monsters: {MonstersOnList}.</color>");
                     // TODO: Do something with that data.

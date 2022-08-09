@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 04-08-22
+// Last changed: 09-08-22
 //================================================================
 
 using System.Collections;
@@ -13,6 +13,7 @@ public class Monster : MonoBehaviour
 {
     //# Public Variables 
     public MonsterData monsterData;
+    public new string name { get { return GetName(); } }
     public string species { get; private set; }
     public string customName { get; private set; }
     public Gender gender { get; private set; }
@@ -82,10 +83,10 @@ public class Monster : MonoBehaviour
                 accuracy += value;  //< Does not have to be clamped to 0, as accuracy is a modifier applied to any action accuracy.
                 break;
         }
-        Debug.Log($"Monster.ApplyStatModification: {GetName()}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.");
+        GameManager.QueueFlavourText($"Monster.ApplyStatModification: {GetName()}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
     }
 
-    public string GetName()
+    private string GetName()
     {
         string displayName;
         if (string.IsNullOrEmpty(customName) || string.IsNullOrWhiteSpace(customName))
