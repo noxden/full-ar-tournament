@@ -163,7 +163,7 @@ public class CombatHandler : MonoBehaviour
         }
 
         //> Cleanup / reset global variables and continue to next turn
-        Debug.Log($"<color=#00FFFF>CombatHandler.ResolveTurn: End of turn {turn}.</color>");
+        GameManager.QueueFlavourText($"<color=#00FFFF>CombatHandler.ResolveTurn: End of turn {turn}.</color>", this);
         yourAction = null;
         yourActionTieBreaker = 0f;
         enemyAction = null;
@@ -198,7 +198,7 @@ public class CombatHandler : MonoBehaviour
 
     private bool isDefeated(Monster monster)
     {
-        Debug.Log($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
+        GameManager.QueueFlavourText($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
         return (!monster.isValid());
     }
 

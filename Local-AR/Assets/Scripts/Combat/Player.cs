@@ -45,9 +45,9 @@ public class Player : MonoBehaviour
     public void SwapMonsterOnField(Monster newMonster)  //< Is used instead of standard set() to provide an interface for Monster's OnSwapped events, maybe?
     {
         if (monsterOnField == null)  //< Should only be the case when the battle just started or the former monsterOnField died
-            Debug.Log($"{username} sent out {newMonster.name}!", this);
+            GameManager.QueueFlavourText($"{username} sent out {newMonster.name}!", this);
         else
-            Debug.Log($"{username} swapped out {monsterOnField.name} with {newMonster.name}!", this);
+            GameManager.QueueFlavourText($"{username} swapped out {monsterOnField.name} with {newMonster.name}!", this);
 
         monsterOnField = newMonster;
         OnMonsterOnFieldSwapped();
