@@ -15,7 +15,7 @@ MonoBehaviour:
   modelPrefab: {fileID: 0}
   icon: {fileID: 0}
   species: Charmander
-  customName: Charles
+  nickname: Charles
   gender: 0
   Types: 01000000
   level: 5

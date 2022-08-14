@@ -15,7 +15,7 @@ MonoBehaviour:
   modelPrefab: {fileID: 0}
   icon: {fileID: 0}
   species: Pikachu
-  customName: Atsuko
+  nickname: Atsuko
   gender: 1
   Types: 04000000
   level: 5

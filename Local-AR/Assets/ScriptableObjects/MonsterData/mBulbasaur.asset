@@ -15,7 +15,7 @@ MonoBehaviour:
   modelPrefab: {fileID: 0}
   icon: {fileID: 0}
   species: Bulbasaur
-  customName: Babsi
+  nickname: Babsi
   gender: 1
   Types: 03000000
   level: 5

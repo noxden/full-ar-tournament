@@ -15,7 +15,7 @@ MonoBehaviour:
   modelPrefab: {fileID: 0}
   icon: {fileID: 0}
   species: Pidgey
-  customName: Gary
+  nickname: Gary
   gender: 0
   Types: 00000000
   level: 5
