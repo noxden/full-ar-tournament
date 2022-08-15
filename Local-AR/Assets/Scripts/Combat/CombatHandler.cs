@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 06-08-22
+// Last changed: 14-08-22
 //================================================================
 
 using System.Collections;
@@ -112,6 +112,11 @@ public class CombatHandler : MonoBehaviour
         StartCoroutine(ShowEndScreenInSeconds(5, endMenu));
     }
 
+    public Player GetEnemy()
+    {
+        return enemy;
+    }
+
     //# Private Methods 
     private Player InstantiatePlayer(string gameObjectName)
     {
@@ -163,7 +168,8 @@ public class CombatHandler : MonoBehaviour
         }
 
         //> Cleanup / reset global variables and continue to next turn
-        GameManager.QueueFlavourText($"<color=#00FFFF>CombatHandler.ResolveTurn: End of turn {turn}.</color>", this);
+        //Debug.Log($"CombatHandler.ResolveTurn: End of turn {turn}.", this);
+        GameManager.QueueFlavourText($"This concludes turn {turn}. What shoud {yourMonster.name} do next?", this);
         yourAction = null;
         yourActionTieBreaker = 0f;
         enemyAction = null;
