@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 03-08-22
+// Last changed: 15-08-22
 //================================================================
 
 using System.Collections;
@@ -23,8 +23,10 @@ public class Button_SelectAction : MonoBehaviour
     private void Awake()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        Player.OnMonsterOnFieldSwapped += UpdateButtonText;
     }
+
+    private void OnEnable() => Player.OnMonsterOnFieldSwapped += UpdateButtonText;
+    private void OnDisable() => Player.OnMonsterOnFieldSwapped -= UpdateButtonText;
 
     //# Private Methods 
     private void UpdateButtonText()

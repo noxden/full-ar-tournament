@@ -22,6 +22,7 @@ public class FlavourTextHandler : MonoBehaviour
     [SerializeField] private List<string> Queue;     //< To queue all incoming flavourtexts     //! [SerializeField] for debug visualisation purposes
     [SerializeField] private List<FlavourTextBox> TextBoxes;                                    //! [SerializeField] for debug visualisation purposes
     private Coroutine activeWriteByLetter;
+    private bool hasMatchStarted = false;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -33,27 +34,27 @@ public class FlavourTextHandler : MonoBehaviour
             Destroy(this.gameObject);   //< If you somehow still get to create a new singleton gameobject regardless, destroy the new one.
 
         //> Fill list "TextBoxes" with all FlavourTextBoxes in the scene.
-        TextBoxes = new List<FlavourTextBox>(FindObjectsOfType<FlavourTextBox>());
+        TextBoxes = new List<FlavourTextBox>(FindObjectsOfType<FlavourTextBox>());        
     }
 
-    private void Start()
+    //> Subscribe to & Unsubscribe from delegates
+    private void OnEnable() => CombatHandler.MatchStart += OnMatchStart;
+    private void OnDisable() => CombatHandler.MatchStart -= OnMatchStart;
+
+    private void OnMatchStart()
     {
-        Queue.Insert(0, $"You are challenged by {(CombatHandler.Instance.GetEnemy() != null ? CombatHandler.Instance.GetEnemy().name : "Unknown")}.");
+        hasMatchStarted = true;
+        Queue.Insert(0, $"You are challenged by {(CombatHandler.Instance.GetEnemy() != null ? CombatHandler.Instance.GetEnemy().username : "Unknown")}.");
         DisplayQueuedFlavourText();
     }
 
-    // private void MatchStart()    //< Will replace Start() method eventually
-    // {
-
-    // }
-
-    //# Public Variables 
+    //# Public Methods 
     public int QueueText(string newText)    //< Returns Queue index of the newly queued string (may be useful for later reference)
     {
         //Debug.Log($"FlavourTextHandler queued new text \"{newText}\"."); //< DEBUG
         Queue.Add(newText);
 
-        if (activeWriteByLetter == null)    // If no flavourText is currently being written...
+        if (activeWriteByLetter == null && hasMatchStarted)    // If no flavourText is currently being written... AND the match has already started
         {
             DisplayQueuedFlavourText(); //...restart the display loop
         }
@@ -61,19 +62,19 @@ public class FlavourTextHandler : MonoBehaviour
         return (Queue.Count - 1);    //< Because that is always the index of the last entry
     }
 
-    //# Private Variables 
+    //# Private Methods 
     private void DisplayQueuedFlavourText()
     {
         if (currentQueuePosition < Queue.Count)  //< Hinders currentQueuePosition from going out of bounds
         {
-            if (activeWriteByLetter == null) 
+            if (activeWriteByLetter == null)
             {
                 string stringToDisplay = Queue[currentQueuePosition];
                 activeWriteByLetter = StartCoroutine(WriteByLetter(stringToDisplay));
             }
             else //< If there is a flavourText currently being written
             {
-                StopCoroutine(activeWriteByLetter);     
+                StopCoroutine(activeWriteByLetter);
                 //Debug.Log($"Coroutine \"WriteByLetter\" has been stopped externally.");
                 activeWriteByLetter = null;
                 StartCoroutine(WriteEntireMessage(Queue[currentQueuePosition]));
@@ -96,13 +97,12 @@ public class FlavourTextHandler : MonoBehaviour
         yield return new WaitForSeconds(waitTimeBetwMessages);  //< Wait so that the user can read the text.
         if (automaticScrolling)
             DisplayQueuedFlavourText();
-         //Debug.Log($"Coroutine \"WriteByLetter\" has now stopped on its own.");
+        //Debug.Log($"Coroutine \"WriteByLetter\" has now stopped on its own.");
     }
 
     private IEnumerator WriteEntireMessage(string inputString)
     {
         UpdateAllTextBoxes(inputString);
-
         
         IncreaseCurrentQueuePosition();
 

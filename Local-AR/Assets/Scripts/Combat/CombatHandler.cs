@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 14-08-22
+// Last changed: 15-08-22
 //================================================================
 
 using System.Collections;
@@ -15,6 +15,7 @@ public class CombatHandler : MonoBehaviour
 {
     //# Public Variables 
     public static CombatHandler Instance { set; get; }
+    public static Delegate MatchStart;
     public GameObject playerPrefab;
 
     //# Private Variables 
@@ -228,9 +229,11 @@ public class CombatHandler : MonoBehaviour
             enemy.Set(username, MonsterDataList);
 
             //> Resume to combat menu screen
-            MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
-            menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+            MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);
             MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
+
+            //> Call delegate to notify all subscribed classes / methods that the match is now starting (e.g. the Matchmaking screen is over)
+            MatchStart();
         }
     }
 
