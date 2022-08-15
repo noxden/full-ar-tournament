@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 06-08-22
+// Last changed: 15-08-22
 //================================================================
 
 using System.Collections;
@@ -15,6 +15,7 @@ public class CombatHandler : MonoBehaviour
 {
     //# Public Variables 
     public static CombatHandler Instance { set; get; }
+    public static Delegate MatchStart;
     public GameObject playerPrefab;
 
     //# Private Variables 
@@ -112,6 +113,11 @@ public class CombatHandler : MonoBehaviour
         StartCoroutine(ShowEndScreenInSeconds(5, endMenu));
     }
 
+    public Player GetEnemy()
+    {
+        return enemy;
+    }
+
     //# Private Methods 
     private Player InstantiatePlayer(string gameObjectName)
     {
@@ -126,7 +132,7 @@ public class CombatHandler : MonoBehaviour
         if (yourAction == null || enemyAction == null)  //< Guard clause -> Unless both actions are filled, cancel this function
             return;
 
-        //> Initial setup of turnOrder
+        //#> Initial setup of turnOrder 
         Monster yourMonster = you.GetMonsterOnField();
         Monster enemyMonster = enemy.GetMonsterOnField();
         List<Monster> turnOrder = new List<Monster>();
@@ -136,7 +142,7 @@ public class CombatHandler : MonoBehaviour
         //> Define monster speeds for this turn (based on base monster speed, action speedBonus and the tiebreaker)
         float yourInitiative = yourMonster.speed + yourAction.speedBonus + yourActionTieBreaker;
         float enemyInitiative = enemyMonster.speed + enemyAction.speedBonus + enemyActionTieBreaker;
-        Debug.Log($"CombatHandler.ResolveTurn: {yourMonster.GetName()}'s initiative is {yourInitiative}. {enemyMonster.GetName()}'s initiative is {enemyInitiative}.");
+        Debug.Log($"CombatHandler.ResolveTurn: {yourMonster.name}'s initiative is {yourInitiative}. {enemyMonster.name}'s initiative is {enemyInitiative}.");
 
         if (yourInitiative == enemyInitiative)      //< Very, very improbable, but still possible.
             Debug.LogError($"CombatHandler.ResolveTurn: Both monster speeds are exactly equal, risk of desynchronization very high! ERROR_CH2");
@@ -145,7 +151,7 @@ public class CombatHandler : MonoBehaviour
         if (enemyInitiative > yourInitiative)
             turnOrder.Reverse();    //< This implementation is not good, as it is not scalable at all, but it works for the scope of this concept.
 
-        //> Execute actions in order of turnOrder
+        //#> Execute actions in order of turnOrder 
         foreach (Monster monster in turnOrder)
         {
             if (monster == yourMonster)
@@ -162,8 +168,9 @@ public class CombatHandler : MonoBehaviour
             }
         }
 
-        //> Cleanup / reset global variables and continue to next turn
-        Debug.Log($"<color=#00FFFF>CombatHandler.ResolveTurn: End of turn {turn}.</color>");
+        //#> Cleanup / reset global variables and continue to next turn 
+        //Debug.Log($"CombatHandler.ResolveTurn: End of turn {turn}.", this);
+        GameManager.QueueFlavourText($"This concludes turn {turn}. What shoud {yourMonster.name} do next?", this);
         yourAction = null;
         yourActionTieBreaker = 0f;
         enemyAction = null;
@@ -198,7 +205,8 @@ public class CombatHandler : MonoBehaviour
 
     private bool isDefeated(Monster monster)
     {
-        Debug.Log($"CombatHandler.isDefeated: {monster.GetName()} {(monster.isValid() ? "is still standing" : "faints")}.");
+        //Debug.Log($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", monster);
+        GameManager.QueueFlavourText($"{monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
         return (!monster.isValid());
     }
 
@@ -220,11 +228,14 @@ public class CombatHandler : MonoBehaviour
             //> Set enemy player as soon as that data is received.
             enemy = InstantiatePlayer("Enemy Player");
             enemy.Set(username, MonsterDataList);
+            GameManager.QueueFlavourText($"What shoud {you.GetMonsterOnField().name} do?", this);
 
             //> Resume to combat menu screen
-            MenuHandler menuHandler = FindObjectOfType<MenuHandler>();
-            menuHandler.SwitchToMenu(MenuName.Combat_Menu);
+            MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);
             MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
+
+            //> Call delegate to notify all subscribed classes / methods that the match is now starting (e.g. the Matchmaking screen is over)
+            MatchStart();
         }
     }
 

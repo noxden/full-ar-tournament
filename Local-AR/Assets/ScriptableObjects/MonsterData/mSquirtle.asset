@@ -15,7 +15,7 @@ MonoBehaviour:
   modelPrefab: {fileID: 0}
   icon: {fileID: 0}
   species: Squirtle
-  customName: Dorothy
+  nickname: Dorothy
   gender: 1
   Types: 02000000
   level: 5

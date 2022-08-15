@@ -45,9 +45,9 @@ public class Player : MonoBehaviour
     public void SwapMonsterOnField(Monster newMonster)  //< Is used instead of standard set() to provide an interface for Monster's OnSwapped events, maybe?
     {
         if (monsterOnField == null)  //< Should only be the case when the battle just started or the former monsterOnField died
-            Debug.Log($"{username} sent out {newMonster.GetName()}!");
+            GameManager.QueueFlavourText($"{username} sent out {newMonster.name}!", this);
         else
-            Debug.Log($"{username} swapped out {monsterOnField.GetName()} with {newMonster.GetName()}!");
+            GameManager.QueueFlavourText($"{username} swapped out {monsterOnField.name} with {newMonster.name}!", this);
 
         monsterOnField = newMonster;
         OnMonsterOnFieldSwapped();
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour
         foreach (MonsterData monsterData in _MonsterDataList)
         {
             GameObject monsterGameObject = Instantiate(genericMonsterPrefab, -Vector3.zero, Quaternion.identity);
-            monsterGameObject.name = $"{monsterData.GetName()}";
+            monsterGameObject.name = $"{monsterData.name}";
             Monster monster = monsterGameObject.GetComponent<Monster>();
             monster.LoadMonsterData(monsterData);
             InstantiatedMonsters.Add(monster);

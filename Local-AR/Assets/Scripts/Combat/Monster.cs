@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 04-08-22
+// Last changed: 14-08-22
 //================================================================
 
 using System.Collections;
@@ -13,8 +13,9 @@ public class Monster : MonoBehaviour
 {
     //# Public Variables 
     public MonsterData monsterData;
+    public new string name { get { return GetName(); } }
     public string species { get; private set; }
-    public string customName { get; private set; }
+    public string nickname { get; private set; }
     public Gender gender { get; private set; }
     public List<ElementalType> Types { get; private set; }
 
@@ -42,6 +43,8 @@ public class Monster : MonoBehaviour
     //# Public Methods 
     public void UseAction(Action action, Monster user, Monster opponent)
     {
+        //Debug.Log($"Monster.UseAction: {name} used {action.name}!", user);
+        GameManager.QueueFlavourText($"{name} used {action.name}!", this);
         action.Use(user, opponent);
     }
 
@@ -82,19 +85,20 @@ public class Monster : MonoBehaviour
                 accuracy += value;  //< Does not have to be clamped to 0, as accuracy is a modifier applied to any action accuracy.
                 break;
         }
-        Debug.Log($"Monster.ApplyStatModification: {GetName()}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.");
+        //Debug.Log($"Monster.ApplyStatModification: {name}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
+        GameManager.QueueFlavourText($"{name}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
     }
 
-    public string GetName()
+    private string GetName()
     {
         string displayName;
-        if (string.IsNullOrEmpty(customName) || string.IsNullOrWhiteSpace(customName))
+        if (string.IsNullOrEmpty(nickname) || string.IsNullOrWhiteSpace(nickname))
         {
             displayName = species;
         }
         else
         {
-            displayName = $"{customName} ({species})";
+            displayName = $"{nickname} ({species})";
         }
         return displayName;
     }
@@ -106,14 +110,15 @@ public class Monster : MonoBehaviour
 
     public void ReloadMonsterData()
     {
-        LoadMonsterData(monsterData);
+        LoadMonsterData(this.monsterData);
     }
 
     public void LoadMonsterData(MonsterData _monsterData)
     {
         monsterData = _monsterData;
+
         species = _monsterData.species;
-        customName = _monsterData.customName;
+        nickname = _monsterData.nickname;
         Gender gender = _monsterData.gender;
         List<ElementalType> Types = _monsterData.Types;
 

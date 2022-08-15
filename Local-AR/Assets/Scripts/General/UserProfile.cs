@@ -67,7 +67,7 @@ public class UserProfile
                 {
                     MonstersInBag.Add(target);
                     MonstersInBox.Remove(target);
-                    Debug.Log($"UserProfile: Successfully moved \"{target.GetName()}\" from box to bag.");
+                    Debug.Log($"UserProfile: Successfully moved \"{target.name}\" from box to bag.");
                 }
                 else
                 {
@@ -85,7 +85,7 @@ public class UserProfile
                 }
                 MonstersInBox.Add(targetInBag);
                 MonstersInBag.Remove(targetInBag);
-                Debug.Log($"UserProfile: Successfully moved \"{target.GetName()}\" from bag to box.");
+                Debug.Log($"UserProfile: Successfully moved \"{target.name}\" from bag to box.");
                 break;
         }
     }
