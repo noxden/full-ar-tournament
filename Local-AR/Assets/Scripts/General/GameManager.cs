@@ -34,8 +34,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);   //< If you somehow still get to create a new singleton gameobject regardless, destroy the new one.
         }
-
     }
+    
     private void Start()
     {
         //user = new UserProfile("Test User");
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     public static void QueueFlavourText(string newText, Object sender)
     {
         Debug.Log($"<color=#F7C8A1>Flavour:</color> {newText}", sender);
-        FlavourTextBox.QueueText($"<color=#000000>{newText}</color>");
+        FlavourTextHandler.Instance.QueueText($"{newText}");
     }
 
     //# Input Event Handlers 
