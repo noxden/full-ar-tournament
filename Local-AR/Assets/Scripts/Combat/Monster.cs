@@ -131,11 +131,7 @@ public class Monster : MonoBehaviour
         specialDefense = _monsterData.specialDefense;
         speed = _monsterData.speed;
 
-        AvailableActions = new List<Action>();
-        foreach (var entry in _monsterData.AvailableActionsByLibraryIndexes)
-        {
-            AvailableActions.Add(GameManager.Instance.GetActionByLibraryIndex(entry));
-        }
+        AvailableActions = _monsterData.AvailableActions;
     }
     // public void Animation_Spawn()
     // {

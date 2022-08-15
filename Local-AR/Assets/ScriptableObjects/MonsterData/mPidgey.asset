@@ -25,4 +25,8 @@ MonoBehaviour:
   specialAttack: 8
   specialDefense: 8
   speed: 10
-  AvailableActionsByLibraryIndexes: 2d000000210000000000000000000000
+  AvailableActions:
+  - {fileID: 11400000, guid: d0a58f5273ba5434083e0a32c2a75bb7, type: 2}
+  - {fileID: 11400000, guid: 491af8c8c3dcdf442bd28d8852ce3d13, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}

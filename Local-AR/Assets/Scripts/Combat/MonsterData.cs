@@ -31,7 +31,7 @@ public class MonsterData : ScriptableObject
     public int specialAttack;
     public int specialDefense;
     public int speed;
-    public List<int> AvailableActionsByLibraryIndexes;
+    public List<Action> AvailableActions;
 
     //# Private Methods 
     private string GetName()
