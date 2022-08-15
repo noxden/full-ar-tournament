@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87aadd9c6c954e34680cbc175f8dad23, type: 3}
   m_Name: mBulbasaur
   m_EditorClassIdentifier: 
-  modelPrefab: {fileID: 0}
-  icon: {fileID: 0}
+  modelPrefab: {fileID: 919132149155446097, guid: 7347034bae86f144991a4582950c9ac4, type: 3}
+  icon: {fileID: 21300000, guid: b7b4326f6571fe04f8a61d09357ecd95, type: 3}
   species: Bulbasaur
   nickname: Babsi
   gender: 1

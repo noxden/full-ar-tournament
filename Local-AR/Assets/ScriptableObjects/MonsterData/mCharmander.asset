@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87aadd9c6c954e34680cbc175f8dad23, type: 3}
   m_Name: mCharmander
   m_EditorClassIdentifier: 
-  modelPrefab: {fileID: 0}
-  icon: {fileID: 0}
+  modelPrefab: {fileID: 919132149155446097, guid: 21b34d881480abb43b666df17954afae, type: 3}
+  icon: {fileID: 21300000, guid: 9eb4dccc7dfc8f446b03265ac74cfc14, type: 3}
   species: Charmander
   nickname: Charles
   gender: 0
