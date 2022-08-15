@@ -11,9 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CombatScene.unity
     guid: c7f64d3d41dd4b9409062fc9f4cd6293
-  - enabled: 1
-    path: Assets/Scenes/ARTestScene.unity
-    guid: 31923994471d2924485d5c51c8dba94d
   m_configObjects:
     AR Foundation RemoteARFoundationRemoteLoaderSettings: {fileID: 11400000, guid: 33bb479ddcc0f564495d1564bfe31ed0, type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 2c040ee5b71474448ba38407360aee51, type: 2}
