@@ -132,7 +132,7 @@ public class CombatHandler : MonoBehaviour
         if (yourAction == null || enemyAction == null)  //< Guard clause -> Unless both actions are filled, cancel this function
             return;
 
-        //> Initial setup of turnOrder
+        //#> Initial setup of turnOrder 
         Monster yourMonster = you.GetMonsterOnField();
         Monster enemyMonster = enemy.GetMonsterOnField();
         List<Monster> turnOrder = new List<Monster>();
@@ -151,7 +151,7 @@ public class CombatHandler : MonoBehaviour
         if (enemyInitiative > yourInitiative)
             turnOrder.Reverse();    //< This implementation is not good, as it is not scalable at all, but it works for the scope of this concept.
 
-        //> Execute actions in order of turnOrder
+        //#> Execute actions in order of turnOrder 
         foreach (Monster monster in turnOrder)
         {
             if (monster == yourMonster)
@@ -168,7 +168,7 @@ public class CombatHandler : MonoBehaviour
             }
         }
 
-        //> Cleanup / reset global variables and continue to next turn
+        //#> Cleanup / reset global variables and continue to next turn 
         //Debug.Log($"CombatHandler.ResolveTurn: End of turn {turn}.", this);
         GameManager.QueueFlavourText($"This concludes turn {turn}. What shoud {yourMonster.name} do next?", this);
         yourAction = null;
@@ -205,7 +205,8 @@ public class CombatHandler : MonoBehaviour
 
     private bool isDefeated(Monster monster)
     {
-        GameManager.QueueFlavourText($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
+        //Debug.Log($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", monster);
+        GameManager.QueueFlavourText($"{monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
         return (!monster.isValid());
     }
 
@@ -227,6 +228,7 @@ public class CombatHandler : MonoBehaviour
             //> Set enemy player as soon as that data is received.
             enemy = InstantiatePlayer("Enemy Player");
             enemy.Set(username, MonsterDataList);
+            GameManager.QueueFlavourText($"What shoud {you.GetMonsterOnField().name} do?", this);
 
             //> Resume to combat menu screen
             MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);

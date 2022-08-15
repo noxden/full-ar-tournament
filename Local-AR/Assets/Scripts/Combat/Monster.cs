@@ -43,7 +43,8 @@ public class Monster : MonoBehaviour
     //# Public Methods 
     public void UseAction(Action action, Monster user, Monster opponent)
     {
-        GameManager.QueueFlavourText($"Monster.UseAction: {name} used {action.name}!", this);
+        //Debug.Log($"Monster.UseAction: {name} used {action.name}!", user);
+        GameManager.QueueFlavourText($"{name} used {action.name}!", this);
         action.Use(user, opponent);
     }
 
@@ -84,7 +85,8 @@ public class Monster : MonoBehaviour
                 accuracy += value;  //< Does not have to be clamped to 0, as accuracy is a modifier applied to any action accuracy.
                 break;
         }
-        GameManager.QueueFlavourText($"Monster.ApplyStatModification: {name}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
+        //Debug.Log($"Monster.ApplyStatModification: {name}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
+        GameManager.QueueFlavourText($"{name}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
     }
 
     private string GetName()

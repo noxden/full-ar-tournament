@@ -60,6 +60,7 @@ public class WebSocketConnection : MonoBehaviour
 
     private async void OnApplicationQuit()
     {
+        CreateLeavePackage();
         await webSocket.Close();
     }
 
@@ -68,27 +69,28 @@ public class WebSocketConnection : MonoBehaviour
     {
         if (webSocket.State == WebSocketState.Open)
         {
+            CreateLeavePackage();
             await webSocket.Close();
         }
     }
 
     public void CreateJoinPackage(Player playerData)
     {
+        Debug.Log("<color=#5EE8A5>Creating JoinPackage.</color>");
         outgoingJoinPackage = new JoinPackage(myUUID, playerData);
-        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateJoinPackage: JoinPackage sent.</color>");
         SendJoinPackage();
     }
 
     public void CreateCombatPackage(Action actionData, float tieBreaker)
     {
+        Debug.Log("<color=#5EE8A5>Creating CombatPackage.</color>");
         outgoingCombatPackage = new CombatPackage(myUUID, actionData, tieBreaker);
-        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateCombatPackage: CombatPackage sent.</color>");
         SendCombatPackage();
     }
 
     public void CreateLeavePackage()
     {
-        Debug.Log("<color=#5EE8A5>WebSocketConnection.CreateLeavePackage: LeavePackage sent.</color>");
+        Debug.Log("<color=#5EE8A5>Creating LeavePackage.</color>");
         SendLeavePackage(new LeavePackage(myUUID));
     }
 
@@ -106,6 +108,7 @@ public class WebSocketConnection : MonoBehaviour
     {
         if (webSocket.State == WebSocketState.Open)
         {
+            Debug.Log("<color=#5EE8A5>Sending JoinPackage.</color>");
             string json = JsonUtility.ToJson(outgoingJoinPackage);
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             await webSocket.Send(bytes);
@@ -117,6 +120,7 @@ public class WebSocketConnection : MonoBehaviour
     {
         if (webSocket.State == WebSocketState.Open)
         {
+            Debug.Log("<color=#5EE8A5>Sending CombatPackage.</color>");
             string json = JsonUtility.ToJson(outgoingCombatPackage);
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             await webSocket.Send(bytes);
@@ -128,6 +132,7 @@ public class WebSocketConnection : MonoBehaviour
     {
         if (webSocket.State == WebSocketState.Open)
         {
+            Debug.Log("<color=#5EE8A5>Sending LeavePackage.</color>");
             string json = JsonUtility.ToJson(outgoingLeavePackage);
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             await webSocket.Send(bytes);
@@ -210,7 +215,7 @@ public class WebSocketConnection : MonoBehaviour
                 LeavePackage unpackedLeavePackage = JsonUtility.FromJson<LeavePackage>(inboundString);
                 if (unpackedLeavePackage.packageAuthorUUID == myUUID)
                 {
-                    Debug.Log($"<color=#5EE8A5>Received own CombatPackage, discarding information.</color>");
+                    Debug.Log($"<color=#5EE8A5>Received own LeavePackage, discarding information.</color>");
                 }
                 else
                 {
