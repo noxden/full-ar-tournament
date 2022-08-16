@@ -9,14 +9,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Button_MonsterToBag : MonoBehaviour
 {
     //# Public Variables 
-    public MonsterData monsterData;
+    public TextMeshProUGUI textMonsterName;
+    public TextMeshProUGUI textMonsterDescription;
 
     //# Private Variables 
     private Image buttonImage;
+    private MonsterData monsterData;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -32,14 +35,21 @@ public class Button_MonsterToBag : MonoBehaviour
         }
     }
 
-    private void Start()
+    //# Public Methods 
+    public void SetMonsterData(MonsterData _monsterData)
     {
-        buttonImage.sprite = monsterData.icon;
+        this.monsterData = _monsterData;
+        UpdateButtonVisuals();
     }
 
-    //# Public Methods 
-
     //# Private Methods 
+    private void UpdateButtonVisuals()
+    {
+        buttonImage.sprite = monsterData.icon;
+        textMonsterName.text = monsterData.species;
+        textMonsterDescription.text = $"Type {(monsterData.Types.Count == 1 ? $"{monsterData.Types[0]}" : $"{monsterData.Types[0]}/{monsterData.Types[1]}")} | Nickname: \"{monsterData.nickname}\"";
+        //textMonsterDescription.text = $"{monsterData.hpMax} HP | ATK: {monsterData.attack} | SATK: {monsterData.specialAttack} | DEF: {monsterData.defense} | SDEF: {monsterData.specialDefense} | SPD: {monsterData.speed}";
+    }
 
     //# Input Event Handlers 
     public void OnButtonPressed()
