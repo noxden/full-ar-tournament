@@ -12,5 +12,5 @@ using UnityEngine;
 public class GlobalSettings
 {
     //# Public Variables 
-    public static int maxMonstersInBag = 5;     //< Static instead of const for when "variable team size"-lobbies are being implemented later on
+    public static int maxMonstersInBag = 6;     //< Static instead of const for when "variable team size"-lobbies are being implemented later on
 }

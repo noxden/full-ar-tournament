@@ -47,7 +47,7 @@ public class Button_MonsterToBag : MonoBehaviour
     {
         buttonImage.sprite = monsterData.icon;
         textMonsterName.text = monsterData.species;
-        textMonsterDescription.text = $"Type {(monsterData.Types.Count == 1 ? $"{monsterData.Types[0]}" : $"{monsterData.Types[0]}/{monsterData.Types[1]}")} | Nickname: \"{monsterData.nickname}\"";
+        textMonsterDescription.text = $"Type {(monsterData.Types.Count == 1 ? $"{monsterData.Types[0]}" : $"{monsterData.Types[0]}/{monsterData.Types[1]}")}{(string.IsNullOrWhiteSpace(monsterData.nickname) ? "" :  $" | Nickname: \"{monsterData.nickname}\"")}";
         //textMonsterDescription.text = $"{monsterData.hpMax} HP | ATK: {monsterData.attack} | SATK: {monsterData.specialAttack} | DEF: {monsterData.defense} | SDEF: {monsterData.specialDefense} | SPD: {monsterData.speed}";
     }
 
