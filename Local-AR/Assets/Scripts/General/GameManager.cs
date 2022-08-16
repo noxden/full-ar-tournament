@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         user = new UserProfile(new List<MonsterData>(MonsterLibrary));   //< For this version of the game, the player can have access to all implemented monsters.
+        user.ReadSaveData_MonstersInBag();
         Debug.Log($"GameManager.Start: Your name is \"{user.name}\" and you currently have {user.MonstersInBox.Count} monster{(user.MonstersInBox.Count == 1 ? "" : "s")} in your box and {user.MonstersInBag.Count} monster{(user.MonstersInBag.Count == 1 ? "" : "s")} in your bag.");
 
         //> Debug Visualisation
