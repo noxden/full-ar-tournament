@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87aadd9c6c954e34680cbc175f8dad23, type: 3}
   m_Name: mSquirtle
   m_EditorClassIdentifier: 
-  modelPrefab: {fileID: 0}
-  icon: {fileID: 0}
+  modelPrefab: {fileID: 919132149155446097, guid: 976172cf15975434f939ddd927f46040, type: 3}
+  icon: {fileID: 21300000, guid: e99017e9d1f28d943826431e95c415ca, type: 3}
   species: Squirtle
   nickname: Dorothy
   gender: 1

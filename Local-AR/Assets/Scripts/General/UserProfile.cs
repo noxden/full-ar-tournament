@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 04-08-22
+// Last changed: 16-08-22
 //================================================================
 
 using System.Collections;
@@ -11,9 +11,10 @@ using UnityEngine;
 public class UserProfile
 {
     //# Public Variables 
+    public static Delegate MonsterBagStateChanged;
     public int UUID { get; private set; }
     public string name = SaveDataManager.localUsername;
-    public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
+    public int numberOfMonstersInBag { get { return MonstersInBag.Count; } }
 
     //# Private Variables 
     public List<MonsterData> MonstersInBag { get; private set; }
@@ -30,7 +31,7 @@ public class UserProfile
     public UserProfile(string _name)
     {
         GenerateUUID();
-        name = _name; 
+        name = _name;
         MonstersInBag = new List<MonsterData>();
         MonstersInBox = new List<MonsterData>();
     }
@@ -68,6 +69,7 @@ public class UserProfile
                     MonstersInBag.Add(target);
                     MonstersInBox.Remove(target);
                     Debug.Log($"UserProfile: Successfully moved \"{target.name}\" from box to bag.");
+                    MonsterBagStateChanged();
                 }
                 else
                 {
@@ -77,16 +79,20 @@ public class UserProfile
 
             //> Add to Box and remove from Bag
             case false:
-                MonsterData targetInBag = MonstersInBag.Find(m => m.Equals(target));    //< See Predicate documentation: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.find?view=net-6.0
-                if (targetInBag == null)    //< Guard clause
+                if (MonstersInBag.Contains(target))    //< Guard clause
+                {
+                    MonstersInBox.Add(target);
+                    MonstersInBag.Remove(target);
+                    Debug.Log($"UserProfile: Successfully moved \"{target.name}\" from bag to box.");
+                    MonsterBagStateChanged();
+                    break;
+                }
+                else
                 {
                     Debug.LogError($"UserProfile: The monster selected is not present in your bag anymore. ERROR_UP2");
                     break;
                 }
-                MonstersInBox.Add(targetInBag);
-                MonstersInBag.Remove(targetInBag);
-                Debug.Log($"UserProfile: Successfully moved \"{target.name}\" from bag to box.");
-                break;
+
         }
     }
 

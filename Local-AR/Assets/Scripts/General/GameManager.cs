@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 04-08-22
+// Last changed: 16-08-22
 //================================================================
 
 using System.Collections;
@@ -35,12 +35,11 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);   //< If you somehow still get to create a new singleton gameobject regardless, destroy the new one.
         }
     }
-    
+
     private void Start()
     {
-        //user = new UserProfile("Test User");
-        user = new UserProfile(new List<MonsterData>(), new List<MonsterData>(MonsterLibrary));    //< For this version of the game, the player can have access to all implemented monsters.
-        Debug.Log($"GameManager.Start: Your name is \"{user.name}\" and you currently have {user.MonstersInBox.Count} monster{(user.NumberOfMonstersInBag == 1 ? "" : "s")} in your box.");
+        user = new UserProfile(new List<MonsterData>(ParseMonstersInBagFromSaveFile()), new List<MonsterData>(MonsterLibrary));   //< For this version of the game, the player can have access to all implemented monsters.
+        Debug.Log($"GameManager.Start: Your name is \"{user.name}\" and you currently have {user.MonstersInBox.Count} monster{(user.MonstersInBox.Count == 1 ? "" : "s")} in your box and {user.MonstersInBag.Count} monster{(user.MonstersInBag.Count == 1 ? "" : "s")} in your bag.");
 
         //> Debug Visualisation
         VISUALISERMonstersInBag = user.MonstersInBag;
@@ -73,7 +72,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public int GetLibraryIndexOfMonster (MonsterData monsterData)
+    public int GetLibraryIndexOfMonster(MonsterData monsterData)
     {
         return MonsterLibrary.IndexOf(monsterData);
     }
@@ -82,6 +81,25 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"<color=#F7C8A1>Flavour:</color> {newText}", sender);
         FlavourTextHandler.Instance.QueueText($"{newText}");
+    }
+
+    //# Private Methods 
+    private List<MonsterData> ParseMonstersInBagFromSaveFile()
+    {
+        if (string.IsNullOrWhiteSpace(SaveDataManager.monstersInBag))   //> If the save file is empty, just return an empty MonsterData list
+            return new List<MonsterData>();
+
+        List<MonsterData> monsterDataList = new List<MonsterData>();
+
+        //> Translate the savefile string into a MonsterData list
+        string[] monsterIndexes = SaveDataManager.monstersInBag.Split(',');
+        foreach (string indexString in monsterIndexes)
+        {
+            int indexInt = int.Parse(indexString);
+            monsterDataList.Add(GetMonsterByLibraryIndex(indexInt));
+        }
+
+        return monsterDataList;
     }
 
     //# Input Event Handlers 

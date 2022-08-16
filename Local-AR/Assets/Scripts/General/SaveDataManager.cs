@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 31-07-22
+// Last changed: 16-08-22
 //================================================================
 
 using System.Collections;
@@ -22,7 +22,7 @@ public class SaveDataManager : MonoBehaviour
         {
             if (value == true)
                 PlayerPrefs.SetInt(PlayerPrefsKey.didShowTutorial, 1);
-            else 
+            else
                 PlayerPrefs.SetInt(PlayerPrefsKey.didShowTutorial, 0);
         }
     }
@@ -33,7 +33,7 @@ public class SaveDataManager : MonoBehaviour
     // }
 
     //# CameraPermission Flags 
-     public static bool didTriggerCameraPermissionRequest
+    public static bool didTriggerCameraPermissionRequest
     {
         get
         {
@@ -43,7 +43,7 @@ public class SaveDataManager : MonoBehaviour
         {
             if (value == true)
                 PlayerPrefs.SetInt(PlayerPrefsKey.didTriggerCameraPermissionRequest, 1);
-            else 
+            else
                 PlayerPrefs.SetInt(PlayerPrefsKey.didTriggerCameraPermissionRequest, 0);
         }
     }
@@ -65,6 +65,27 @@ public class SaveDataManager : MonoBehaviour
         }
     }
 
+    //# Username 
+    public static string monstersInBag
+    {
+        get
+        {
+            return PlayerPrefs.GetString(PlayerPrefsKey.monstersInBag, "");
+        }
+        set
+        {
+            PlayerPrefs.SetString(PlayerPrefsKey.monstersInBag, value);
+        }
+    }
+
+    public static void DeleteSaveFile()
+    {
+        didShowTutorial = false;
+        didTriggerCameraPermissionRequest = false;
+        localUsername = "Default Name";
+        monstersInBag = "";
+    }
+
     //* Additional info:
     // PlayerPrefs supports the following functions:
     // PlayerPrefs.SetInt()
@@ -77,4 +98,5 @@ public class PlayerPrefsKey
     public static string didShowTutorial = "didShowTutorial";
     public static string didTriggerCameraPermissionRequest = "didTriggerCameraPermissionRequest";
     public static string localUsername = "localUsername";
+    public static string monstersInBag = "monstersInBag";
 }
