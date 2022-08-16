@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 31-07-22
+// Last changed: 16-08-22
 //================================================================
 
 using System.Collections;
@@ -76,6 +76,14 @@ public class SaveDataManager : MonoBehaviour
         {
             PlayerPrefs.SetString(PlayerPrefsKey.monstersInBag, value);
         }
+    }
+
+    public static void DeleteSaveFile()
+    {
+        didShowTutorial = false;
+        didTriggerCameraPermissionRequest = false;
+        localUsername = "Default Name";
+        monstersInBag = "";
     }
 
     //* Additional info:
