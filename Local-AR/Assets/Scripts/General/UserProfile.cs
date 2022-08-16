@@ -120,6 +120,9 @@ public class UserProfile
 
     public void ChangeUsername(string newName)
     {
+        if (string.IsNullOrWhiteSpace(newName))
+            return;
+
         name = newName;
         SaveDataManager.localUsername = newName;
         Debug.Log($"UserProfile: Changed username to \"{newName}\"!");

@@ -57,7 +57,7 @@ public class SaveDataManager : MonoBehaviour
     {
         get
         {
-            return PlayerPrefs.GetString(PlayerPrefsKey.localUsername, "Default Name");
+            return PlayerPrefs.GetString(PlayerPrefsKey.localUsername, "Player");
         }
         set
         {
