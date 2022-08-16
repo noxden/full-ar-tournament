@@ -17,9 +17,20 @@ public class MonstersInBoxVisualiser : MonoBehaviour
     //# Private Variables 
 
     //# Monobehaviour Events 
+    private void OnEnable() => UserProfile.MonsterBagStateChanged += UpdateButtonList;
+    private void OnDisable() => UserProfile.MonsterBagStateChanged += UpdateButtonList;
+
     private void Start()
     {
-        List<MonsterData> MonstersInBox = GameManager.Instance.user.MonstersInBox;
+        UpdateButtonList();
+    }
+
+    //# Public Methods 
+
+    //# Private Methods 
+    private void UpdateButtonList()
+    {
+        List<MonsterData> MonstersInBox = GameManager.Instance.MonsterLibrary;
         foreach (MonsterData monsterData in MonstersInBox)
         {
             //> Instantiate new button and add it to the vertical layout group
@@ -30,10 +41,6 @@ public class MonstersInBoxVisualiser : MonoBehaviour
             buttonGameObject.GetComponent<Button_MonsterToBag>().SetMonsterData(monsterData);
         }
     }
-
-    //# Public Methods 
-
-    //# Private Methods 
 
     //# Input Event Handlers 
 }

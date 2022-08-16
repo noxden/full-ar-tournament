@@ -36,6 +36,13 @@ public class UserProfile
         MonstersInBox = new List<MonsterData>();
     }
 
+    public UserProfile(List<MonsterData> _MonstersInBox)
+    {
+        GenerateUUID();
+        MonstersInBag = new List<MonsterData>();
+        MonstersInBox = _MonstersInBox;
+    }
+
     public UserProfile(List<MonsterData> _MonstersInBag, List<MonsterData> _MonstersInBox)
     {
         GenerateUUID();
@@ -93,6 +100,21 @@ public class UserProfile
                     break;
                 }
 
+        }
+    }
+
+    public void ReadSaveData_MonstersInBag()
+    {
+        if (string.IsNullOrWhiteSpace(SaveDataManager.monstersInBag))   //> If the save file is empty, just return an empty MonsterData list
+            return;
+
+        //> Read the savefile string and add all monsters in that list to the bag
+        string[] monsterIndexes = SaveDataManager.monstersInBag.Split(',');
+        foreach (string indexString in monsterIndexes)
+        {
+            int indexInt = int.Parse(indexString);
+            MonsterData monsterFromSaveData = GameManager.Instance.GetMonsterByLibraryIndex(indexInt);
+            ChangeIsInBag(monsterFromSaveData, true);
         }
     }
 

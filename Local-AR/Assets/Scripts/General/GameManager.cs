@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        user = new UserProfile(new List<MonsterData>(ParseMonstersInBagFromSaveFile()), new List<MonsterData>(MonsterLibrary));   //< For this version of the game, the player can have access to all implemented monsters.
+        user = new UserProfile(new List<MonsterData>(MonsterLibrary));   //< For this version of the game, the player can have access to all implemented monsters.
         Debug.Log($"GameManager.Start: Your name is \"{user.name}\" and you currently have {user.MonstersInBox.Count} monster{(user.MonstersInBox.Count == 1 ? "" : "s")} in your box and {user.MonstersInBag.Count} monster{(user.MonstersInBag.Count == 1 ? "" : "s")} in your bag.");
 
         //> Debug Visualisation
@@ -84,23 +84,6 @@ public class GameManager : MonoBehaviour
     }
 
     //# Private Methods 
-    private List<MonsterData> ParseMonstersInBagFromSaveFile()
-    {
-        if (string.IsNullOrWhiteSpace(SaveDataManager.monstersInBag))   //> If the save file is empty, just return an empty MonsterData list
-            return new List<MonsterData>();
-
-        List<MonsterData> monsterDataList = new List<MonsterData>();
-
-        //> Translate the savefile string into a MonsterData list
-        string[] monsterIndexes = SaveDataManager.monstersInBag.Split(',');
-        foreach (string indexString in monsterIndexes)
-        {
-            int indexInt = int.Parse(indexString);
-            monsterDataList.Add(GetMonsterByLibraryIndex(indexInt));
-        }
-
-        return monsterDataList;
-    }
 
     //# Input Event Handlers 
 }
