@@ -14,7 +14,7 @@ public class UserProfile
     public static Delegate MonsterBagStateChanged;
     public int UUID { get; private set; }
     public string name = SaveDataManager.localUsername;
-    public int NumberOfMonstersInBag { get { return MonstersInBag.Count; } }
+    public int numberOfMonstersInBag { get { return MonstersInBag.Count; } }
 
     //# Private Variables 
     public List<MonsterData> MonstersInBag { get; private set; }

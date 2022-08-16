@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class Button_MonsterToBox : MonoBehaviour
 {
     //# Public Variables 
-    public int BagSlot;
+    public int bagSlot;
 
     //# Private Variables 
     private Image buttonImage;
@@ -33,13 +33,12 @@ public class Button_MonsterToBox : MonoBehaviour
         }
     }
 
-    //> Subscribe to & Unsubscribe from delegates
-    private void OnEnable() => UserProfile.MonsterBagStateChanged += UpdateButtonMonsterData;
+    private void OnEnable() => UserProfile.MonsterBagStateChanged += UpdateButtonMonsterData;   //< Subscribe to & Unsubscribe from delegates
     private void OnDisable() => UserProfile.MonsterBagStateChanged -= UpdateButtonMonsterData;
 
     private void Start()
     {
-        if (BagSlot > GlobalSettings.maxMonstersInBag)
+        if (bagSlot > GlobalSettings.maxMonstersInBag)
         {
             Image backgroundImage = GetComponentInChildren<Image>();
             backgroundImage.color = new Color(1, 1, 1, 0);
@@ -50,8 +49,8 @@ public class Button_MonsterToBox : MonoBehaviour
 
     private void UpdateButtonMonsterData()
     {
-        if (BagSlot <= GameManager.Instance.user.MonstersInBag.Count)
-            monsterData = GameManager.Instance.user.MonstersInBag[BagSlot - 1];
+        if (bagSlot <= GameManager.Instance.user.numberOfMonstersInBag)
+            monsterData = GameManager.Instance.user.MonstersInBag[bagSlot - 1];
         else
             monsterData = null;
 
@@ -81,7 +80,7 @@ public class Button_MonsterToBox : MonoBehaviour
         }
         if (monsterData == null)
         {
-            Debug.LogWarning($"This button does not contain any monster data.", this);
+            Debug.LogWarning($"You do not have a monster in slot {bagSlot}.", this);
             return;
         }
 
