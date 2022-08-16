@@ -17,7 +17,7 @@ public class Button_MonsterToBox : MonoBehaviour
 
     //# Private Variables 
     private Image buttonImage;
-    [SerializeField] private MonsterData monsterData;
+    private MonsterData monsterData;
 
     //# Monobehaviour Events 
     private void Awake()
