@@ -13,10 +13,11 @@ using UnityEngine.UI;
 public class Button_MonsterToBox : MonoBehaviour
 {
     //# Public Variables 
-    public MonsterData monsterData;
+    public int BagSlot;
 
     //# Private Variables 
     private Image buttonImage;
+    [SerializeField] private MonsterData monsterData;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -32,8 +33,28 @@ public class Button_MonsterToBox : MonoBehaviour
         }
     }
 
+    //> Subscribe to & Unsubscribe from delegates
+    private void OnEnable() => UserProfile.MonsterBagStateChanged += UpdateButtonMonsterData;
+    private void OnDisable() => UserProfile.MonsterBagStateChanged -= UpdateButtonMonsterData;
+
     private void Start()
     {
+        if (BagSlot > GlobalSettings.maxMonstersInBag)
+        {
+            Image backgroundImage = GetComponentInChildren<Image>();
+            backgroundImage.color = new Color(1, 1, 1, 0);
+        }
+
+        UpdateButtonMonsterData();
+    }
+
+    private void UpdateButtonMonsterData()
+    {
+        if (BagSlot <= GameManager.Instance.user.MonstersInBag.Count)
+            monsterData = GameManager.Instance.user.MonstersInBag[BagSlot - 1];
+        else
+            monsterData = null;
+
         if (monsterData == null)
         {
             buttonImage.sprite = null;
@@ -56,6 +77,11 @@ public class Button_MonsterToBox : MonoBehaviour
         if (GameManager.Instance == null)
         {
             Debug.LogError($"Could not find GameManager in scene. ERROR_BTN1", this);
+            return;
+        }
+        if (monsterData == null)
+        {
+            Debug.LogWarning($"This button does not contain any monster data.", this);
             return;
         }
 

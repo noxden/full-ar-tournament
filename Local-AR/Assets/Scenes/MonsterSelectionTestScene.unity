@@ -413,7 +413,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 15bb39f36b1a49240ae9e9638166b9df, type: 2}
     - target: {fileID: 5339471056398684349, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Name
-      value: Button_MonsterToBox (1)
+      value: Button_MonsterToBox 2
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Pivot.x
@@ -445,11 +445,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -500,9 +500,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6488340148514887373, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
-      propertyPath: monsterData
-      value: 
-      objectReference: {fileID: 11400000, guid: 15bb39f36b1a49240ae9e9638166b9df, type: 2}
+      propertyPath: BagSlot
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
 --- !u!1001 &847247425
@@ -980,7 +980,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a9f46eb5fb26ed442966e7a3c0c4eab5, type: 2}
     - target: {fileID: 5339471056398684349, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Name
-      value: Button_MonsterToBox (2)
+      value: Button_MonsterToBox 3
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Pivot.x
@@ -1012,11 +1012,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1067,9 +1067,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6488340148514887373, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
-      propertyPath: monsterData
-      value: 
-      objectReference: {fileID: 11400000, guid: a9f46eb5fb26ed442966e7a3c0c4eab5, type: 2}
+      propertyPath: BagSlot
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
 --- !u!1 &1517744797
@@ -1242,7 +1242,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5339471056398684349, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Name
-      value: Button_MonsterToBox (4)
+      value: Button_MonsterToBox 5
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Pivot.x
@@ -1274,11 +1274,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1329,9 +1329,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6488340148514887373, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
-      propertyPath: monsterData
-      value: 
-      objectReference: {fileID: 11400000, guid: 3a4e9f65c59e5a6438bdbaf7c1d15143, type: 2}
+      propertyPath: BagSlot
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
 --- !u!1001 &1595724414
@@ -1457,7 +1457,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: cede2522476feea4b8b4061740551fc0, type: 2}
     - target: {fileID: 5339471056398684349, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Name
-      value: Button_MonsterToBox
+      value: Button_MonsterToBox 1
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Pivot.x
@@ -1489,11 +1489,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1544,9 +1544,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6488340148514887373, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
-      propertyPath: monsterData
-      value: 
-      objectReference: {fileID: 11400000, guid: cede2522476feea4b8b4061740551fc0, type: 2}
+      propertyPath: BagSlot
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
 --- !u!1 &1826649953
@@ -1946,7 +1946,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5339471056398684349, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Name
-      value: Button_MonsterToBox (3)
+      value: Button_MonsterToBox 4
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Pivot.x
@@ -1978,11 +1978,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2033,9 +2033,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6488340148514887373, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
-      propertyPath: monsterData
-      value: 
-      objectReference: {fileID: 11400000, guid: 9c15abeded357c943b295328db4d36a4, type: 2}
+      propertyPath: BagSlot
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
 --- !u!1001 &2112996123
@@ -2047,7 +2047,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5339471056398684349, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Name
-      value: Button_MonsterToBox (5)
+      value: Button_MonsterToBox 6
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_Pivot.x
@@ -2079,11 +2079,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 320
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5339471056398684350, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2134,8 +2134,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6488340148514887373, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
-      propertyPath: monsterData
-      value: 
+      propertyPath: BagSlot
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e89a9fb0e04e74cb1ae8b49b1e26e1, type: 3}
