@@ -19,9 +19,7 @@ MonoBehaviour:
   category: 0
   targetType: 1
   powerPoints: 35
-  powerPointsMax: 35
-  powerPointsCurrent: 0
   basePower: 40
   baseAccuracy: 100
-  speedBonus: 10
+  speedBonus: 0
   StatModifications: []
