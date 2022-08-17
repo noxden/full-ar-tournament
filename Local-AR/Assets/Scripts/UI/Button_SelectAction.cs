@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 15-08-22
+// Last changed: 17-08-22
 //================================================================
 
 using System.Collections;
@@ -29,13 +29,16 @@ public class Button_SelectAction : MonoBehaviour
     private void OnDisable() => Player.OnMonsterOnFieldSwapped -= UpdateButtonText;
 
     //# Private Methods 
-    private void UpdateButtonText()
+    private void UpdateButtonText(Player player)
     {
+        if (player != CombatHandler.Instance.GetYourPlayer())
+            return;
+
         string actionName;
-        if (CombatHandler.Instance.GetActionOfMonsterOnFieldAtIndex(actionNumber - 1) == null)      //< If monster does not have an action at this index.
+        if (player.GetMonsterOnField().AvailableActions[actionNumber - 1] == null)      //< If monster does not have an action at this index.
             actionName = "-";
         else
-            actionName = CombatHandler.Instance.GetActionOfMonsterOnFieldAtIndex(actionNumber - 1).name;
+            actionName = player.GetMonsterOnField().AvailableActions[actionNumber - 1].name;
 
         buttonText.text = actionName;
     }

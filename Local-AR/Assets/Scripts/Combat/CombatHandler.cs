@@ -65,12 +65,7 @@ public class CombatHandler : MonoBehaviour
         ResolveTurn();
     }
 
-    public Action GetActionOfMonsterOnFieldAtIndex(int actionIndex)  //< Only used for button labels.
-    {
-        return GetActionAtIndex(you.GetMonsterOnField(), actionIndex);
-    }
-
-    public Action GetActionAtIndex(Monster monster, int actionIndex)    //- Overload that can be used to get the action of a monster other than your current active one
+    public Action GetActionAtIndex(Monster monster, int actionIndex)
     {
         if (monster == null)
         {
