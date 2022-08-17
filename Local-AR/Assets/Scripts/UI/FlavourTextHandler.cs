@@ -44,7 +44,7 @@ public class FlavourTextHandler : MonoBehaviour
     private void OnMatchStart()
     {
         hasMatchStarted = true;
-        Queue.Insert(0, $"You are challenged by {(CombatHandler.Instance.GetEnemy() != null ? CombatHandler.Instance.GetEnemy().username : "Unknown")}.");
+        Queue.Insert(0, $"You are challenged by {(CombatHandler.Instance.GetEnemyPlayer() != null ? CombatHandler.Instance.GetEnemyPlayer().username : "Unknown")}.");
         DisplayQueuedFlavourText();
     }
 

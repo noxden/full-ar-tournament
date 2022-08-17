@@ -2,7 +2,7 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 15-08-22
+// Last changed: 17-08-22
 //================================================================
 
 using System.Collections;
@@ -113,9 +113,14 @@ public class CombatHandler : MonoBehaviour
         StartCoroutine(ShowEndScreenInSeconds(5, endMenu));
     }
 
-    public Player GetEnemy()
+    public Player GetEnemyPlayer()
     {
         return enemy;
+    }
+
+    public Player GetYourPlayer()
+    {
+        return you;
     }
 
     //# Private Methods 
@@ -168,17 +173,7 @@ public class CombatHandler : MonoBehaviour
             }
         }
 
-        //#> Cleanup / reset global variables and continue to next turn 
-        //Debug.Log($"CombatHandler.ResolveTurn: End of turn {turn}.", this);
-        GameManager.QueueFlavourText($"This concludes turn {turn}. What shoud {yourMonster.name} do next?", this);
-        yourAction = null;
-        yourActionTieBreaker = 0f;
-        enemyAction = null;
-        enemyActionTieBreaker = 0f;
-        turn += 1;
-        MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);
-
-        //> Prepare next turn if any monsters fainted.
+        //#> Swap out MonsterOnField if any monsters fainted.
         if (!yourMonster.isValid())
         {
             if (you.GetFirstValidMonster() == null)
@@ -189,6 +184,7 @@ public class CombatHandler : MonoBehaviour
             }
 
             you.SwapMonsterOnField(you.GetFirstValidMonster());
+            yourMonster = you.GetMonsterOnField();  //< Necessary if the newly set monster on field is used later in this method.
         }
         if (!enemyMonster.isValid())
         {
@@ -200,7 +196,18 @@ public class CombatHandler : MonoBehaviour
             }
 
             enemy.SwapMonsterOnField(enemy.GetFirstValidMonster());
+            enemyMonster = enemy.GetMonsterOnField();
         }
+
+        //#> Cleanup / reset global variables and continue to next turn 
+        //Debug.Log($"CombatHandler.ResolveTurn: End of turn {turn}.", this);
+        GameManager.QueueFlavourText($"This concludes turn {turn}. What shoud {yourMonster.name} do next?", this);
+        yourAction = null;
+        yourActionTieBreaker = 0f;
+        enemyAction = null;
+        enemyActionTieBreaker = 0f;
+        turn += 1;
+        MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);
     }
 
     private bool isDefeated(Monster monster)
