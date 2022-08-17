@@ -226,11 +226,14 @@ public class CombatHandler : MonoBehaviour
     private IEnumerator ShowEndScreenAfterFlavourText(int finalFlavourTextindex, MenuName menuName)
     {
         //> Wait until the "final flavour text" has been displayed, checking currentQueuePosition every second
-        while (FlavourTextHandler.Instance.currentQueuePosition != finalFlavourTextindex)
+        while (FlavourTextHandler.Instance.currentQueuePosition != finalFlavourTextindex + 1)   //< "finalFlavourTextindex + 1" because the WriteByLetter / WriteEntireMessage of finalFlavourTextindex should be finished before continuing.
+        {
+            Debug.Log($"CombatHandler.ShowEndScreenAfterFlavourText: Currently at queue position {FlavourTextHandler.Instance.currentQueuePosition} / {finalFlavourTextindex + 1}.");
             yield return new WaitForSeconds(1);
+        }
 
-        //> Once the "final flavour text" has been displayed, wait 5 more seconds and then continue to endmenu
-        yield return new WaitForSeconds(2);
+        //> Once the "final flavour text" has been fully displayed, continue to endmenu
+        Debug.Log($"CombatHandler.ShowEndScreenAfterFlavourText: Continuing to EndMenu now.");
         MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
         MenuHandler.Instance.SwitchToMenu(menuName);
     }

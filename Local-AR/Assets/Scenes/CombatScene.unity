@@ -3240,7 +3240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentQueuePosition: 0
   automaticScrolling: 1
-  waitTimeBetwLetters: 0.05
+  waitTimeBetwLetters: 0.02
   waitTimeBetwMessages: 2
   Queue: []
   TextBoxes: []
@@ -4907,6 +4907,7 @@ MonoBehaviour:
   enemyAction: {fileID: 0}
   enemyActionTieBreaker: 0
   turn: 1
+  hasGameEnded: 0
 --- !u!4 &1974826311
 Transform:
   m_ObjectHideFlags: 0

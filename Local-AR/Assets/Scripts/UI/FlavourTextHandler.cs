@@ -91,10 +91,11 @@ public class FlavourTextHandler : MonoBehaviour
             UpdateAllTextBoxes(outputString);
             yield return new WaitForSeconds(waitTimeBetwLetters);  //< Wait time inbetween letters.
         }
-        activeWriteByLetter = null;
-        IncreaseCurrentQueuePosition();
 
         yield return new WaitForSeconds(waitTimeBetwMessages);  //< Wait so that the user can read the text.
+        
+        activeWriteByLetter = null;
+        IncreaseCurrentQueuePosition();
         if (automaticScrolling)
             DisplayQueuedFlavourText();
         //Debug.Log($"Coroutine \"WriteByLetter\" has now stopped on its own.");
@@ -103,7 +104,6 @@ public class FlavourTextHandler : MonoBehaviour
     private IEnumerator WriteEntireMessage(string inputString)
     {
         UpdateAllTextBoxes(inputString);
-        
         IncreaseCurrentQueuePosition();
 
         //yield return null;
