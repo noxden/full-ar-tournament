@@ -17,8 +17,8 @@ public class MonstersInBoxVisualiser : MonoBehaviour
     //# Private Variables 
 
     //# Monobehaviour Events 
-    private void OnEnable() => UserProfile.MonsterBagStateChanged += UpdateButtonList;
-    private void OnDisable() => UserProfile.MonsterBagStateChanged += UpdateButtonList;
+    // private void OnEnable() => UserProfile.MonsterBagStateChanged += UpdateButtonList;   //< Deprecated, as the Buttons are now based on the MonsterData from MonsterLibrary.
+    // private void OnDisable() => UserProfile.MonsterBagStateChanged += UpdateButtonList;
 
     private void Start()
     {
