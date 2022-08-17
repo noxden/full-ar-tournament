@@ -26,6 +26,7 @@ public class CombatHandler : MonoBehaviour
     [SerializeField] private Action enemyAction;
     [SerializeField] private float enemyActionTieBreaker;
     [SerializeField] private int turn = 1;
+    [SerializeField] private bool hasGameEnded = false;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -91,23 +92,6 @@ public class CombatHandler : MonoBehaviour
     //     ResolveTurn();
     // }
 
-    public void FinishGame(bool youWon)
-    {
-        MenuName endMenu;
-        switch (youWon)
-        {
-            case true:
-                Debug.Log($"CombatHandler.ResolveTurn: You won! :)");
-                endMenu = MenuName.EndScreenWon;
-                break;
-            case false:
-                Debug.Log($"CombatHandler.ResolveTurn: You lost. :(");
-                endMenu = MenuName.EndScreenLost;
-                break;
-        }
-        StartCoroutine(ShowEndScreenInSeconds(5, endMenu));
-    }
-
     public Player GetEnemyPlayer()
     {
         return enemy;
@@ -116,6 +100,31 @@ public class CombatHandler : MonoBehaviour
     public Player GetYourPlayer()
     {
         return you;
+    }
+
+    public void FinishGame(bool youWon)
+    {
+        if (hasGameEnded)   //< Prevents a delayed win screen that occurs when the winner disconnects from the server before the loser does.
+            return;
+
+        hasGameEnded = true;
+
+        MenuName selectedEndScreen;
+        int finalFlavourTextIndex = 0;
+        switch (youWon)
+        {
+            case true:
+                GameManager.QueueFlavourText($"{enemy.username} has no more monsters that can fight!", this);
+                finalFlavourTextIndex = GameManager.QueueFlavourText($"You won!", this);
+                selectedEndScreen = MenuName.EndScreenWon;
+                break;
+            case false:
+                GameManager.QueueFlavourText($"You have no more monsters that can fight!", this);
+                finalFlavourTextIndex = GameManager.QueueFlavourText($"You were overwhelmed by your defeat!", this);
+                selectedEndScreen = MenuName.EndScreenLost;
+                break;
+        }
+        StartCoroutine(ShowEndScreenAfterFlavourText(finalFlavourTextIndex, selectedEndScreen));
     }
 
     //# Private Methods 
@@ -135,6 +144,10 @@ public class CombatHandler : MonoBehaviour
         //#> Initial setup of turnOrder 
         Monster yourMonster = you.GetMonsterOnField();
         Monster enemyMonster = enemy.GetMonsterOnField();
+
+        if (!yourMonster.isValid() || !enemyMonster.isValid())  //< If one of the two monsters is invalid, cancel function here
+            return;
+
         List<Monster> turnOrder = new List<Monster>();
         turnOrder.Add(yourMonster);
         turnOrder.Add(enemyMonster);
@@ -173,19 +186,17 @@ public class CombatHandler : MonoBehaviour
         {
             if (you.GetFirstValidMonster() == null)
             {
-                // You lost.
                 FinishGame(false);
                 return;
             }
 
-            you.SwapMonsterOnField(you.GetFirstValidMonster());
-            yourMonster = you.GetMonsterOnField();  //< Necessary if the newly set monster on field is used later in this method.
+            you.SwapMonsterOnField(you.GetFirstValidMonster()); //< Swap to next valid monster if you still have any.
+            yourMonster = you.GetMonsterOnField();              //< Necessary if the newly set monster on field is used later in this method.
         }
         if (!enemyMonster.isValid())
         {
             if (enemy.GetFirstValidMonster() == null)
             {
-                // You won.
                 FinishGame(true);
                 return;
             }
@@ -208,13 +219,18 @@ public class CombatHandler : MonoBehaviour
     private bool isDefeated(Monster monster)
     {
         //Debug.Log($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", monster);
-        GameManager.QueueFlavourText($"{monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
+        GameManager.QueueFlavourText($"{monster.name} {(monster.isValid() ? "is still standing" : "fainted")}.", this);
         return (!monster.isValid());
     }
 
-    private IEnumerator ShowEndScreenInSeconds(int waitTime, MenuName menuName)
+    private IEnumerator ShowEndScreenAfterFlavourText(int finalFlavourTextindex, MenuName menuName)
     {
-        yield return new WaitForSeconds(waitTime);
+        //> Wait until the "final flavour text" has been displayed, checking currentQueuePosition every second
+        while (FlavourTextHandler.Instance.currentQueuePosition != finalFlavourTextindex)
+            yield return new WaitForSeconds(1);
+
+        //> Once the "final flavour text" has been displayed, wait 5 more seconds and then continue to endmenu
+        yield return new WaitForSeconds(2);
         MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
         MenuHandler.Instance.SwitchToMenu(menuName);
     }
@@ -230,7 +246,7 @@ public class CombatHandler : MonoBehaviour
             //> Set enemy player as soon as that data is received.
             enemy = InstantiatePlayer("Enemy Player");
             enemy.Set(username, MonsterDataList);
-            GameManager.QueueFlavourText($"What shoud {you.GetMonsterOnField().name} do?", this);
+            GameManager.QueueFlavourText($"What should {you.GetMonsterOnField().name} do?", this);
 
             //> Resume to combat menu screen
             MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);

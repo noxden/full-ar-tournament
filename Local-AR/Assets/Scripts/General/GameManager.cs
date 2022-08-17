@@ -78,10 +78,10 @@ public class GameManager : MonoBehaviour
         return MonsterLibrary.IndexOf(monsterData);
     }
 
-    public static void QueueFlavourText(string newText, Object sender)
+    public static int QueueFlavourText(string newText, Object sender)
     {
         Debug.Log($"<color=#F7C8A1>Flavour:</color> {newText}", sender);
-        FlavourTextHandler.Instance.QueueText($"{newText}");
+        return FlavourTextHandler.Instance.QueueText($"{newText}");
     }
 
     //# Private Methods 
