@@ -2029,6 +2029,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1895475869}
     - target: {fileID: 4477112048406786968, guid: 2a36446b764dc1646b10ff53549debf8, type: 3}
+      propertyPath: nonARCamera
+      value: 
+      objectReference: {fileID: 1895475869}
+    - target: {fileID: 4477112048406786968, guid: 2a36446b764dc1646b10ff53549debf8, type: 3}
       propertyPath: nonARBackground
       value: 
       objectReference: {fileID: 2139882825}
