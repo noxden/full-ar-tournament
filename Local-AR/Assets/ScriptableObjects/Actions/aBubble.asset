@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1db04a4ae63b74ebf0ec374db8842e, type: 3}
+  m_Name: aBubble
+  m_EditorClassIdentifier: 
+  name: Bubble
+  description: "A spray of countless bubbles is jetted at the opposing Pok\xE9mon.
+    This may also lower their Speed stat."
+  type: 2
+  category: 1
+  targetType: 1
+  powerPoints: 30
+  basePower: 40
+  baseAccuracy: 100
+  speedBonus: 0
+  StatModifications:
+  - {fileID: 0}

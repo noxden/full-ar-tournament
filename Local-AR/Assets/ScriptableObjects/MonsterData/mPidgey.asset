@@ -26,7 +26,7 @@ MonoBehaviour:
   specialDefense: 8
   speed: 10
   AvailableActions:
-  - {fileID: 11400000, guid: d0a58f5273ba5434083e0a32c2a75bb7, type: 2}
   - {fileID: 11400000, guid: 491af8c8c3dcdf442bd28d8852ce3d13, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: b66a0d82e4747cd4982a031b882ff883, type: 2}
+  - {fileID: 11400000, guid: 57d8c8f518c93bb4a869b79831c43327, type: 2}
   - {fileID: 0}
