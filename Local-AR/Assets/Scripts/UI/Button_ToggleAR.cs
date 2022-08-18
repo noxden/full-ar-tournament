@@ -2,26 +2,23 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 05-08-22
-// TODO: Maybe just solve the background canvas stuffs here?
-// TODO: But that still wont account for the AR Button... I guess that could just be put on a non-CanvasMenu canvas... but then it'll always be visible, also during 
-// TODO: loading and end screen... Unless those have their own backgrounds setup and are rendered on top...
+// Last changed: 18-08-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 using TMPro;
 
 public class Button_ToggleAR : MonoBehaviour
 {
     //# Public Variables 
-    public bool isAREnabled;
+    public bool isAREnabled = false;
     public Camera NonARCamera;
     public Camera ARCamera;
     public GameObject ARSession;
     public GameObject nonARBackground;
+    public List<ARHealthDisplayCanvas> ARHealthDisplays;
 
     //# Private Variables
     private TextMeshProUGUI buttonText;
@@ -61,6 +58,7 @@ public class Button_ToggleAR : MonoBehaviour
         UpdateActiveCamera();
         UpdateButtonText();
         UpdateBackground();
+        UpdateHealthDisplays();
     }
 
     private void UpdateActiveCamera()
@@ -81,6 +79,19 @@ public class Button_ToggleAR : MonoBehaviour
     {
         nonARBackground.SetActive(!isAREnabled);
 
+    }
+
+    private void UpdateHealthDisplays()
+    {
+        //> Toggle HUD HealthDisplay
+        MenuHandler.Instance.TogglePersistentMenu(MenuName.PermHealthDisplay, !isAREnabled);
+
+        //> Toggle AR HealthDisplay
+        foreach (var entry in ARHealthDisplays)
+        {
+            entry.SetARCamera(ARCamera);
+            entry.SetVisibility(isAREnabled);
+        }
     }
 
     //# Input Event Handlers 
