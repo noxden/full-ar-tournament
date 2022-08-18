@@ -235,6 +235,7 @@ public class CombatHandler : MonoBehaviour
         //> Once the "final flavour text" has been fully displayed, continue to endmenu
         Debug.Log($"CombatHandler.ShowEndScreenAfterFlavourText: Continuing to EndMenu now.");
         //MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);   //< Commented out, because maybe the user wants to toggle AR even after winning / losing the game
+        MenuHandler.Instance.TogglePersistentMenu(MenuName.PermHealthDisplay, false);
         MenuHandler.Instance.SwitchToMenu(menuName);
     }
 
@@ -254,6 +255,7 @@ public class CombatHandler : MonoBehaviour
             //> Resume to combat menu screen
             MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);
             MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
+            MenuHandler.Instance.TogglePersistentMenu(MenuName.PermHealthDisplay, true);
 
             //> Call delegate to notify all subscribed classes / methods that the match is now starting (e.g. the Matchmaking screen is over)
             MatchStart();

@@ -2,16 +2,19 @@
 // Darmstadt University of Applied Sciences, Expanded Realities
 // Course:       Local Multiplayer AR (by Jan Alexander)
 // Script by:    Daniel Heilmann (771144)
-// Last changed: 14-08-22
+// Last changed: 17-08-22
 //================================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void MonsterDelegate(Monster invokingMonster);
+
 public class Monster : MonoBehaviour
 {
     //# Public Variables 
+    public static MonsterDelegate OnDamageTaken;
     public MonsterData monsterData;
     public new string name { get { return GetName(); } }
     public string species { get; private set; }
@@ -87,6 +90,11 @@ public class Monster : MonoBehaviour
         }
         //Debug.Log($"Monster.ApplyStatModification: {name}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
         GameManager.QueueFlavourText($"{name}'s {modification.stat} has been {(modification.value >= 0 ? "increased" : "decreased")} by {modification.value * (modification.value >= 0 ? 1 : -1)}.", this);
+        
+        if (modification.stat == Stat.HP)
+        {
+            OnDamageTaken(this);
+        }
     }
 
     private string GetName()

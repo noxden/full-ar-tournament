@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, EndScreenWon, EndScreenLost, PermButtonToggleAR, PermButtonPlaceArena }
+public enum MenuName { Tutorial, Home, ChangeMonsters, Credits, Lobby, Combat_Menu, Combat_Actions, Combat_Bag, Combat_Monsters, EndScreenWon, EndScreenLost, PermButtonToggleAR, PermButtonPlaceArena, PermHealthDisplay }
 
 public class MenuHandler : MonoBehaviour
 {
@@ -67,6 +67,15 @@ public class MenuHandler : MonoBehaviour
         {
             if (canvasMenu.name == _name)
                 canvasMenu.SetVisibility(!canvasMenu.isVisible);
+        }
+    }
+
+    public void TogglePersistentMenu(MenuName _name, bool visibility)
+    {
+        foreach (CanvasMenu canvasMenu in Menus)
+        {
+            if (canvasMenu.name == _name)
+                canvasMenu.SetVisibility(visibility);
         }
     }
 }
