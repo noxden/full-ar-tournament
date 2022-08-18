@@ -67,8 +67,7 @@ public class MonsterModelHandler : MonoBehaviour
         if (currentModel != null)
             Destroy(currentModel);
 
-        currentModel = Instantiate(newModel, monsterOrigin.position, monsterOrigin.rotation);
-        currentModel.transform.SetParent(monsterOrigin);
+        currentModel = Instantiate(newModel, monsterOrigin.position, monsterOrigin.rotation, monsterOrigin);
         currentModel.name = $"Model of {owner.username}'s {owner.GetMonsterOnField().name}";
 
         if (owner == CombatHandler.Instance.GetYourPlayer())

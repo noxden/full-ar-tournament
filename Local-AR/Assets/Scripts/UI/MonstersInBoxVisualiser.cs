@@ -34,8 +34,7 @@ public class MonstersInBoxVisualiser : MonoBehaviour
         foreach (MonsterData monsterData in MonstersInBox)
         {
             //> Instantiate new button and add it to the vertical layout group
-            GameObject buttonGameObject = Instantiate(ButtonPrefab);
-            buttonGameObject.transform.SetParent(this.gameObject.transform);
+            GameObject buttonGameObject = Instantiate(ButtonPrefab, this.gameObject.transform);
 
             //> Hand over monsterData to newly created button
             buttonGameObject.GetComponent<Button_MonsterToBag>().SetMonsterData(monsterData);
