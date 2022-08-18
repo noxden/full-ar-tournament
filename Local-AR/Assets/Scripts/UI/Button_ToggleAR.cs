@@ -16,16 +16,15 @@ public class Button_ToggleAR : MonoBehaviour
     //# Public Variables 
     public bool isAREnabled = false;
     public GameObject ARSessionBundlePrefab;
-    public Camera NonARCamera;
+    public Camera nonARCamera;
     public GameObject nonARBackground;
     public List<ARHealthDisplayCanvas> ARHealthDisplays;
 
     //# Private Variables
     private TextMeshProUGUI buttonText;
-    [SerializeField]
     private GameObject ARSessionBundle;
-    [SerializeField] private ARSession ARSession = null;
-    [SerializeField] private Camera ARCamera = null;
+    private ARSession ARSession = null;
+    private Camera ARCamera = null;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -99,7 +98,7 @@ public class Button_ToggleAR : MonoBehaviour
 
     private void UpdateActiveCamera()
     {
-        NonARCamera.gameObject.SetActive(!isAREnabled);
+        nonARCamera.gameObject.SetActive(!isAREnabled);
         if (ARCamera != null)
             ARCamera.gameObject.SetActive(isAREnabled);
     }
