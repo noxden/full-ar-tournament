@@ -8,20 +8,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 using TMPro;
 
 public class Button_ToggleAR : MonoBehaviour
 {
     //# Public Variables 
     public bool isAREnabled = false;
+    public GameObject ARSessionBundlePrefab;
     public Camera NonARCamera;
-    public Camera ARCamera;
-    public GameObject ARSession;
     public GameObject nonARBackground;
     public List<ARHealthDisplayCanvas> ARHealthDisplays;
 
     //# Private Variables
     private TextMeshProUGUI buttonText;
+    [SerializeField]
+    private GameObject ARSessionBundle;
+    [SerializeField] private ARSession ARSession = null;
+    [SerializeField] private Camera ARCamera = null;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -53,18 +57,51 @@ public class Button_ToggleAR : MonoBehaviour
         }
     }
 
+    private void ToggleARMode(bool newState)    //< Overload to specify if the ARMode should be toggled on or off.
+    {
+        isAREnabled = newState;
+        UpdateComponents();
+
+        if (isAREnabled)
+        {
+            Debug.Log($"Button_ToggleAR.ToggleARMode: Turned on AR.");
+        }
+        else
+        {
+            ARCamera.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            Debug.Log($"Button_ToggleAR.ToggleARMode: Turned off AR.");
+        }
+    }
+
     private void UpdateComponents()
     {
+        UpdateARSession();
         UpdateActiveCamera();
         UpdateButtonText();
         UpdateBackground();
         UpdateHealthDisplays();
     }
 
+    private void UpdateARSession()
+    {
+        if (isAREnabled)
+        {
+            ARSessionBundle = Instantiate(ARSessionBundlePrefab);
+            ARSession = ARSessionBundle.GetComponentInChildren<ARSession>();
+            ARCamera = ARSessionBundle.GetComponentInChildren<Camera>();
+        }
+        else
+        {
+            if (ARSessionBundle != null)
+                Destroy(ARSessionBundle);
+        }
+    }
+
     private void UpdateActiveCamera()
     {
         NonARCamera.gameObject.SetActive(!isAREnabled);
-        ARCamera.gameObject.SetActive(isAREnabled);
+        if (ARCamera != null)
+            ARCamera.gameObject.SetActive(isAREnabled);
     }
 
     private void UpdateButtonText()
@@ -78,7 +115,6 @@ public class Button_ToggleAR : MonoBehaviour
     private void UpdateBackground()
     {
         nonARBackground.SetActive(!isAREnabled);
-
     }
 
     private void UpdateHealthDisplays()
