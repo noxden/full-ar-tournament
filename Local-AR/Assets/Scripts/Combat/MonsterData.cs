@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ElementalType { Normal, Fire, Water, Grass, Electic , Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Dark, Dragon, Steel, Fairy}
+public enum ElementalType { Normal, Fire, Water, Grass, Electric , Ice, Fighting, Poison, Ground, Flying, Psychic, Bug, Rock, Ghost, Dark, Dragon, Steel, Fairy}
 public enum Gender { Male, Female, Unknown }
 
 [CreateAssetMenu(fileName = "MonsterData", menuName = "Scriptable/MonsterData")]
