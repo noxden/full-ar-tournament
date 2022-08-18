@@ -17,6 +17,7 @@ public class CombatHandler : MonoBehaviour
     public static CombatHandler Instance { set; get; }
     public static Delegate MatchStart;
     public GameObject playerPrefab;
+    public bool hasGameEnded { get; private set;} = false;
 
     //# Private Variables 
     [SerializeField] private Player you;
@@ -26,7 +27,6 @@ public class CombatHandler : MonoBehaviour
     [SerializeField] private Action enemyAction;
     [SerializeField] private float enemyActionTieBreaker;
     [SerializeField] private int turn = 1;
-    [SerializeField] private bool hasGameEnded = false;
 
     //# Monobehaviour Events 
     private void Awake()
@@ -118,7 +118,7 @@ public class CombatHandler : MonoBehaviour
                 selectedEndScreen = MenuName.EndScreenWon;
                 break;
             case false:
-                finalFlavourTextIndex = GameManager.QueueFlavourText($"You were overwhelmed by your defeat and black out!", this);
+                finalFlavourTextIndex = GameManager.QueueFlavourText($"You were overwhelmed by your defeat and blacked out!", this);
                 selectedEndScreen = MenuName.EndScreenLost;
                 break;
         }
