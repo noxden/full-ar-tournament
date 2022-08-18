@@ -114,13 +114,11 @@ public class CombatHandler : MonoBehaviour
         switch (youWon)
         {
             case true:
-                GameManager.QueueFlavourText($"{enemy.username} has no more monsters that can fight!", this);
                 finalFlavourTextIndex = GameManager.QueueFlavourText($"You won!", this);
                 selectedEndScreen = MenuName.EndScreenWon;
                 break;
             case false:
-                GameManager.QueueFlavourText($"You have no more monsters that can fight!", this);
-                finalFlavourTextIndex = GameManager.QueueFlavourText($"You were overwhelmed by your defeat!", this);
+                finalFlavourTextIndex = GameManager.QueueFlavourText($"You were overwhelmed by your defeat and black out!", this);
                 selectedEndScreen = MenuName.EndScreenLost;
                 break;
         }
@@ -186,6 +184,7 @@ public class CombatHandler : MonoBehaviour
         {
             if (you.GetFirstValidMonster() == null)
             {
+                GameManager.QueueFlavourText($"You have no more monsters that can fight!", this);
                 FinishGame(false);
                 return;
             }
@@ -197,6 +196,7 @@ public class CombatHandler : MonoBehaviour
         {
             if (enemy.GetFirstValidMonster() == null)
             {
+                GameManager.QueueFlavourText($"{enemy.username} has no more monsters that can fight!", this);
                 FinishGame(true);
                 return;
             }
@@ -219,7 +219,7 @@ public class CombatHandler : MonoBehaviour
     private bool isDefeated(Monster monster)
     {
         //Debug.Log($"CombatHandler.isDefeated: {monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", monster);
-        GameManager.QueueFlavourText($"{monster.name} {(monster.isValid() ? "is still standing" : "fainted")}.", this);
+        GameManager.QueueFlavourText($"{monster.name} {(monster.isValid() ? "is still standing" : "faints")}.", this);
         return (!monster.isValid());
     }
 
@@ -234,7 +234,8 @@ public class CombatHandler : MonoBehaviour
 
         //> Once the "final flavour text" has been fully displayed, continue to endmenu
         Debug.Log($"CombatHandler.ShowEndScreenAfterFlavourText: Continuing to EndMenu now.");
-        //MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);   //< Commented out, because maybe the user wants to toggle AR even after winning / losing the game
+        MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR, false);
+        MenuHandler.Instance.TogglePersistentMenu(MenuName.PermHealthDisplay, false);
         MenuHandler.Instance.SwitchToMenu(menuName);
     }
 
@@ -253,7 +254,8 @@ public class CombatHandler : MonoBehaviour
 
             //> Resume to combat menu screen
             MenuHandler.Instance.SwitchToMenu(MenuName.Combat_Menu);
-            MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR);
+            MenuHandler.Instance.TogglePersistentMenu(MenuName.PermButtonToggleAR, true);
+            MenuHandler.Instance.TogglePersistentMenu(MenuName.PermHealthDisplay, true);
 
             //> Call delegate to notify all subscribed classes / methods that the match is now starting (e.g. the Matchmaking screen is over)
             MatchStart();
@@ -270,6 +272,7 @@ public class CombatHandler : MonoBehaviour
 
     public void OnEnemyLeft()
     {
+        GameManager.QueueFlavourText($"{enemy.username} has given up.", this);
         FinishGame(true);
     }
 }
