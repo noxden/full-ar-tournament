@@ -11,6 +11,7 @@ using UnityEngine;
 
 public class Button_Forfeit : MonoBehaviour
 {
+    //# Input Event Handlers 
     public void OnButtonPressed()
     {
         if (!CombatHandler.Instance.hasGameEnded)   //< You can only forfeit if the game has not ended yet.
